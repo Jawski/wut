@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bolidy — WUT Racing</title>
+    <meta name="description" content="Wszystkie generacje bolidów WUT Racing — od WUT1 (2013) do WUT6 (2026). Formula Student Combustion.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="cars">
+
+    <!-- Hero — karuzela zdjęć -->
+    <section class="hero hero-photo-mode">
+        <div class="hero-carousel" id="hero-carousel">
+
+            <div class="hero-slide is-active" data-slide="0">
+                <div class="hero-photo">
+                    <img src="assets/cars-1.jpg" alt="Bolid WUT Racing">
+                </div>
+                <div class="hero-photo-overlay"></div>
+                <div class="hero-photo-content">
+                    <span class="chip">Bolidy</span>
+                    <h1 class="hero-photo-headline">Sześć generacji<br>jedno DNA</h1>
+                    <p class="hero-photo-sub">
+                        Klasa Formula Student Combustion od 2013 roku. Każda generacja
+                        to skok jakościowy — od WUT1 po WUT6.
+                    </p>
+                    <a href="#cars-start" class="hero-discover">
+                        Zobacz oś czasu <span class="disc-arrow">→</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-slide" data-slide="1">
+                <div class="hero-photo">
+                    <img src="assets/cars-2.jpg" alt="Bolid WUT Racing na torze" loading="lazy">
+                </div>
+                <div class="hero-photo-overlay"></div>
+                <div class="hero-photo-content">
+                    <span class="chip">Projektowane od zera</span>
+                    <h1 class="hero-photo-headline">Inżynieria<br>w detalu</h1>
+                    <p class="hero-photo-sub">
+                        Silnik, aerodynamika, podwozie, osiągi — kliknij dowolny bolid
+                        i zobacz jego pełną prezentację techniczną.
+                    </p>
+                    <a href="#cars-start" class="hero-discover">
+                        Wybierz bolid <span class="disc-arrow">→</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="hero-dots" id="hero-dots">
+            <button class="hero-dot is-active" data-go="0" aria-label="Slajd 1"></button>
+            <button class="hero-dot" data-go="1" aria-label="Slajd 2"></button>
+        </div>
+
+        <div class="scroll-hint">
+            <span>PRZEWIŃ</span>
+            <div class="line"></div>
+        </div>
+    </section>
+
+    <!-- TIMELINE -->
+    <span id="cars-start"></span>
+    <section class="cars-timeline-section">
+        <div class="cars-timeline" id="cars-timeline">
+            <div class="cars-timeline-line"></div>
+            <div class="cars-timeline-track" id="cars-timeline-track"></div>
+        </div>
+    </section>
+
+    <!-- ACTIVE CAR DETAILS -->
+    <section class="active-car-panel" id="active-car-panel">
+        <!-- filled by JS -->
+    </section>
+
+    <script type="module" src="js/cars.js"></script>
+    <script src="js/common.js"></script>
+</body>
+</html>

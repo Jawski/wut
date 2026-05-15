@@ -1,0 +1,402 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="WUT Racing — Koło Naukowe Pojazdów Wyścigowych Politechniki Warszawskiej. Projektujemy bolidy klasy Formula Student.">
+    <title>WUT Racing — Bolidy z napędem na pasję</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/home.css">
+
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+</head>
+<body data-page="home">
+
+    <!-- Loader (krótki — znika gdy zdjęcie hero jest gotowe) -->
+    <div class="loader" id="loader">
+        <div class="loader-inner">
+            <div class="loader-mark">WUT RACING</div>
+            <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+            <div class="loader-pct"><span>0</span>%</div>
+        </div>
+    </div>
+
+    <!-- Fixed 3D canvas — widoczny dopiero przy sekcjach story -->
+    <canvas id="hero-canvas"></canvas>
+
+    <!-- Hero — karuzela pełnoekranowych zdjęć (styl Ferrari) -->
+    <section class="hero hero-photo-mode">
+        <div class="hero-carousel" id="hero-carousel">
+
+            <div class="hero-slide is-active" data-slide="0">
+                <div class="hero-photo">
+                    <img src="assets/hero-1.jpg" alt="Bolid WUT Racing na torze" id="hero-bg-img">
+                </div>
+                <div class="hero-photo-overlay"></div>
+                <div class="hero-photo-content">
+                    <span class="chip">Sezon 2026 · Formula Student Combustion</span>
+                    <h1 class="hero-photo-headline">Bolid inny<br>niż wszystkie</h1>
+                    <p class="hero-photo-sub">
+                        Koło Naukowe Pojazdów Wyścigowych Politechniki Warszawskiej.
+                        Co sezon projektujemy, budujemy i ścigamy się bolidem klasy Formula Student.
+                    </p>
+                    <a href="#story-start" class="hero-discover">
+                        Poznaj WUT6 <span class="disc-arrow">→</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-slide" data-slide="1">
+                <div class="hero-photo">
+                    <img src="assets/hero-2.jpg" alt="Bolid WUT Racing — testy" loading="lazy">
+                </div>
+                <div class="hero-photo-overlay"></div>
+                <div class="hero-photo-content">
+                    <span class="chip">Inżynieria od zera</span>
+                    <h1 class="hero-photo-headline">Zbudowany<br>od podstaw</h1>
+                    <p class="hero-photo-sub">
+                        Stalowa rama spawana, jednocylindrowy KTM 690, karbonowe aero.
+                        Każdy podzespół projektujemy, liczymy i składamy sami.
+                    </p>
+                    <a href="bolidy.html" class="hero-discover">
+                        Zobacz bolidy <span class="disc-arrow">→</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-slide" data-slide="2">
+                <div class="hero-photo">
+                    <img src="assets/hero-3.jpg" alt="Bolid WUT Racing — zawody" loading="lazy">
+                </div>
+                <div class="hero-photo-overlay"></div>
+                <div class="hero-photo-content">
+                    <span class="chip">Formula Student</span>
+                    <h1 class="hero-photo-headline">Tor to<br>nasz egzamin</h1>
+                    <p class="hero-photo-sub">
+                        Hockenheim, Most, Hungaroring — co roku ścigamy się z ponad setką
+                        uczelni z całego świata. Sprawdzamy konstrukcję tam, gdzie to się liczy.
+                    </p>
+                    <a href="wydarzenia.html" class="hero-discover">
+                        Zobacz zawody <span class="disc-arrow">→</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="hero-dots" id="hero-dots">
+            <button class="hero-dot is-active" data-go="0" aria-label="Slajd 1"></button>
+            <button class="hero-dot" data-go="1" aria-label="Slajd 2"></button>
+            <button class="hero-dot" data-go="2" aria-label="Slajd 3"></button>
+        </div>
+
+        <div class="scroll-hint">
+            <span>PRZEWIŃ</span>
+            <div class="line"></div>
+        </div>
+    </section>
+
+    <!-- Story sections — car animates with scroll behind the content -->
+    <section class="story" id="story-start">
+
+        <!-- 1. Skład -->
+        <div class="story-section" data-side="left">
+            <div class="container">
+                <div class="story-split">
+                    <div class="story-text reveal">
+                        <span class="eyebrow">01 · Skład</span>
+                        <h2 class="h-1">Ponad <span class="text-accent">stu inżynierów</span>, jeden cel.</h2>
+                        <p>
+                            WUT Racing to interdyscyplinarny zespół studentów Politechniki Warszawskiej —
+                            mechaników, elektroników, informatyków i menedżerów. Każdego sezonu od zera
+                            projektujemy, budujemy i jeździmy bolidem klasy Formula Student.
+                        </p>
+                        <p>
+                            Praca odbywa się w pięciu działach: <strong>Aero</strong>, <strong>Powertrain</strong>,
+                            <strong>Elektronika</strong>, <strong>Chassis</strong> i <strong>Business</strong>.
+                        </p>
+                        <div class="story-stats">
+                            <div class="stat">
+                                <div class="val"><span data-count="120">0</span><span class="unit">os.</span></div>
+                                <div class="lbl">Aktywnych członków</div>
+                            </div>
+                            <div class="stat">
+                                <div class="val"><span data-count="5">0</span></div>
+                                <div class="lbl">Działów inżynierskich</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="story-visual reveal" data-delay="2">
+                        <span class="label">// SKŁAD / 2026</span>
+                        <span class="big-num">120</span>
+                        <span class="corner">FIG.01 — TEAM SIZE</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PRZERYWNIK: Nadchodzące wydarzenia (po sekcji "Skład") -->
+        <div class="events-strip">
+            <div class="events-strip-inner">
+                <div class="events-head reveal">
+                    <span class="eyebrow">Kalendarz</span>
+                    <h2 class="h-1" style="margin-top: 12px;">Nadchodzące <span class="text-accent">wydarzenia</span>.</h2>
+                </div>
+
+                <!-- Featured: roll-out WUT7 -->
+                <article class="event-featured reveal" data-delay="1">
+                    <div class="event-featured-photo">
+                        <img src="assets/wut7-rollout.jpg" alt="Roll-out WUT7" loading="lazy">
+                    </div>
+                    <div class="event-featured-overlay"></div>
+                    <div class="event-featured-content">
+                        <span class="chip">Premiera bolidu</span>
+                        <h3 class="event-featured-title">Roll-out WUT7</h3>
+                        <p class="event-featured-meta">9 lipca 2026 · 18:00 · Politechnika Warszawska</p>
+                        <div class="event-countdown" id="rollout-countdown" data-target="2026-07-09T18:00:00">
+                            <div class="cd-unit"><span class="cd-val" data-cd="days">--</span><span class="cd-lbl">dni</span></div>
+                            <div class="cd-sep">:</div>
+                            <div class="cd-unit"><span class="cd-val" data-cd="hours">--</span><span class="cd-lbl">godz</span></div>
+                            <div class="cd-sep">:</div>
+                            <div class="cd-unit"><span class="cd-val" data-cd="mins">--</span><span class="cd-lbl">min</span></div>
+                            <div class="cd-sep">:</div>
+                            <div class="cd-unit"><span class="cd-val" data-cd="secs">--</span><span class="cd-lbl">sek</span></div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Nadchodzące zawody -->
+                <div class="events-races">
+                    <article class="race-card reveal" data-delay="1">
+                        <div class="race-flag">🇨🇿</div>
+                        <div class="race-body">
+                            <div class="race-date">19–24 lipca 2026</div>
+                            <div class="race-name">Formula Student Czech</div>
+                            <div class="race-loc">Autodrom Most</div>
+                        </div>
+                    </article>
+                    <article class="race-card reveal" data-delay="2">
+                        <div class="race-flag">🇦🇹</div>
+                        <div class="race-body">
+                            <div class="race-date">26–30 lipca 2026</div>
+                            <div class="race-name">Formula Student Austria</div>
+                            <div class="race-loc">Red Bull Ring, Spielberg</div>
+                        </div>
+                    </article>
+                    <article class="race-card reveal" data-delay="3">
+                        <div class="race-flag">🇭🇺</div>
+                        <div class="race-body">
+                            <div class="race-date">23–29 sierpnia 2026</div>
+                            <div class="race-name">Formula Student East</div>
+                            <div class="race-loc">Hungaroring, Budapeszt</div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="events-cta reveal" data-delay="2">
+                    <a href="wydarzenia.html" class="btn btn-ghost btn-arrow">Wszystkie zawody</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. AERO — z efektem tunelu aerodynamicznego (smoke) -->
+        <div class="story-section dept-section" data-dept="aero">
+            <div class="container">
+                <div class="story-split">
+                    <div class="story-visual reveal">
+                        <span class="label">// DZIAŁ / AERODYNAMIKA</span>
+                        <span class="big-num">AERO</span>
+                        <span class="corner">FIG.02 — WIND TUNNEL</span>
+                    </div>
+                    <div class="story-text reveal" data-delay="2">
+                        <span class="eyebrow">02 · Dział Aero</span>
+                        <h2 class="h-1">Powietrze pracuje na <span class="text-accent">naszą korzyść</span>.</h2>
+                        <p>
+                            Aerodynamika to dział, który decyduje o tym, jak powietrze opływa bolid.
+                            Symulacje CFD, badania w tunelu aerodynamicznym, projektowanie skrzydeł,
+                            podwozia i dyfuzora — wszystko po to, żeby bolid przylegał do toru.
+                        </p>
+                        <p>
+                            Każdy kilogram docisku to krótszy czas okrążenia. Każde okrążenie
+                            to setki godzin pracy działu Aero.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. CHASSIS — bolid kręci się, zostaje tylko zawieszenie -->
+        <div class="story-section dept-section" data-dept="chassis">
+            <div class="container">
+                <div class="story-split">
+                    <div class="story-text reveal">
+                        <span class="eyebrow">03 · Dział Chassis</span>
+                        <h2 class="h-1">Szkielet, na którym <span class="text-accent">stoi cała reszta</span>.</h2>
+                        <p>
+                            Dział Chassis projektuje ramę, geometrię zawieszenia, kinematykę kół
+                            i wszystkie mocowania w bolidzie. Stalowa rama spawana metodą TIG z rur
+                            25CrMo4, push-rod, wahacze z 7075-T6.
+                        </p>
+                        <p>
+                            Bez precyzyjnej geometrii zawieszenia nie ma dobrego prowadzenia.
+                            Bez sztywnej ramy nie ma celnego przekazywania mocy na koła.
+                        </p>
+                    </div>
+                    <div class="story-visual reveal" data-delay="2">
+                        <span class="label">// DZIAŁ / CHASSIS</span>
+                        <span class="big-num">RAMA</span>
+                        <span class="corner">FIG.03 — SUSPENSION</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. ENGINE / POWERTRAIN — zostaje tylko silnik -->
+        <div class="story-section dept-section" data-dept="engine">
+            <div class="container">
+                <div class="story-split">
+                    <div class="story-visual reveal">
+                        <span class="label">// DZIAŁ / POWERTRAIN</span>
+                        <span class="big-num">KTM</span>
+                        <span class="corner">FIG.04 — ENGINE</span>
+                    </div>
+                    <div class="story-text reveal" data-delay="2">
+                        <span class="eyebrow">04 · Dział Powertrain</span>
+                        <h2 class="h-1">Serce bolidu — <span class="text-accent">silnik</span>.</h2>
+                        <p>
+                            Dział Powertrain odpowiada za jednostkę napędową, układ wydechowy,
+                            kalibrację ECU i przeniesienie napędu. Jednocylindrowy KTM 690 LC4,
+                            sześciobiegowa skrzynia sekwencyjna i blokowany dyferencjał Drexlera.
+                        </p>
+                        <p>
+                            Każde modyfikacje — mapy paliwowe, wlot, wydech — to godziny pracy
+                            na hamowni i na torze.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. Tor / Zawody -->
+        <div class="story-section" data-dept="all" data-side="right">
+            <div class="container">
+                <div class="story-split">
+                    <div class="story-text reveal">
+                        <span class="eyebrow">05 · Tor</span>
+                        <h2 class="h-1">Hockenheim. Varano. <span class="text-accent">Most</span>.</h2>
+                        <p>
+                            Co roku startujemy w międzynarodowych zawodach Formula Student Combustion
+                            w Niemczech, Włoszech, Czechach i na Węgrzech. Konkurujemy z ponad
+                            <strong>setką uczelni</strong> z całego świata w sześciu dynamicznych
+                            i statycznych dyscyplinach.
+                        </p>
+                        <p>
+                            Zawody Formula Student to nie tylko jazda — to także prezentacje biznesowe,
+                            analizy kosztów i ocena konstrukcji przez branżowych inżynierów.
+                        </p>
+                    </div>
+                    <div class="story-visual reveal" data-delay="2">
+                        <span class="label">// FSC / 2013–2026</span>
+                        <span class="big-num">14</span>
+                        <span class="corner">FIG.05 — LAT ROZWOJU</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. Misja -->
+        <div class="story-section" data-dept="all" data-side="left">
+            <div class="container">
+                <div class="story-split">
+                    <div class="story-visual reveal">
+                        <span class="label">// FUTURE / NEXT GEN</span>
+                        <span class="big-num">∞</span>
+                        <span class="corner">FIG.06 — POTENTIAL</span>
+                    </div>
+                    <div class="story-text reveal" data-delay="2">
+                        <span class="eyebrow">06 · Misja</span>
+                        <h2 class="h-1">Studenci, którzy <span class="text-accent">budują przyszłość</span>.</h2>
+                        <p>
+                            Inżynierowie WUT Racing zasilają zespoły Formuły 1, Mercedes-AMG,
+                            Volkswagen, Bosch, Solaris i polskie startupy mobility. Każdy projekt
+                            to realne doświadczenie — od pomysłu, przez CAD, FEA i CFD, aż do testów
+                            i jazdy.
+                        </p>
+                        <p>
+                            Wspierając WUT Racing inwestujesz w <strong>następne pokolenie
+                            polskich inżynierów</strong>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Spec table -->
+    <section class="specs">
+        <div class="specs-head">
+            <div class="reveal">
+                <span class="eyebrow">Dane techniczne</span>
+                <h2 class="h-1" style="margin-top: 12px;">WUT6 <span class="text-accent">w liczbach</span>.</h2>
+            </div>
+            <a href="bolidy.html" class="btn btn-ghost btn-arrow reveal" data-delay="2">Zobacz wszystkie bolidy</a>
+        </div>
+
+        <div class="specs-grid">
+            <div class="spec-cell reveal"><div class="lbl">Masa</div><div class="val">215<span class="unit">kg</span></div></div>
+            <div class="spec-cell reveal" data-delay="1"><div class="lbl">Moc</div><div class="val">58<span class="unit">kW</span></div></div>
+            <div class="spec-cell reveal" data-delay="2"><div class="lbl">0–100 km/h</div><div class="val">3.8<span class="unit">s</span></div></div>
+            <div class="spec-cell reveal" data-delay="3"><div class="lbl">V max</div><div class="val">130<span class="unit">km/h</span></div></div>
+            <div class="spec-cell reveal"><div class="lbl">Pojemność</div><div class="val">690<span class="unit">cm³</span></div></div>
+            <div class="spec-cell reveal" data-delay="1"><div class="lbl">Docisk @ 60</div><div class="val">120<span class="unit">kg</span></div></div>
+            <div class="spec-cell reveal" data-delay="2"><div class="lbl">Silnik</div><div class="val">KTM<span class="unit">&nbsp;690</span></div></div>
+            <div class="spec-cell reveal" data-delay="3"><div class="lbl">Skrzynia</div><div class="val">6<span class="unit">-bieg. seq.</span></div></div>
+        </div>
+    </section>
+
+    <!-- Marquee -->
+    <div class="marquee">
+        <div class="marquee-track">
+            <span>WUT Racing</span><span>·</span>
+            <span>Formula Student Combustion</span><span>·</span>
+            <span>Politechnika Warszawska</span><span>·</span>
+            <span>Sezon 2026</span><span>·</span>
+            <span>WUT6</span><span>·</span>
+        </div>
+    </div>
+
+    <!-- CTA -->
+    <section class="cta-strip">
+        <div class="cta-strip-inner">
+            <div class="reveal">
+                <span class="chip">Wesprzyj projekt</span>
+                <h2 class="h-1" style="margin-top: 24px;">Razem zbudujemy <span class="text-accent">WUT7</span>.</h2>
+                <p>
+                    Sezon 2027 startuje za 11 miesięcy. Każda składowa nowego bolidu —
+                    od śrub tytanowych po jednostkę sterującą silnikiem — powstaje dzięki naszym partnerom.
+                </p>
+            </div>
+            <div class="cta-actions reveal" data-delay="2">
+                <a href="sponsorzy.html" class="btn btn-primary btn-arrow">Zostań sponsorem</a>
+                <a href="o-nas.html" class="btn btn-ghost btn-arrow">Poznaj zespół</a>
+            </div>
+        </div>
+    </section>
+
+    <script type="module" src="js/home.js"></script>
+    <script src="js/common.js"></script>
+</body>
+</html>

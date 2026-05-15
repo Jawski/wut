@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zawody — WUT Racing</title>
+    <meta name="description" content="Wszystkie zawody Formula Student, w których brało udział WUT Racing — od 2013 roku.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="events">
+
+    <section class="page-hero">
+        <div class="page-hero-inner">
+            <div class="reveal">
+                <span class="eyebrow">Zawody Formula Student</span>
+                <h1 class="h-display">Tor to nasza<br><span class="text-accent">linia mety</span>.</h1>
+                <p class="lead" style="margin-top: 32px;">
+                    Co roku przemierzamy tysiące kilometrów, by stanąć na starcie zawodów
+                    Formula Student. Niemcy, Włochy, Czechy, Węgry — każda runda to test
+                    konstrukcji, zespołu i ducha walki. Poniżej kompletna historia naszych startów.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="events-intro">
+        <div class="event-stat reveal">
+            <div class="val" data-count="14">0</div>
+            <div class="lbl">Sezonów</div>
+        </div>
+        <div class="event-stat reveal" data-delay="1">
+            <div class="val" data-count="32">0</div>
+            <div class="lbl">Zawodów</div>
+        </div>
+        <div class="event-stat reveal" data-delay="2">
+            <div class="val" data-count="6">0</div>
+            <div class="lbl">Krajów</div>
+        </div>
+    </section>
+
+    <!-- Mapa Europy — gdzie byliśmy -->
+    <section class="events-map-section">
+        <div class="events-map-inner">
+            <div class="events-map-head reveal">
+                <span class="eyebrow">Nasz zasięg</span>
+                <h2 class="h-1" style="margin-top: 12px;">Gdzie nas <span class="text-accent">widziano</span>.</h2>
+                <p class="lead" style="margin-top: 18px;">
+                    Z Warszawy na tory całej Europy — pięć krajów, w których ścigało się WUT Racing.
+                </p>
+            </div>
+
+            <div class="events-map reveal" data-delay="1">
+                <svg viewBox="0 0 1000 800" class="europe-map" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <filter id="sketch" x="-4%" y="-4%" width="108%" height="108%">
+                            <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="3" seed="6" result="noise"/>
+                            <feDisplacementMap in="SourceGraphic" in2="noise" scale="6"/>
+                        </filter>
+                    </defs>
+
+                    <!-- Kraje — uproszczone kontury Europy -->
+                    <g class="map-countries" filter="url(#sketch)">
+                        <!-- kraje kontekstowe (szare) -->
+                        <path class="map-country" d="M 95,560 L 130,555 L 138,635 L 118,665 L 92,640 Z"/><!-- Portugalia -->
+                        <path class="map-country" d="M 130,548 L 270,535 L 290,560 L 285,610 L 240,652 L 150,655 L 118,620 L 128,575 Z"/><!-- Hiszpania -->
+                        <path class="map-country" d="M 230,440 L 270,420 L 320,408 L 365,420 L 388,460 L 378,508 L 345,542 L 290,545 L 258,515 L 235,475 Z"/><!-- Francja -->
+                        <path class="map-country" d="M 295,232 L 332,226 L 326,266 L 342,302 L 356,342 L 336,374 L 306,366 L 298,320 L 290,276 Z"/><!-- Wielka Brytania -->
+                        <path class="map-country" d="M 228,288 L 274,283 L 282,330 L 255,350 L 226,326 Z"/><!-- Irlandia -->
+                        <path class="map-country" d="M 388,358 L 426,353 L 431,388 L 400,396 L 384,378 Z"/><!-- Holandia -->
+                        <path class="map-country" d="M 370,394 L 422,389 L 427,416 L 388,422 L 366,409 Z"/><!-- Belgia -->
+                        <path class="map-country" d="M 424,284 L 461,277 L 469,322 L 440,336 L 421,312 Z"/><!-- Dania -->
+                        <path class="map-country" d="M 388,505 L 432,502 L 439,529 L 400,540 L 381,521 Z"/><!-- Szwajcaria -->
+                        <path class="map-country" d="M 400,540 L 445,535 L 461,576 L 481,621 L 501,666 L 526,711 L 541,747 L 520,759 L 500,726 L 477,676 L 454,616 L 424,566 L 404,558 Z"/><!-- Włochy -->
+                        <path class="map-country" d="M 430,88 L 476,80 L 512,150 L 491,226 L 462,257 L 444,226 L 431,160 Z"/><!-- Norwegia -->
+                        <path class="map-country" d="M 479,106 L 530,117 L 544,212 L 521,267 L 488,251 L 479,180 Z"/><!-- Szwecja -->
+                        <path class="map-country" d="M 549,92 L 617,98 L 634,186 L 596,240 L 555,219 L 545,148 Z"/><!-- Finlandia -->
+                        <path class="map-country" d="M 575,253 L 627,248 L 630,278 L 585,283 Z"/><!-- Estonia -->
+                        <path class="map-country" d="M 575,284 L 630,279 L 634,310 L 580,314 Z"/><!-- Łotwa -->
+                        <path class="map-country" d="M 580,315 L 634,311 L 640,344 L 601,350 L 580,337 Z"/><!-- Litwa -->
+                        <path class="map-country" d="M 628,302 L 722,296 L 742,356 L 690,377 L 636,360 Z"/><!-- Białoruś -->
+                        <path class="map-country" d="M 636,362 L 746,360 L 832,388 L 852,448 L 790,478 L 700,462 L 646,418 Z"/><!-- Ukraina -->
+                        <path class="map-country" d="M 640,472 L 732,467 L 754,508 L 716,543 L 660,530 L 638,497 Z"/><!-- Rumunia -->
+                        <path class="map-country" d="M 530,452 L 606,450 L 629,471 L 601,489 L 545,491 L 528,473 Z"/><!-- Słowacja -->
+                        <path class="map-country" d="M 445,538 L 502,536 L 510,561 L 471,573 L 442,557 Z"/><!-- Słowenia -->
+                        <path class="map-country" d="M 550,562 L 602,560 L 620,589 L 601,629 L 566,641 L 546,609 L 541,583 Z"/><!-- Serbia -->
+                        <path class="map-country" d="M 620,592 L 681,585 L 701,616 L 671,646 L 626,641 Z"/><!-- Bułgaria -->
+                        <path class="map-country" d="M 600,642 L 661,636 L 673,681 L 646,726 L 616,711 L 606,676 Z"/><!-- Grecja -->
+
+                        <!-- kraje odwiedzone (czerwonawe) -->
+                        <path class="map-country visited" d="M 400,338 L 472,328 L 497,355 L 492,410 L 472,452 L 436,462 L 411,436 L 399,396 L 392,360 Z"/><!-- Niemcy -->
+                        <path class="map-country visited" d="M 440,455 L 530,448 L 556,470 L 526,496 L 461,499 L 432,478 Z"/><!-- Czechy -->
+                        <path class="map-country visited" d="M 432,500 L 526,497 L 556,492 L 569,519 L 521,539 L 446,536 L 420,519 Z"/><!-- Austria -->
+                        <path class="map-country visited" d="M 530,499 L 629,493 L 656,523 L 621,559 L 546,557 L 526,526 Z"/><!-- Węgry -->
+                        <path class="map-country visited" d="M 471,576 L 546,561 L 601,561 L 616,586 L 581,601 L 546,593 L 531,616 L 506,651 L 489,626 L 496,596 L 473,586 Z"/><!-- Chorwacja -->
+
+                        <!-- Polska — baza (mocna czerwień) -->
+                        <path class="map-country home" d="M 495,330 L 600,322 L 626,356 L 621,406 L 586,433 L 511,439 L 488,401 L 485,358 Z"/>
+                    </g>
+
+                    <!-- Trasy z Warszawy do torów -->
+                    <g class="map-routes">
+                        <path class="map-route" d="M 580,378 Q 490,400 425,425"/>
+                        <path class="map-route" d="M 580,378 Q 510,420 465,465"/>
+                        <path class="map-route" d="M 580,378 Q 540,450 510,522"/>
+                        <path class="map-route" d="M 580,378 Q 590,450 575,515"/>
+                        <path class="map-route" d="M 580,378 Q 525,480 495,588"/>
+                    </g>
+
+                    <!-- Piny -->
+                    <g class="map-pins">
+                        <!-- Warszawa (baza) -->
+                        <circle class="map-pin-home-ring" cx="580" cy="378" r="9"/>
+                        <circle class="map-pin-home" cx="580" cy="378" r="8"/>
+                        <text class="map-label home-label" x="580" y="358">WARSZAWA · BAZA</text>
+
+                        <!-- Hockenheim -->
+                        <circle class="map-pin" cx="425" cy="425" r="6"/>
+                        <text class="map-label" x="425" y="409">🇩🇪 Hockenheimring</text>
+
+                        <!-- Most -->
+                        <circle class="map-pin" cx="465" cy="465" r="6"/>
+                        <text class="map-label" x="430" y="481">🇨🇿 Most</text>
+
+                        <!-- Spielberg -->
+                        <circle class="map-pin" cx="510" cy="522" r="6"/>
+                        <text class="map-label" x="510" y="506">🇦🇹 Red Bull Ring</text>
+
+                        <!-- Hungaroring -->
+                        <circle class="map-pin" cx="575" cy="515" r="6"/>
+                        <text class="map-label" x="615" y="519">🇭🇺 Hungaroring</text>
+
+                        <!-- Grobnik -->
+                        <circle class="map-pin" cx="495" cy="588" r="6"/>
+                        <text class="map-label" x="495" y="616">🇭🇷 Grobnik</text>
+                    </g>
+                </svg>
+
+                <div class="events-map-legend">
+                    <span class="legend-item"><span class="legend-dot home"></span> Baza — Politechnika Warszawska</span>
+                    <span class="legend-item"><span class="legend-dot track"></span> Tory zawodów Formula Student</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="events-list">
+        <div class="events-filter reveal" id="events-filter"></div>
+        <div id="events-grid"></div>
+    </section>
+
+    <section class="cta-strip">
+        <div class="cta-strip-inner">
+            <div class="reveal">
+                <span class="chip">Sezon 2026</span>
+                <h2 class="h-1" style="margin-top: 24px;">Następna runda <span class="text-accent">już wkrótce</span>.</h2>
+                <p>
+                    Plan startów na sezon 2026: Formula Student Czech (Most), Formula Student East (Hungaroring),
+                    Formula Student Germany (Hockenheimring). Śledź nasze starty w mediach społecznościowych.
+                </p>
+            </div>
+            <div class="cta-actions reveal" data-delay="2">
+                <a href="bolidy.html" class="btn btn-primary btn-arrow">Zobacz bolidy</a>
+                <a href="sponsorzy.html" class="btn btn-ghost btn-arrow">Wesprzyj nas</a>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/events.js"></script>
+    <script src="js/common.js"></script>
+</body>
+</html>

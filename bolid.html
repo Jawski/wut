@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bolid — WUT Racing</title>
+    <meta name="description" content="Prezentacja konstrukcji WUT Racing — szczegółowe dane, silnik, aerodynamika, podwozie.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/pages.css">
+
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+</head>
+<body data-page="cars">
+
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="loader-inner">
+            <div class="loader-mark" id="loader-mark">WUT RACING</div>
+            <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+            <div class="loader-pct"><span>0</span>%</div>
+        </div>
+    </div>
+
+    <!-- Hero with 3D car (same shell as home) -->
+    <section class="hero">
+        <canvas id="hero-canvas"></canvas>
+        <div class="hero-glow"></div>
+        <div class="hero-grid-bg"></div>
+
+        <div class="hero-content">
+            <div class="hero-top">
+                <div>
+                    <span class="chip" id="hero-chip">Formula Student Combustion</span>
+                    <h1 class="hero-title" id="hero-title" style="margin-top: 24px;">WUT</h1>
+                    <div class="mono" id="hero-kicker" style="margin-top: 12px; font-size: 14px; letter-spacing: 0.2em; color: var(--text-2);"></div>
+                </div>
+                <div class="hero-meta mono">
+                    <div>SEZON <span class="v" id="hero-year"></span></div>
+                    <div>KLASA <span class="v">FS COMB.</span></div>
+                    <div>PW · SIMR</div>
+                </div>
+            </div>
+
+            <div class="hero-bottom">
+                <p class="hero-tagline" id="hero-tagline"></p>
+                <div class="scroll-hint">
+                    <span>PRZEWIŃ</span>
+                    <div class="line"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Story sections — rendered by JS into here -->
+    <section class="story" id="story-sections"></section>
+
+    <!-- Spec table -->
+    <section class="specs">
+        <div class="specs-head">
+            <div class="reveal">
+                <span class="eyebrow">Dane techniczne</span>
+                <h2 class="h-1" style="margin-top: 12px;" id="specs-title"></h2>
+            </div>
+            <a href="bolidy.html" class="btn btn-ghost btn-arrow reveal" data-delay="2">← Wszystkie bolidy</a>
+        </div>
+
+        <div class="specs-grid" id="specs-grid"></div>
+    </section>
+
+    <!-- Achievements -->
+    <section class="achievements-section" id="achievements-section">
+        <div class="achievements-inner">
+            <div class="reveal">
+                <span class="eyebrow">Osiągnięcia</span>
+                <h2 class="h-2" style="margin-top: 12px;">Co osiągnęliśmy z <span class="text-accent" id="ach-name"></span>.</h2>
+            </div>
+            <ul class="achievement-list" id="achievement-list" style="margin-top: 32px; max-width: 720px;"></ul>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-strip">
+        <div class="cta-strip-inner">
+            <div class="reveal">
+                <span class="chip">Bolidy</span>
+                <h2 class="h-1" style="margin-top: 24px;">Poznaj <span class="text-accent">resztę rodziny</span>.</h2>
+                <p>
+                    Każdy bolid WUT Racing to nowy rozdział — od skromnego WUT1 z 2013 roku
+                    aż po pełnoletniego WUT6.
+                </p>
+            </div>
+            <div class="cta-actions reveal" data-delay="2">
+                <a href="bolidy.html" class="btn btn-primary btn-arrow">Wszystkie bolidy</a>
+                <a href="wydarzenia.html" class="btn btn-ghost btn-arrow">Zawody Formula Student</a>
+            </div>
+        </div>
+    </section>
+
+    <script type="module" src="js/bolid.js"></script>
+    <script src="js/common.js"></script>
+</body>
+</html>

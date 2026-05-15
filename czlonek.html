@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil członka — WUT Racing</title>
+    <meta name="description" content="Profil członka WUT Racing — historia, osiągnięcia i projekty.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="team">
+
+    <!-- Profile hero -->
+    <section class="profile-hero">
+        <div class="profile-hero-inner">
+            <a href="zespol.html" class="back-link">← Wszyscy członkowie</a>
+
+            <div class="profile-grid">
+                <div class="profile-photo-frame reveal">
+                    <span class="role-tag" id="prof-dept-tag">—</span>
+                    <img id="prof-img" src="" alt="">
+                </div>
+                <div class="profile-meta reveal" data-delay="2">
+                    <span class="eyebrow" id="prof-role-eyebrow">—</span>
+                    <h1 class="h-1" id="prof-name">—</h1>
+                    <p class="lead" id="prof-summary" style="margin-top: 18px;">—</p>
+
+                    <div class="profile-quick">
+                        <div class="quick-stat">
+                            <div class="lbl">Dział</div>
+                            <div class="val" id="prof-dept">—</div>
+                        </div>
+                        <div class="quick-stat">
+                            <div class="lbl">W kole od</div>
+                            <div class="val" id="prof-since">—</div>
+                        </div>
+                        <div class="quick-stat">
+                            <div class="lbl">Studia</div>
+                            <div class="val" id="prof-studies">—</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bio / history -->
+    <section class="profile-section profile-bio">
+        <div class="profile-section-inner">
+            <div class="profile-section-head reveal">
+                <span class="eyebrow">Historia w zespole</span>
+                <h2 class="h-2" style="margin-top: 10px;">Jak <span id="prof-firstname" class="text-accent">—</span> pojawił się w WUT Racing.</h2>
+            </div>
+            <p class="profile-prose reveal" data-delay="1" id="prof-bio-text">—</p>
+        </div>
+    </section>
+
+    <!-- Achievements -->
+    <section class="profile-section profile-achievements">
+        <div class="profile-section-inner">
+            <div class="profile-section-head reveal">
+                <span class="eyebrow">Osiągnięcia</span>
+                <h2 class="h-2" style="margin-top: 10px;">Mierzalne wyniki w WUT Racing.</h2>
+            </div>
+            <ul class="achievement-list reveal" data-delay="1" id="prof-achievements" style="margin-top: 32px;"></ul>
+        </div>
+    </section>
+
+    <!-- Projects -->
+    <section class="profile-section profile-projects">
+        <div class="profile-section-inner">
+            <div class="profile-section-head reveal">
+                <span class="eyebrow">Projekty</span>
+                <h2 class="h-2" style="margin-top: 10px;">Nad czym pracował.</h2>
+            </div>
+            <div class="profile-projects-grid" id="prof-projects"></div>
+        </div>
+    </section>
+
+    <!-- Events / Zawody -->
+    <section class="profile-section profile-events">
+        <div class="profile-section-inner">
+            <div class="profile-section-head reveal">
+                <span class="eyebrow">Zawody</span>
+                <h2 class="h-2" style="margin-top: 10px;">Reprezentował WUT Racing na zawodach.</h2>
+            </div>
+            <div id="prof-events"></div>
+        </div>
+    </section>
+
+    <!-- Other team members -->
+    <section class="profile-section profile-nav">
+        <div class="profile-section-inner">
+            <h2 class="h-3 reveal">Inne osoby z tego działu</h2>
+            <div class="profile-related-grid" id="prof-related"></div>
+        </div>
+    </section>
+
+    <section class="cta-strip">
+        <div class="cta-strip-inner">
+            <div class="reveal">
+                <span class="chip">Zespół</span>
+                <h2 class="h-1" style="margin-top: 24px;">Poznaj <span class="text-accent">całą drużynę</span>.</h2>
+            </div>
+            <div class="cta-actions reveal" data-delay="2">
+                <a href="zespol.html" class="btn btn-primary btn-arrow">Wszyscy członkowie</a>
+                <a href="o-nas.html" class="btn btn-ghost btn-arrow">O kole</a>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/team-data.js"></script>
+    <script src="js/czlonek.js"></script>
+    <script src="js/common.js"></script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zespół — WUT Racing</title>
+    <meta name="description" content="Poznaj zespół WUT Racing — inżynierów, kierowców i menedżerów Politechniki Warszawskiej.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="team">
+
+    <!-- Hero — karuzela zdjęć -->
+    <section class="hero hero-photo-mode">
+        <div class="hero-carousel" id="hero-carousel">
+
+            <div class="hero-slide is-active" data-slide="0">
+                <div class="hero-photo">
+                    <img src="assets/team-1.jpg" alt="Zespół WUT Racing">
+                </div>
+                <div class="hero-photo-overlay"></div>
+                <div class="hero-photo-content">
+                    <span class="chip">Zespół</span>
+                    <h1 class="hero-photo-headline">Twarze za<br>bolidem</h1>
+                    <p class="hero-photo-sub">
+                        <span id="team-total">69</span> inżynierów, projektantów, kierowców i menedżerów —
+                        pełen skład WUT Racing.
+                    </p>
+                    <a href="#team-start" class="hero-discover">
+                        Poznaj skład <span class="disc-arrow">→</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-slide" data-slide="1">
+                <div class="hero-photo">
+                    <img src="assets/team-2.jpg" alt="WUT Racing przy pracy" loading="lazy">
+                </div>
+                <div class="hero-photo-overlay"></div>
+                <div class="hero-photo-content">
+                    <span class="chip">Pięć działów</span>
+                    <h1 class="hero-photo-headline">Każdy ma<br>swoją rolę</h1>
+                    <p class="hero-photo-sub">
+                        Aero, Powertrain, Chassis, Elektronika, Business — interdyscyplinarna
+                        ekipa, która co sezon buduje bolid od zera.
+                    </p>
+                    <a href="#team-start" class="hero-discover">
+                        Filtruj po działach <span class="disc-arrow">→</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-slide" data-slide="2">
+                <div class="hero-photo">
+                    <img src="assets/team-3.jpg" alt="WUT Racing — kierowcy" loading="lazy">
+                </div>
+                <div class="hero-photo-overlay"></div>
+                <div class="hero-photo-content">
+                    <span class="chip">Rekrutacja co semestr</span>
+                    <h1 class="hero-photo-headline">Dołącz<br>do nas</h1>
+                    <p class="hero-photo-sub">
+                        Studiujesz na Politechnice Warszawskiej? Niezależnie od kierunku —
+                        znajdziesz u nas miejsce.
+                    </p>
+                    <a href="mailto:rekrutacja@wutracing.pl" class="hero-discover">
+                        Aplikuj <span class="disc-arrow">→</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="hero-dots" id="hero-dots">
+            <button class="hero-dot is-active" data-go="0" aria-label="Slajd 1"></button>
+            <button class="hero-dot" data-go="1" aria-label="Slajd 2"></button>
+            <button class="hero-dot" data-go="2" aria-label="Slajd 3"></button>
+        </div>
+
+        <div class="scroll-hint">
+            <span>PRZEWIŃ</span>
+            <div class="line"></div>
+        </div>
+    </section>
+
+    <div id="team-start"></div>
+    <div class="team-filter" id="team-filter"></div>
+
+    <section>
+        <div class="team-grid" id="team-grid"></div>
+    </section>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="member-modal" role="dialog" aria-modal="true">
+        <div class="modal">
+            <button class="modal-close" aria-label="Zamknij">×</button>
+            <div class="modal-photo">
+                <span class="role-tag"></span>
+                <img class="modal-photo-img" src="" alt="">
+            </div>
+            <div class="modal-body">
+                <h2 class="modal-name"></h2>
+                <div class="modal-role"></div>
+                <p class="modal-bio"></p>
+
+                <div class="modal-tenure">
+                    <div>Dział: <strong class="dept-val"></strong></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="cta-strip" style="padding-top: 80px;">
+        <div class="cta-strip-inner">
+            <div class="reveal">
+                <span class="chip">Rekrutacja</span>
+                <h2 class="h-1" style="margin-top: 24px;">Twoje nazwisko może być <span class="text-accent">następne</span>.</h2>
+                <p>
+                    Rekrutujemy co semestr. Studiujesz na Politechnice Warszawskiej?
+                    Aplikuj na rekrutacja@wutracing.pl
+                </p>
+            </div>
+            <div class="cta-actions reveal" data-delay="2">
+                <a href="mailto:rekrutacja@wutracing.pl" class="btn btn-primary btn-arrow">Aplikuj</a>
+                <a href="o-nas.html" class="btn btn-ghost btn-arrow">O kole</a>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/team-data.js"></script>
+    <script src="js/team.js"></script>
+    <script src="js/common.js"></script>
+</body>
+</html>

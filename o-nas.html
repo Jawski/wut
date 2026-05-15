@@ -1,0 +1,246 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O nas — WUT Racing</title>
+    <meta name="description" content="Poznaj WUT Racing — Koło Naukowe Pojazdów Wyścigowych Politechniki Warszawskiej.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="about">
+
+    <!-- Hero — karuzela zdjęć (jak na stronie głównej) -->
+    <section class="hero hero-photo-mode">
+        <div class="hero-carousel" id="hero-carousel">
+
+            <div class="hero-slide is-active" data-slide="0">
+                <div class="hero-photo">
+                    <img src="assets/about-1.jpg" alt="Zespół WUT Racing">
+                </div>
+                <div class="hero-photo-overlay"></div>
+                <div class="hero-photo-content">
+                    <span class="chip">O nas</span>
+                    <h1 class="hero-photo-headline">Inżynieria<br>w ruchu</h1>
+                    <p class="hero-photo-sub">
+                        Jesteśmy studenckim zespołem konstruktorów Politechniki Warszawskiej.
+                        Co roku, od zera, budujemy bolid klasy Formula Student.
+                    </p>
+                    <a href="#about-start" class="hero-discover">
+                        Poznaj historię koła <span class="disc-arrow">→</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-slide" data-slide="1">
+                <div class="hero-photo">
+                    <img src="assets/about-2.jpg" alt="WUT Racing w boksie" loading="lazy">
+                </div>
+                <div class="hero-photo-overlay"></div>
+                <div class="hero-photo-content">
+                    <span class="chip">Ponad 100 osób</span>
+                    <h1 class="hero-photo-headline">Jeden<br>zespół</h1>
+                    <p class="hero-photo-sub">
+                        Mechanicy, elektronicy, informatycy, menedżerowie — pięć działów,
+                        jeden cel. Razem projektujemy, budujemy i jeździmy.
+                    </p>
+                    <a href="zespol.html" class="hero-discover">
+                        Poznaj zespół <span class="disc-arrow">→</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-slide" data-slide="2">
+                <div class="hero-photo">
+                    <img src="assets/about-3.jpg" alt="Bolid WUT Racing na torze" loading="lazy">
+                </div>
+                <div class="hero-photo-overlay"></div>
+                <div class="hero-photo-content">
+                    <span class="chip">Od 2012 roku</span>
+                    <h1 class="hero-photo-headline">14 lat<br>na torze</h1>
+                    <p class="hero-photo-sub">
+                        Sześć generacji bolidów, dziesiątki startów w całej Europie.
+                        Każdy sezon to krok naprzód.
+                    </p>
+                    <a href="bolidy.html" class="hero-discover">
+                        Zobacz bolidy <span class="disc-arrow">→</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="hero-dots" id="hero-dots">
+            <button class="hero-dot is-active" data-go="0" aria-label="Slajd 1"></button>
+            <button class="hero-dot" data-go="1" aria-label="Slajd 2"></button>
+            <button class="hero-dot" data-go="2" aria-label="Slajd 3"></button>
+        </div>
+
+        <div class="scroll-hint">
+            <span>PRZEWIŃ</span>
+            <div class="line"></div>
+        </div>
+    </section>
+
+    <!-- Intro -->
+    <section class="about-intro" id="about-start">
+        <div class="reveal">
+            <span class="eyebrow">Historia koła</span>
+            <h2 class="h-2" style="margin-top: 12px;">Od 2012 roku.</h2>
+        </div>
+        <div class="text reveal" data-delay="2">
+            <p>
+                Koło Naukowe Pojazdów Wyścigowych WUT Racing powstało w 2012 roku
+                z inicjatywy grupy studentów Wydziału Samochodów i Maszyn Roboczych Politechniki
+                Warszawskiej. Pierwsza generacja bolidu spalinowego — <strong>WUT1</strong> —
+                pojechała na zawody Formula Student w Niemczech już rok później.
+            </p>
+            <p>
+                Od tamtej pory każdy sezon był krokiem naprzód: nowsze materiały kompozytowe,
+                lżejsze konstrukcje, bardziej dopracowana aerodynamika i elektronika. Aktualna
+                szósta generacja — <strong>WUT6</strong> — to bolid Formula Student Combustion
+                z jednocylindrowym silnikiem <strong>KTM 690</strong>, stalową ramą spawaną
+                i karbonowymi elementami aero.
+            </p>
+            <p>
+                Dla studentów Politechniki Warszawskiej WUT Racing to coś więcej niż projekt
+                inżynierski. To szkoła pracy zespołowej, zarządzania budżetem, kontaktu
+                z przemysłem i — przede wszystkim — pasji do motoryzacji.
+            </p>
+        </div>
+    </section>
+
+    <!-- Timeline -->
+    <section class="timeline">
+        <div class="timeline-inner">
+            <div class="timeline-head reveal">
+                <span class="eyebrow">Linia czasu</span>
+                <h2 class="h-1" style="margin-top: 16px;">Czternaście lat <span class="text-accent">postępu</span>.</h2>
+            </div>
+
+            <div class="timeline-track">
+                <div class="timeline-item reveal">
+                    <div class="timeline-year">2012</div>
+                    <h3 class="timeline-title">Założenie koła</h3>
+                    <p class="timeline-desc">
+                        Grupa studentów wydziału SiMR zakłada Koło Naukowe Pojazdów Wyścigowych
+                        i rozpoczyna prace projektowe nad pierwszym bolidem.
+                    </p>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <div class="timeline-year">2013</div>
+                    <h3 class="timeline-title">WUT1 — debiut w Hockenheim</h3>
+                    <p class="timeline-desc">
+                        Pierwszy bolid spalinowy ukończony w 13 miesięcy. Debiut na zawodach
+                        Formula Student Germany. Klasyfikacja w środku stawki — solidny start.
+                    </p>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <div class="timeline-year">2016</div>
+                    <h3 class="timeline-title">WUT3 — pierwsze podium</h3>
+                    <p class="timeline-desc">
+                        Trzecia generacja bolidu zdobywa miejsce na podium konkurencji Cost &amp;
+                        Manufacturing na Formula Student East na Węgrzech.
+                    </p>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <div class="timeline-year">2019</div>
+                    <h3 class="timeline-title">WUT4 — karbonowe aero</h3>
+                    <p class="timeline-desc">
+                        Czwarta generacja wprowadza w pełni karbonowy zestaw aero
+                        (skrzydła + dyfuzor) i nową kinematykę zawieszenia push-rod.
+                    </p>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <div class="timeline-year">2022</div>
+                    <h3 class="timeline-title">WUT5 — silnik KTM 690</h3>
+                    <p class="timeline-desc">
+                        Bolid z jednocylindrowym silnikiem KTM 690 LC4, sześciobiegową skrzynią
+                        sekwencyjną, blokowanym dyferencjałem Drexlera i odlewanymi 10-calowymi
+                        magnezowymi felgami.
+                    </p>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <div class="timeline-year">2026</div>
+                    <h3 class="timeline-title">WUT6 — generacja obecna</h3>
+                    <p class="timeline-desc">
+                        Trzyelementowe skrzydła aero, nowy układ wydechowy, własne ECU.
+                        Najlżejszy i najmocniejszy bolid spalinowy w historii koła.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Values -->
+    <section class="values">
+        <div class="values-inner">
+            <div class="reveal" style="text-align: center; max-width: 700px; margin: 0 auto;">
+                <span class="eyebrow">Co nas napędza</span>
+                <h2 class="h-1" style="margin-top: 16px;">Trzy <span class="text-accent">filary</span>.</h2>
+            </div>
+
+            <div class="values-grid">
+                <div class="value-card reveal">
+                    <div class="num">/ 01</div>
+                    <h3>Inżynieria</h3>
+                    <p>
+                        Wszystko, co montujemy w bolidzie, projektujemy sami — od zawieszenia
+                        i ramy po elektronikę sterującą silnikiem i firmware. CAD, FEA, CFD, PCB,
+                        kalibracja ECU, układ wydechowy, własne PCB — pełen stack inżynierski.
+                    </p>
+                </div>
+                <div class="value-card reveal" data-delay="1">
+                    <div class="num">/ 02</div>
+                    <h3>Zespół</h3>
+                    <p>
+                        Ponad sto osób z różnych wydziałów Politechniki — od mechaników i
+                        elektroników po programistów i menedżerów. Pracujemy razem, dzielimy
+                        wiedzę między pokoleniami członków koła.
+                    </p>
+                </div>
+                <div class="value-card reveal" data-delay="2">
+                    <div class="num">/ 03</div>
+                    <h3>Zawody Formula Student</h3>
+                    <p>
+                        Każdy projekt jest weryfikowany w boju — na torze i przed jury
+                        z branży motoryzacyjnej. Co roku przejeżdżamy tysiące kilometrów
+                        i zdobywamy realne, mierzalne osiągnięcia na zawodach Formula Student.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-strip">
+        <div class="cta-strip-inner">
+            <div class="reveal">
+                <span class="chip">Dołącz</span>
+                <h2 class="h-1" style="margin-top: 24px;">Chcesz <span class="text-accent">budować z nami</span>?</h2>
+                <p>
+                    Co semestr rekrutujemy nowych członków. Niezależnie czy jesteś po
+                    mechanice, elektronice, czy marketingu — znajdziesz u nas miejsce.
+                </p>
+            </div>
+            <div class="cta-actions reveal" data-delay="2">
+                <a href="zespol.html" class="btn btn-primary btn-arrow">Poznaj zespół</a>
+                <a href="mailto:rekrutacja@wutracing.pl" class="btn btn-ghost btn-arrow">Aplikuj</a>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/common.js"></script>
+</body>
+</html>
