@@ -30,10 +30,12 @@ function pickSpecs(specs, groups) {
 }
 
 const DEPT_SECTIONS = [
-    { dept: 'aero',    eyebrow: '01 · Aero',       title: 'Aerodynamika.',     groups: ['Osiągi'],                        accentKeys: ['Downforce @ 60', 'Akceleracja boczna'] },
-    { dept: 'chassis', eyebrow: '02 · Chassis',    title: 'Rama + zawieszenie.', groups: ['Konstrukcja', 'Wymiary i masa'], accentKeys: ['Rama', 'Masa'] },
-    { dept: 'engine',  eyebrow: '03 · Powertrain', title: 'Silnik.',            groups: ['Silnik', 'Napęd'],               accentKeys: ['Moc szczyt.', 'Pojemność'] },
-    { dept: 'all',     eyebrow: '04 · Osiągi',     title: 'Osiągi.',            groups: ['Osiągi'],                        accentKeys: ['0 – 100 km/h', 'V max'] },
+    { dept: 'aero',        eyebrow: '01 · Aerodynamika', title: 'Aerodynamika.',         groups: ['Osiągi'],                        accentKeys: ['Downforce @ 60', 'Akceleracja boczna'] },
+    { dept: 'chassis',     eyebrow: '02 · Chassis',      title: 'Rama i monokok.',       groups: ['Konstrukcja', 'Wymiary i masa'], accentKeys: ['Rama', 'Masa'] },
+    { dept: 'suspension',  eyebrow: '03 · Zawieszenie',  title: 'Zawieszenie i hamulce.', groups: ['Konstrukcja'],                  accentKeys: ['Rozstaw osi'] },
+    { dept: 'electronics', eyebrow: '04 · Elektronika',  title: 'Elektronika i ECU.',     groups: [],                                accentKeys: [] },
+    { dept: 'engine',      eyebrow: '05 · Silnik',       title: 'Jednostka napędowa.',    groups: ['Silnik', 'Napęd'],              accentKeys: ['Moc szczyt.', 'Pojemność'] },
+    { dept: 'all',         eyebrow: '06 · Osiągi',       title: 'Osiągi.',                groups: ['Osiągi'],                       accentKeys: ['0 – 100 km/h', 'V max'] },
 ];
 
 function renderStory() {
@@ -53,11 +55,6 @@ function renderStory() {
                             <h2 class="h-1">${s.title}</h2>
                             ${accentCards ? `<div class="dept-big-stats">${accentCards}</div>` : ''}
                             ${tableRows ? `<div class="dept-spec-table">${tableRows}</div>` : ''}
-                        </div>
-                        <div class="story-visual reveal" data-delay="2">
-                            <span class="label">// DZIAŁ / ${s.dept.toUpperCase()}</span>
-                            <span class="big-num">${String(idx + 1).padStart(2, '0')}</span>
-                            <span class="corner">${car.name}</span>
                         </div>
                     </div>
                 </div>
@@ -168,7 +165,9 @@ function buildKeyframes() {
     const frames = [{ rot: -0.45, x: 0, camY: 2.4, camZ: 9.0, lookX: 0, lookY: 1.1 }];
     storySections.forEach((sec, idx) => {
         const dept = sec.dataset.dept || 'all';
-        const isDeptTour = dept === 'aero' || dept === 'chassis' || dept === 'engine';
+        const isDeptTour =
+            dept === 'aero' || dept === 'chassis' || dept === 'suspension' ||
+            dept === 'electronics' || dept === 'engine';
         if (isDeptTour) {
             frames.push({ ...DEPT_TOUR_FRAME });
         } else {
@@ -229,6 +228,11 @@ const deptObserver = new IntersectionObserver((entries) => {
             currentDept = d;
             applyDept(partGroups, d);
         }
+    } else if (bestRatio === 0 && currentDept !== 'all' && partGroups) {
+        // żadna sekcja story nie jest w viewport (np. wróciliśmy do hero) →
+        // reset do 'all' żeby zniknął dym/izolacja działów
+        currentDept = 'all';
+        applyDept(partGroups, 'all');
     }
 }, { threshold: [0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9] });
 storySections.forEach(s => deptObserver.observe(s));
@@ -271,7 +275,12 @@ function animate() {
     lastT = now;
     scrollY = lerp(scrollY, targetScroll, 0.08);
     const k = getKeyframeAt(scrollY);
-    const inDeptTour = currentDept === 'aero' || currentDept === 'chassis' || currentDept === 'engine';
+    const inDeptTour =
+        currentDept === 'aero' ||
+        currentDept === 'chassis' ||
+        currentDept === 'suspension' ||
+        currentDept === 'electronics' ||
+        currentDept === 'engine';
 
     if (carModel) {
         const idleSpin = scrollY < 0.02 ? now * 0.00015 : 0;
@@ -280,8 +289,25 @@ function animate() {
         carGroup.position.y = inDeptTour ? 0 : Math.sin(now * 0.0008) * 0.04;
     }
 
+    // Twardy fix: sprawdzamy realną pozycję DOM zamiast polegać tylko na
+    // IntersectionObserverze (który przy szybkim scrollu może nie zdążyć
+    // zarejestrować ratio=0 na sekcji aero).
     if (smokeSystem) {
-        const wantSmoke = currentDept === 'aero';
+        let allowDept = currentDept;
+        const firstSec = storySections[0];
+        if (firstSec) {
+            const rect = firstSec.getBoundingClientRect();
+            // Jeśli pierwsza sekcja jest poniżej połowy viewportu —
+            // czyli scrollowaliśmy z powrotem do hero — wymuś reset.
+            if (rect.top > window.innerHeight * 0.5) {
+                allowDept = 'all';
+                if (currentDept !== 'all' && partGroups) {
+                    currentDept = 'all';
+                    applyDept(partGroups, 'all');
+                }
+            }
+        }
+        const wantSmoke = allowDept === 'aero';
         if (smokeSystem.visible !== wantSmoke) smokeSystem.visible = wantSmoke;
         if (wantSmoke) smokeSystem.update(dt);
     }

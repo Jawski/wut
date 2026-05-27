@@ -161,9 +161,18 @@ function prepareMaterial(mesh) {
 }
 
 export function applyDept(partGroups, dept) {
-    // 'aero' pokazuje CAŁY bolid (efekt = strumienie opływu, nie wygaszanie).
-    // 'all' (hero, Tor, Misja) — też wszystko widoczne.
-    const showEverything = dept === 'all' || dept === 'aero';
+    // Pokaż cały bolid dla działów których pracy nie da się sensownie zaizolować
+    // (rama, monokok, wiązki elektroniki, geometria zawieszenia itd.). Aero ma
+    // własny efekt streamline, więc też nic nie wygaszamy.
+    const knownCategories = Object.keys(partGroups);
+    const showEverything =
+        dept === 'all' ||
+        dept === 'aero' ||
+        dept === 'chassis' ||
+        dept === 'suspension' ||
+        dept === 'electronics' ||
+        !knownCategories.includes(dept);
+
     Object.entries(partGroups).forEach(([cat, group]) => {
         const isActive = showEverything || dept === cat;
         const targetOpacity = isActive ? FULL_OPACITY : DIM_OPACITY;

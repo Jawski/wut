@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
@@ -115,7 +115,11 @@
                     <!-- Piny -->
                     <g class="map-pins">
                         <!-- Warszawa (baza) -->
-                        <circle class="map-pin-home-ring" cx="580" cy="378" r="9"/>
+                        <circle class="map-pin-home-ring" cx="580" cy="378" r="9" fill="none" stroke="#e10600" stroke-width="2">
+                            <animate attributeName="r"              from="9"   to="34" dur="2.6s" repeatCount="indefinite"/>
+                            <animate attributeName="stroke-opacity" from="0.85" to="0" dur="2.6s" repeatCount="indefinite"/>
+                            <animate attributeName="stroke-width"   from="2"   to="0.3" dur="2.6s" repeatCount="indefinite"/>
+                        </circle>
                         <circle class="map-pin-home" cx="580" cy="378" r="8"/>
                         <text class="map-label home-label" x="580" y="358">WARSZAWA · BAZA</text>
 
@@ -173,5 +177,6 @@
 
     <script src="js/events.js"></script>
     <script src="js/common.js"></script>
+    <script src="js/animations.js"></script>
 </body>
 </html>

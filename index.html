@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
@@ -124,8 +124,10 @@
                             projektujemy, budujemy i jeździmy bolidem klasy Formula Student.
                         </p>
                         <p>
-                            Praca odbywa się w pięciu działach: <strong>Aero</strong>, <strong>Powertrain</strong>,
-                            <strong>Elektronika</strong>, <strong>Chassis</strong> i <strong>Business</strong>.
+                            Praca odbywa się w dziewięciu działach: <strong>Aerodynamika</strong>,
+                            <strong>Chassis</strong>, <strong>Zawieszenie</strong>, <strong>Elektronika</strong>,
+                            <strong>Silnik</strong>, <strong>PR</strong>, <strong>Logistyka</strong>,
+                            <strong>Fundraising</strong> i <strong>Zarząd</strong>.
                         </p>
                         <div class="story-stats">
                             <div class="stat">
@@ -133,15 +135,10 @@
                                 <div class="lbl">Aktywnych członków</div>
                             </div>
                             <div class="stat">
-                                <div class="val"><span data-count="5">0</span></div>
-                                <div class="lbl">Działów inżynierskich</div>
+                                <div class="val"><span data-count="9">0</span></div>
+                                <div class="lbl">Działów</div>
                             </div>
                         </div>
-                    </div>
-                    <div class="story-visual reveal" data-delay="2">
-                        <span class="label">// SKŁAD / 2026</span>
-                        <span class="big-num">120</span>
-                        <span class="corner">FIG.01 — TEAM SIZE</span>
                     </div>
                 </div>
             </div>
@@ -215,16 +212,11 @@
         <div class="story-section dept-section" data-dept="aero">
             <div class="container">
                 <div class="story-split">
-                    <div class="story-visual reveal">
-                        <span class="label">// DZIAŁ / AERODYNAMIKA</span>
-                        <span class="big-num">AERO</span>
-                        <span class="corner">FIG.02 — WIND TUNNEL</span>
-                    </div>
-                    <div class="story-text reveal" data-delay="2">
-                        <span class="eyebrow">02 · Dział Aero</span>
+                    <div class="story-text reveal">
+                        <span class="eyebrow">02 · Aerodynamika</span>
                         <h2 class="h-1">Powietrze pracuje na <span class="text-accent">naszą korzyść</span>.</h2>
                         <p>
-                            Aerodynamika to dział, który decyduje o tym, jak powietrze opływa bolid.
+                            Aerodynamika decyduje o tym, jak powietrze opływa bolid.
                             Symulacje CFD, badania w tunelu aerodynamicznym, projektowanie skrzydeł,
                             podwozia i dyfuzora — wszystko po to, żeby bolid przylegał do toru.
                         </p>
@@ -237,64 +229,96 @@
             </div>
         </div>
 
-        <!-- 3. CHASSIS — bolid kręci się, zostaje tylko zawieszenie -->
-        <div class="story-section dept-section" data-dept="chassis">
+        <!-- 3. CHASSIS -->
+        <div class="story-section dept-section" data-dept="chassis" data-side="right">
             <div class="container">
                 <div class="story-split">
                     <div class="story-text reveal">
-                        <span class="eyebrow">03 · Dział Chassis</span>
+                        <span class="eyebrow">03 · Chassis</span>
                         <h2 class="h-1">Szkielet, na którym <span class="text-accent">stoi cała reszta</span>.</h2>
                         <p>
-                            Dział Chassis projektuje ramę, geometrię zawieszenia, kinematykę kół
-                            i wszystkie mocowania w bolidzie. Stalowa rama spawana metodą TIG z rur
-                            25CrMo4, push-rod, wahacze z 7075-T6.
+                            Dział Chassis projektuje ramę i monokok — konstrukcję nośną bolidu.
+                            Stalowa rama spawana metodą TIG z rur 25CrMo4, karbonowy monokok
+                            laminowany w autoklawie, aluminiowe inserty.
                         </p>
                         <p>
-                            Bez precyzyjnej geometrii zawieszenia nie ma dobrego prowadzenia.
-                            Bez sztywnej ramy nie ma celnego przekazywania mocy na koła.
+                            Bez sztywnej i lekkiej konstrukcji nośnej nie ma celnego przekazywania
+                            mocy na koła ani bezpieczeństwa kierowcy.
                         </p>
-                    </div>
-                    <div class="story-visual reveal" data-delay="2">
-                        <span class="label">// DZIAŁ / CHASSIS</span>
-                        <span class="big-num">RAMA</span>
-                        <span class="corner">FIG.03 — SUSPENSION</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 4. ENGINE / POWERTRAIN — zostaje tylko silnik -->
+        <!-- 4. ZAWIESZENIE -->
+        <div class="story-section dept-section" data-dept="suspension">
+            <div class="container">
+                <div class="story-split">
+                    <div class="story-text reveal">
+                        <span class="eyebrow">04 · Zawieszenie</span>
+                        <h2 class="h-1">Geometria, która <span class="text-accent">decyduje o czasie okrążenia</span>.</h2>
+                        <p>
+                            Dział Zawieszenia odpowiada za kinematykę kół, push-rod, wahacze
+                            z 7075-T6, amortyzatory i system hamulcowy. Każda mikro-zmiana geometrii
+                            zmienia zachowanie bolidu w zakrętach.
+                        </p>
+                        <p>
+                            Sesje testowe na torze, dobór sprężyn, kąty toe/camber/caster —
+                            to wszystko zespoły inżynierów dopinają dla każdej rundy zawodów.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. ELEKTRONIKA -->
+        <div class="story-section dept-section" data-dept="electronics" data-side="right">
+            <div class="container">
+                <div class="story-split">
+                    <div class="story-text reveal">
+                        <span class="eyebrow">05 · Elektronika</span>
+                        <h2 class="h-1">Niewidoczne <span class="text-accent">nerwy bolidu</span>.</h2>
+                        <p>
+                            Projekt PCB, programowanie STM32, szyna CAN, telemetria 1 kHz, systemy
+                            bezpieczeństwa kierowcy — elektronika to to, co spina cały bolid
+                            w jeden żywy organizm.
+                        </p>
+                        <p>
+                            VCU, ECU, dashboard, LED-y, wiązki — bez tej warstwy mechaniczne
+                            piękno bolidu nie ruszyłoby z miejsca.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. SILNIK -->
         <div class="story-section dept-section" data-dept="engine">
             <div class="container">
                 <div class="story-split">
-                    <div class="story-visual reveal">
-                        <span class="label">// DZIAŁ / POWERTRAIN</span>
-                        <span class="big-num">KTM</span>
-                        <span class="corner">FIG.04 — ENGINE</span>
-                    </div>
-                    <div class="story-text reveal" data-delay="2">
-                        <span class="eyebrow">04 · Dział Powertrain</span>
-                        <h2 class="h-1">Serce bolidu — <span class="text-accent">silnik</span>.</h2>
+                    <div class="story-text reveal">
+                        <span class="eyebrow">06 · Silnik</span>
+                        <h2 class="h-1">Serce bolidu — <span class="text-accent">jednostka napędowa</span>.</h2>
                         <p>
-                            Dział Powertrain odpowiada za jednostkę napędową, układ wydechowy,
+                            Dział Silnika odpowiada za jednostkę napędową, układ wydechowy,
                             kalibrację ECU i przeniesienie napędu. Jednocylindrowy KTM 690 LC4,
                             sześciobiegowa skrzynia sekwencyjna i blokowany dyferencjał Drexlera.
                         </p>
                         <p>
-                            Każde modyfikacje — mapy paliwowe, wlot, wydech — to godziny pracy
-                            na hamowni i na torze.
+                            Mapy paliwowe, układ turbodoładowania, kolektor dolotowy —
+                            to godziny pracy na hamowni i na torze.
                         </p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 5. Tor / Zawody -->
+        <!-- 7. Tor / Zawody -->
         <div class="story-section" data-dept="all" data-side="right">
             <div class="container">
                 <div class="story-split">
                     <div class="story-text reveal">
-                        <span class="eyebrow">05 · Tor</span>
+                        <span class="eyebrow">07 · Tor</span>
                         <h2 class="h-1">Hockenheim. Varano. <span class="text-accent">Most</span>.</h2>
                         <p>
                             Co roku startujemy w międzynarodowych zawodach Formula Student Combustion
@@ -307,26 +331,16 @@
                             analizy kosztów i ocena konstrukcji przez branżowych inżynierów.
                         </p>
                     </div>
-                    <div class="story-visual reveal" data-delay="2">
-                        <span class="label">// FSC / 2013–2026</span>
-                        <span class="big-num">14</span>
-                        <span class="corner">FIG.05 — LAT ROZWOJU</span>
-                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- 6. Misja -->
+        <!-- 8. Misja -->
         <div class="story-section" data-dept="all" data-side="left">
             <div class="container">
                 <div class="story-split">
-                    <div class="story-visual reveal">
-                        <span class="label">// FUTURE / NEXT GEN</span>
-                        <span class="big-num">∞</span>
-                        <span class="corner">FIG.06 — POTENTIAL</span>
-                    </div>
-                    <div class="story-text reveal" data-delay="2">
-                        <span class="eyebrow">06 · Misja</span>
+                    <div class="story-text reveal">
+                        <span class="eyebrow">08 · Misja</span>
                         <h2 class="h-1">Studenci, którzy <span class="text-accent">budują przyszłość</span>.</h2>
                         <p>
                             Inżynierowie WUT Racing zasilają zespoły Formuły 1, Mercedes-AMG,
@@ -398,5 +412,6 @@
 
     <script type="module" src="js/home.js"></script>
     <script src="js/common.js"></script>
+    <script src="js/animations.js"></script>
 </body>
 </html>

@@ -109,7 +109,9 @@ function buildKeyframes() {
     ];
     storySections.forEach((sec) => {
         const dept = sec.dataset.dept || 'all';
-        const isDeptTour = dept === 'aero' || dept === 'chassis' || dept === 'engine';
+        const isDeptTour =
+            dept === 'aero' || dept === 'chassis' || dept === 'suspension' ||
+            dept === 'electronics' || dept === 'engine';
         if (isDeptTour) {
             frames.push({ ...DEPT_TOUR_FRAME });
         } else {
@@ -188,6 +190,11 @@ const deptObserver = new IntersectionObserver((entries) => {
             currentDept = d;
             applyDept(partGroups, d);
         }
+    } else if (bestRatio === 0 && currentDept !== 'all' && partGroups) {
+        // żadna sekcja story nie jest w viewport (np. wróciliśmy do hero) →
+        // reset do 'all' żeby zniknął dym/izolacja działów
+        currentDept = 'all';
+        applyDept(partGroups, 'all');
     }
 }, { threshold: [0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9] });
 storySections.forEach(s => deptObserver.observe(s));
@@ -237,7 +244,12 @@ function animate() {
     smoothPx = lerp(smoothPx, window.scrollY, 0.085);
     const k = getKeyframeAtScroll(smoothPx);
 
-    const inDeptTour = currentDept === 'aero' || currentDept === 'chassis' || currentDept === 'engine';
+    const inDeptTour =
+        currentDept === 'aero' ||
+        currentDept === 'chassis' ||
+        currentDept === 'suspension' ||
+        currentDept === 'electronics' ||
+        currentDept === 'engine';
 
     if (carModel) {
         // delikatny idle-spin tylko gdy jesteśmy na samej górze (hero)
@@ -248,9 +260,24 @@ function animate() {
         carGroup.position.y = inDeptTour ? 0 : Math.sin(now * 0.0008) * 0.04;
     }
 
-    // Strumienie opływu — widoczne TYLKO na sekcji aero, sync co klatkę
+    // Strumienie opływu — widoczne TYLKO gdy aktywna sekcja to aero.
+    // Twardy fix: dodatkowo sprawdzamy pozycję DOM, bo IntersectionObserver
+    // przy szybkim scrollu nie zawsze łapie ratio=0 dla aero.
     if (smokeSystem) {
-        const wantSmoke = currentDept === 'aero';
+        let allowDept = currentDept;
+        const firstSec = storySections[0];
+        if (firstSec) {
+            const rect = firstSec.getBoundingClientRect();
+            if (rect.top > window.innerHeight * 0.5) {
+                // wróciliśmy do hero / nad pierwszą sekcją story
+                allowDept = 'all';
+                if (currentDept !== 'all' && partGroups) {
+                    currentDept = 'all';
+                    applyDept(partGroups, 'all');
+                }
+            }
+        }
+        const wantSmoke = allowDept === 'aero';
         if (smokeSystem.visible !== wantSmoke) smokeSystem.visible = wantSmoke;
         if (wantSmoke) smokeSystem.update(dt);
     }

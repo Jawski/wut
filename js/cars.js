@@ -5,15 +5,10 @@
 
 import { CARS } from './cars-data.js';
 
-// Statyczny render bolidu (z Blendera) — ten sam dla wszystkich generacji,
-// starsze są subtelnie tonowane filtrem CSS wg koloru danego bolidu.
 const BOLID_RENDER = 'assets/bolid-render.png';
 
-// Filtr CSS tonujący render na kolor danej generacji.
-// WUT6 (czerwony, #e10600) → bez zmian. Starsze → lekki hue-shift.
 function tintFilter(color) {
     if (!color || color.toLowerCase() === '#e10600') return 'none';
-    // przelicz hex → odcień, policz przesunięcie względem czerwieni (0deg)
     const r = parseInt(color.slice(1, 3), 16) / 255;
     const g = parseInt(color.slice(3, 5), 16) / 255;
     const b = parseInt(color.slice(5, 7), 16) / 255;
@@ -27,7 +22,6 @@ function tintFilter(color) {
         h *= 60;
         if (h < 0) h += 360;
     }
-    // render jest czerwony (~0deg) — przesuń ku docelowemu odcieniowi
     return `hue-rotate(${Math.round(h)}deg) saturate(0.85)`;
 }
 
@@ -35,7 +29,6 @@ let activeId = CARS[0].id;
 
 function renderTimeline() {
     const track = document.getElementById('cars-timeline-track');
-    // Order: oldest → newest (left → right)
     const ordered = [...CARS].sort((a, b) => a.year - b.year);
     track.innerHTML = ordered.map((c) => `
         <button class="timeline-car ${c.id === activeId ? 'is-active' : ''}" data-id="${c.id}" aria-label="Wybierz ${c.name}">
@@ -95,7 +88,6 @@ function renderActive() {
         </div>
     `;
 
-    // Re-init reveal
     panel.querySelectorAll('.reveal').forEach(el => {
         const io = new IntersectionObserver((entries) => {
             entries.forEach(e => {
@@ -107,7 +99,7 @@ function renderActive() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    activeId = CARS[0].id; // CARS już zaczyna od najnowszego (WUT6)
+    activeId = CARS[0].id;
     renderTimeline();
     renderActive();
 });
