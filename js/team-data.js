@@ -1,8 +1,4 @@
-/* ============================================
-   Team data — WUT Racing.
-   Część osób ma dane z formularza (maj 2026), reszta ma "brak"
-   w polach do uzupełnienia. Dane są dodawane sukcesywnie.
-   ============================================ */
+// dane czlonkow zespolu - czesc z formularza, reszta do uzupelnienia
 
 window.WUT_DEPT_FILTERS = [
     { id: 'all',          label: 'Wszyscy' },
@@ -29,7 +25,7 @@ window.WUT_DEPT_INFO = {
     fundraising: { label: 'Fundraising',  defaultRole: 'Fundraising',           projectExamples: [] },
 };
 
-// ---------- mapa wydziałów (skróty PW) ----------
+// mapa wydzialow na skroty
 const FAC = {
     'Mechatroniki':                                                              'PW · Mechatronika',
     'Wydział Samochodów i Maszyn Roboczych':                                     'PW · SiMR',
@@ -48,7 +44,6 @@ const FAC = {
     'Wydział Inżynierii Materiałowej':                                           'PW · IM',
 };
 
-// ---------- helper: szablon "brak" dla niewypełnionych pól ----------
 const BLANK = {
     role: 'brak',
     since: 'brak',
@@ -59,10 +54,6 @@ const BLANK = {
 };
 
 window.WUT_TEAM = [
-
-    // ============================================================
-    // === REAL DATA z arkusza (maj 2026) ===
-    // ============================================================
 
     {
         slug: 'jan-oziemski',
@@ -336,9 +327,7 @@ window.WUT_TEAM = [
         projects: ['Elementy układu paliwowego'],
     },
 
-    // ============================================================
-    // === PLACEHOLDER (dane do uzupełnienia) ===
-    // ============================================================
+    // -- do uzupelnienia --
 
     { slug: 'aleksy-dorota',        name: 'Aleksy Dorota',        dept: 'electronics', ...BLANK },
     { slug: 'bartek-pietrzak',      name: 'Bartek Pietrzak',      dept: 'aero',        ...BLANK },
@@ -393,7 +382,6 @@ window.WUT_TEAM = [
     { slug: 'zofia-ladunkin',      name: 'Zofia Ładunkin',        dept: 'chassis',     ...BLANK },
 ];
 
-// Wspólne helpery
 window.WUT_getRole = function(m) {
     if (m.role) return m.role;
     return window.WUT_DEPT_INFO[m.dept] ? window.WUT_DEPT_INFO[m.dept].defaultRole : 'Członek zespołu';

@@ -1,26 +1,20 @@
-/* ============================================
-   Team grid — karty z flip-on-click + grow-to-center.
-   Front = zdjęcie + nazwisko + rola.
-   Back = pełne info (bio, osiągnięcia, projekty, dział).
-   ============================================ */
-
-// ---- helpery: domyślna treść back face per dział ----
+// fallbackowy opis kiedy ktos nie wypelnil bio
 function deptStory(m) {
     if (m.bio) return m.bio;
     const name = m.name.split(' ')[0];
     const yr = m.since || (2022 + (m.slug.charCodeAt(0) % 4));
     const tpls = {
-        zarzad:      `Po kilku sezonach w działach inżynierskich ${name} przejmuje stery zespołu w roli lidera, koordynując pracę ~120 osób, budżet i plan startów.`,
-        aero:        `${name} dołączył(a) do działu Aerodynamiki w sezonie ${yr}. Spędził(a) setki godzin nad symulacjami CFD bolidu i wyklejaniem skrzydeł z karbonu w autoklawie.`,
-        chassis:     `Bez ramy i monokoku nie ma bolidu — ${name} buduje je od podstaw. Spawanie 25CrMo4 TIG, laminowanie karbonu, montaż paneli i piast.`,
-        suspension:  `${name} odpowiada za zawieszenie — geometria push-rod, dobór amortyzatorów i sesje testowe na torze, które decydują o tym jak bolid prowadzi się w zakrętach.`,
-        electronics: `${name} jest jednym z mózgów elektroniki. Projektuje PCB, programuje STM32 i pracuje nad telemetrią CAN bus. Sezon ${yr} to wejście w stack embedded.`,
-        engine:      `Dział Silnikowy to "twarda" inżynieria — silnik, układ wydechowy, skrzynia. ${name} odpowiada za optymalizację jednostki KTM 690 LC4.`,
-        pr:          `${name} buduje wizerunek WUT Racing — social media, materiały promocyjne, kontakt z mediami i obsługa eventów dla sponsorów.`,
-        logistics:   `${name} odpowiada za logistykę: transport bolidu i zespołu na zawody, koordynację wyjazdów, organizację eventów na uczelni.`,
-        fundraising: `Bez budżetu nie ma bolidu. ${name} odpowiada za pozyskiwanie sponsorów, przygotowanie pakietów sponsorskich i Cost Report na zawodach.`,
+        zarzad:      `Po kilku sezonach w dzialach inzynierskich ${name} przejmuje stery zespolu w roli lidera, koordynujac prace ~120 osob, budzet i plan startow.`,
+        aero:        `${name} dolaczyl(a) do dzialu Aerodynamiki w sezonie ${yr}. Spedzil(a) setki godzin nad symulacjami CFD bolidu i wyklejaniem skrzydel z karbonu w autoklawie.`,
+        chassis:     `Bez ramy i monokoku nie ma bolidu. ${name} buduje je od podstaw. Spawanie 25CrMo4 TIG, laminowanie karbonu, montaz paneli i piast.`,
+        suspension:  `${name} odpowiada za zawieszenie. Geometria push-rod, dobor amortyzatorow i sesje testowe na torze, ktore decyduja o tym jak bolid prowadzi sie w zakretach.`,
+        electronics: `${name} jest jednym z mozgow elektroniki. Projektuje PCB, programuje STM32 i pracuje nad telemetria CAN bus. Sezon ${yr} to wejscie w stack embedded.`,
+        engine:      `Dzial Silnikowy to twarda inzynieria. Silnik, uklad wydechowy, skrzynia. ${name} odpowiada za optymalizacje jednostki KTM 690 LC4.`,
+        pr:          `${name} buduje wizerunek WUT Racing. Social media, materialy promocyjne, kontakt z mediami i obsluga eventow dla sponsorow.`,
+        logistics:   `${name} odpowiada za logistyke: transport bolidu i zespolu na zawody, koordynacje wyjazdow, organizacje eventow na uczelni.`,
+        fundraising: `Bez budzetu nie ma bolidu. ${name} odpowiada za pozyskiwanie sponsorow, przygotowanie pakietow sponsorskich i Cost Report na zawodach.`,
     };
-    return tpls[m.dept] || `${name} jest aktywnym członkiem WUT Racing od sezonu ${yr}.`;
+    return tpls[m.dept] || `${name} jest aktywnym czlonkiem WUT Racing od sezonu ${yr}.`;
 }
 
 function deptAchievements(m) {
@@ -28,12 +22,12 @@ function deptAchievements(m) {
     const yr = m.since || 2024;
     const what = {
         aero: 'CFD', chassis: 'monokok', suspension: 'zawieszenie', electronics: 'PCB',
-        engine: 'silnik', pr: 'kampania', logistics: 'wyjazd', fundraising: 'sponsor', zarzad: 'zespół',
+        engine: 'silnik', pr: 'kampania', logistics: 'wyjazd', fundraising: 'sponsor', zarzad: 'zespol',
     }[m.dept] || 'WUT';
     return [
-        { year: 2026, text: `Aktywny udział w pracach nad WUT6 (${what}).` },
-        { year: 2025, text: `Reprezentował(a) WUT Racing na zawodach FS.` },
-        { year: yr,   text: `Dołączenie do zespołu, dział ${window.WUT_getDeptLabel(m)}.` },
+        { year: 2026, text: `Aktywny udzial w pracach nad WUT6 (${what}).` },
+        { year: 2025, text: `Reprezentowal(a) WUT Racing na zawodach FS.` },
+        { year: yr,   text: `Dolaczenie do zespolu, dzial ${window.WUT_getDeptLabel(m)}.` },
     ];
 }
 
@@ -42,17 +36,13 @@ function deptProjects(m) {
     return window.WUT_DEPT_INFO[m.dept] ? window.WUT_DEPT_INFO[m.dept].projectExamples : [];
 }
 
-// pierwsze zdanie z biografii (do . ! lub ?), z fallbackiem na pierwsze ~16 słów
 function firstSentence(text) {
     const m = text.match(/^[^.!?]+[.!?]/);
     if (m) return m[0].trim();
     const words = text.split(/\s+/);
-    return words.length <= 16 ? text : words.slice(0, 16).join(' ') + '…';
+    return words.length <= 16 ? text : words.slice(0, 16).join(' ') + '...';
 }
 
-// ============================================
-// FILTRY
-// ============================================
 function renderFilters() {
     const wrap = document.getElementById('team-filter');
     const counts = {};
@@ -73,9 +63,6 @@ function renderFilters() {
     });
 }
 
-// ============================================
-// GRID z kart front+back
-// ============================================
 function renderGrid(filter = 'all') {
     const grid = document.getElementById('team-grid');
     const list = filter === 'all' ? window.WUT_TEAM : window.WUT_TEAM.filter(m => m.dept === filter);
@@ -90,7 +77,7 @@ function renderGrid(filter = 'all') {
         const studies = m.studies || 'PW · SiMR';
 
         return `
-        <div class="member-card reveal" data-slug="${m.slug}" data-delay="${(i % 4) + 1}" role="button" tabindex="0" aria-label="${m.name} — kliknij aby zobaczyć profil">
+        <div class="member-card reveal" data-slug="${m.slug}" data-delay="${(i % 4) + 1}" role="button" tabindex="0" aria-label="${m.name}">
             <div class="member-card-inner">
 
                 <div class="member-face member-face-front">
@@ -121,7 +108,7 @@ function renderGrid(filter = 'all') {
                         </div>
 
                         <p class="member-back-bio member-back-bio-short">${firstSentence(bio)}</p>
-                        <button class="member-back-more" type="button" data-action="expand">Pokaż więcej →</button>
+                        <button class="member-back-more" type="button" data-action="expand">Pokaz wiecej</button>
 
                         ${achievements.length ? `
                         <div class="member-back-section">
@@ -144,7 +131,7 @@ function renderGrid(filter = 'all') {
 
                     <div class="member-back-full">
                         <p class="member-back-bio">${bio}</p>
-                        <button class="member-back-more" type="button" data-action="collapse">← Pokaż mniej</button>
+                        <button class="member-back-more" type="button" data-action="collapse">Pokaz mniej</button>
                     </div>
 
                     <span class="arrow arrow-back" aria-hidden="true">↻</span>
@@ -154,7 +141,6 @@ function renderGrid(filter = 'all') {
         </div>`;
     }).join('');
 
-    // reveal observer
     document.querySelectorAll('#team-grid .reveal').forEach(el => {
         const io = new IntersectionObserver((entries) => {
             entries.forEach(en => {
@@ -164,12 +150,10 @@ function renderGrid(filter = 'all') {
         io.observe(el);
     });
 
-    // flip handlery — klik toggluje stronę karty
     grid.querySelectorAll('.member-card').forEach(card => {
         const handleToggle = (e) => {
             e.stopPropagation();
 
-            // klik na "Pokaż więcej/mniej" → toggle bio expand, nie zamykaj karty
             const moreBtn = e.target.closest('.member-back-more');
             if (moreBtn) {
                 const back = card.querySelector('.member-face-back');
@@ -184,7 +168,6 @@ function renderGrid(filter = 'all') {
             }
         };
         card.addEventListener('click', handleToggle);
-        // keyboard a11y — Enter / Space toggluje
         card.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
@@ -194,13 +177,8 @@ function renderGrid(filter = 'all') {
     });
 }
 
-// ============================================
-// FLIP CARD — w miejscu, bez powiększania.
-// Klik = karta obraca się 180° w tym samym rozmiarze co przód.
-// ============================================
 function flipCard(card) {
     if (card.classList.contains('is-flipped')) return;
-    // zamknij inne otwarte karty
     document.querySelectorAll('.member-card.is-flipped').forEach(c => unflipCard(c));
     card.classList.add('is-flipped');
     const inner = card.querySelector('.member-card-inner');
@@ -213,7 +191,6 @@ function unflipCard(card) {
     if (inner) inner.classList.remove('flipped');
 }
 
-// zamknięcie Esc
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         const flipped = document.querySelector('.member-card.is-flipped');
@@ -221,7 +198,6 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// zamknięcie klikiem poza otwartą kartą
 document.addEventListener('click', (e) => {
     const flipped = document.querySelector('.member-card.is-flipped');
     if (flipped && !flipped.contains(e.target)) {

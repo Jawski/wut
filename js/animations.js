@@ -1,23 +1,14 @@
-/* ============================================
-   WUT Racing — animacje UI.
-   Pluginujemy wszystko w common.js po DOMContentLoaded.
-   Każda animacja jest opt-in (nie wpływa na elementy które nie pasują).
-   ============================================ */
-
 (function () {
     const isTouch = window.matchMedia('(hover: none)').matches;
     const prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // ============================================
-    // 1. 3D TILT NA KARTACH
-    // ============================================
     function initTilt() {
         if (isTouch || prefersReduce) return;
         const SELECTOR = '.bolid-card, .race-card, .sponsor-card, ' +
                          '.value-card, .project-card, .event-card, .event-stat, ' +
                          '.timeline-item, .related-card, .quick-stat';
-        const MAX_TILT = 7;       // stopnie maks. nachylenia
-        const SCALE = 1.015;      // delikatne zbliżenie
+        const MAX_TILT = 7;
+        const SCALE = 1.015;
 
         document.querySelectorAll(SELECTOR).forEach(card => {
             let rafId = null;
@@ -29,10 +20,10 @@
 
             function onMove(e) {
                 const rect = card.getBoundingClientRect();
-                const x = ((e.clientX - rect.left) / rect.width  - 0.5) * 2;  // -1..+1
+                const x = ((e.clientX - rect.left) / rect.width  - 0.5) * 2;
                 const y = ((e.clientY - rect.top)  / rect.height - 0.5) * 2;
-                cx = -y * MAX_TILT;   // rotateX
-                cy =  x * MAX_TILT;   // rotateY
+                cx = -y * MAX_TILT;
+                cy =  x * MAX_TILT;
                 if (!rafId) rafId = requestAnimationFrame(apply);
             }
             function apply() {
@@ -48,7 +39,6 @@
             }
             function reset() {
                 cx = 0; cy = 0;
-                // smooth return to flat
                 card.style.transition = 'transform 0.55s cubic-bezier(0.22, 1, 0.36, 1)';
                 card.style.transform = 'perspective(900px) rotateX(0) rotateY(0) scale(1)';
                 setTimeout(() => { card.style.transition = orig || ''; tx = 0; ty = 0; ts = 1; }, 600);
@@ -59,14 +49,11 @@
         });
     }
 
-    // ============================================
-    // 2. MAGNETIC BUTTONS — przycisk lekko ciąży ku kursorowi
-    // ============================================
     function initMagnetic() {
         if (isTouch || prefersReduce) return;
         const SELECTOR = '.btn, .hero-discover, .nav-cta';
-        const RANGE = 28;          // px maks. odchylenia
-        const RADIUS = 110;        // px aktywności wokół przycisku
+        const RANGE = 28;
+        const RADIUS = 110;
 
         document.querySelectorAll(SELECTOR).forEach(btn => {
             let rafId = null;
@@ -102,10 +89,6 @@
         });
     }
 
-    // ============================================
-    // 3. STAGGER WORD REVEAL na nagłówkach
-    // Każde słowo dostaje opóźnienie i wjeżdża z dołu po wejściu w viewport
-    // ============================================
     function initSplitHeadings() {
         if (prefersReduce) return;
         const SELECTOR = '.h-display, .h-1, .hero-photo-headline';
@@ -114,13 +97,11 @@
             if (h.dataset.split === 'done') return;
             h.dataset.split = 'done';
 
-            // zachowaj inner HTML: zamień każde słowo w tekście na span,
-            // ale uważaj na elementy zagnieżdżone (np. <span class="text-accent">).
             const wrapText = (node) => {
                 if (node.nodeType === Node.TEXT_NODE) {
                     const text = node.textContent;
                     const frag = document.createDocumentFragment();
-                    const parts = text.split(/(\s+)/);  // zachowaj białe znaki
+                    const parts = text.split(/(\s+)/);
                     parts.forEach(part => {
                         if (/^\s+$/.test(part)) {
                             frag.appendChild(document.createTextNode(part));
@@ -138,12 +119,10 @@
             };
             wrapText(h);
 
-            // ustaw delay per słowo
             h.querySelectorAll('.word-anim').forEach((w, i) => {
                 w.style.transitionDelay = `${i * 70}ms`;
             });
 
-            // obserwator wejścia
             const io = new IntersectionObserver((entries) => {
                 entries.forEach(e => {
                     if (e.isIntersecting) {
@@ -156,9 +135,6 @@
         });
     }
 
-    // ============================================
-    // 4. PAGE FADE-IN na load
-    // ============================================
     function initPageEnter() {
         document.documentElement.classList.add('page-loading');
         requestAnimationFrame(() => {
@@ -169,9 +145,6 @@
         });
     }
 
-    // ============================================
-    // 5. CURSOR GLOW — subtelna czerwona poświata podążająca za myszą
-    // ============================================
     function initCursorGlow() {
         if (isTouch || prefersReduce) return;
         const glow = document.createElement('div');
@@ -194,9 +167,6 @@
         tick();
     }
 
-    // ============================================
-    // 6. PARALLAX na zdjęciach hero (na podstronach z .page-hero)
-    // ============================================
     function initParallax() {
         if (prefersReduce) return;
         const targets = document.querySelectorAll('[data-parallax]');
@@ -213,17 +183,12 @@
         onScroll();
     }
 
-    // ============================================
-    // 7. INTRO SPLASH — efekt WOW przy pierwszym wejściu na sesję
-    // Czarny full-screen overlay → reveal „WUT RACING" → red sweep → uciekanie w górę
-    // ============================================
     function initIntroSplash() {
         if (prefersReduce) return;
-        // pokazuj tylko raz na sesję
         try {
             if (sessionStorage.getItem('wut_intro_shown') === '1') return;
             sessionStorage.setItem('wut_intro_shown', '1');
-        } catch (e) { /* ignoruj jeśli sessionStorage zablokowane */ }
+        } catch (e) {}
 
         const overlay = document.createElement('div');
         overlay.className = 'intro-splash';
@@ -237,7 +202,6 @@
         document.body.appendChild(overlay);
         document.body.style.overflow = 'hidden';
 
-        // sekwencja czasowa
         requestAnimationFrame(() => overlay.classList.add('intro-show'));
         setTimeout(() => overlay.classList.add('intro-sweep-go'), 1700);
         setTimeout(() => overlay.classList.add('intro-out'), 2400);
@@ -246,16 +210,12 @@
             document.body.style.overflow = '';
         }, 3300);
 
-        // skip na klik
         overlay.addEventListener('click', () => {
             overlay.classList.add('intro-out');
             setTimeout(() => { overlay.remove(); document.body.style.overflow = ''; }, 600);
         });
     }
 
-    // ============================================
-    // 8. FILM GRAIN — subtelne ziarno filmowe nałożone na całą stronę
-    // ============================================
     function initFilmGrain() {
         if (prefersReduce) return;
         const grain = document.createElement('div');
@@ -263,9 +223,6 @@
         document.body.appendChild(grain);
     }
 
-    // ============================================
-    // INIT
-    // ============================================
     function init() {
         initIntroSplash();
         initFilmGrain();

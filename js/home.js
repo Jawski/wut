@@ -1,8 +1,3 @@
-/* ============================================
-   HOME — 3D bolid + scroll story
-   Każda sekcja ma data-dept ('aero' | 'chassis' | 'engine' | 'all')
-   ============================================ */
-
 import * as THREE from 'three';
 import { loadCarParts, applyDept, tickOpacity, createSmokeSystem } from './car-model.js';
 
@@ -53,7 +48,6 @@ let allMeshes = null;
 let smokeSystem = null;
 let currentDept = 'all';
 
-// --- Loader chowamy gdy zdjęcie hero jest gotowe (model 3D ładuje się w tle) ---
 let loaderHidden = false;
 function hideLoader() {
     if (loaderHidden) return;
@@ -69,13 +63,8 @@ if (heroImg) {
         heroImg.addEventListener('error', hideLoader);
     }
 }
-// Fallback — nie trzymaj loadera dłużej niż 2.5 s niezależnie od wszystkiego
 setTimeout(hideLoader, 2500);
 
-// Karuzela hero jest inicjalizowana w common.js (initHeroCarousel) —
-// współdzielona ze stroną "O nas".
-
-// Load all 4 parts in parallel (w tle — model 3D potrzebny dopiero w sekcjach story)
 loadCarParts((p) => {
     const display = Math.floor(p * 100);
     loaderFill.style.width = display + '%';
@@ -92,12 +81,8 @@ loadCarParts((p) => {
     hideLoader();
 });
 
-// Scroll-driven keyframes — pozycyjne (działa z przerywnikiem events-strip
-// o dowolnej wysokości między sekcjami story).
 const storyEl = document.querySelector('.story');
 const storySections = Array.from(storyEl.querySelectorAll('.story-section'));
-
-// Stała pozycja bolidu dla całego dept-touru (Aero / Chassis / Engine).
 const DEPT_TOUR_FRAME = {
     rot: -0.5, x: 1.4, camY: 2.0, camZ: 8.2, lookX: 0.9, lookY: 1.05,
 };
@@ -115,13 +100,10 @@ function buildKeyframes() {
         if (isDeptTour) {
             frames.push({ ...DEPT_TOUR_FRAME });
         } else {
-            // data-side decyduje gdzie jest tekst → bolid po przeciwnej stronie
             const side = sec.dataset.side || 'left';
             if (side === 'left') {
-                // tekst lewo → bolid prawo
                 frames.push({ rot: -Math.PI / 2 - 0.2, x: 2.0, camY: 1.9, camZ: 7.4, lookX: 1.5, lookY: 1.0 });
             } else {
-                // tekst prawo → bolid lewo
                 frames.push({ rot: -Math.PI + 0.4, x: -2.0, camY: 2.6, camZ: 7.2, lookX: -1.5, lookY: 0.95 });
             }
         }
@@ -134,9 +116,6 @@ function lerp(a, b, t) { return a + (b - a) * t; }
 function smoothstep(t) { return t * t * (3 - 2 * t); }
 function clamp01(v) { return Math.max(0, Math.min(1, v)); }
 
-// Px-pozycje scrolla, przy których dany keyframe jest "aktywny".
-// keyAnchors[0] = hero (0). keyAnchors[i+1] = scrollY gdy środek
-// storySections[i] trafia w środek viewportu.
 let keyAnchors = [];
 function computeAnchors() {
     keyAnchors = [0];
@@ -173,8 +152,6 @@ function getKeyframeAtScroll(px) {
 
 let smoothPx = window.scrollY;
 
-// Dept-tour: śledzimy widoczność WSZYSTKICH sekcji i wybieramy
-// tę najbardziej w viewport. Mapa trzyma aktualny ratio każdej sekcji.
 const sectionRatios = new Map();
 storySections.forEach(s => sectionRatios.set(s, 0));
 
@@ -191,8 +168,6 @@ const deptObserver = new IntersectionObserver((entries) => {
             applyDept(partGroups, d);
         }
     } else if (bestRatio === 0 && currentDept !== 'all' && partGroups) {
-        // żadna sekcja story nie jest w viewport (np. wróciliśmy do hero) →
-        // reset do 'all' żeby zniknął dym/izolacja działów
         currentDept = 'all';
         applyDept(partGroups, 'all');
     }
@@ -211,7 +186,6 @@ canvas.style.position = 'fixed';
 canvas.style.inset = '0';
 canvas.style.zIndex = '0';
 
-// Canvas widoczny przez całe .story, gaśnie przy jego dolnej krawędzi.
 function updateCanvasOpacity() {
     const px = window.scrollY;
     const storyBottom = storyEl.offsetTop + storyEl.offsetHeight;
@@ -240,7 +214,6 @@ function animate() {
     const dt = Math.min(0.05, (now - lastT) / 1000);
     lastT = now;
 
-    // płynne wygładzenie pozycji scrolla
     smoothPx = lerp(smoothPx, window.scrollY, 0.085);
     const k = getKeyframeAtScroll(smoothPx);
 
@@ -252,24 +225,18 @@ function animate() {
         currentDept === 'engine';
 
     if (carModel) {
-        // delikatny idle-spin tylko gdy jesteśmy na samej górze (hero)
         const idleSpin = smoothPx < 30 ? now * 0.00015 : 0;
         carGroup.rotation.y = k.rot + idleSpin;
         carGroup.position.x = k.x;
-        // Podczas dept-touru bolid stoi nieruchomo (bez floatingu)
         carGroup.position.y = inDeptTour ? 0 : Math.sin(now * 0.0008) * 0.04;
     }
 
-    // Strumienie opływu — widoczne TYLKO gdy aktywna sekcja to aero.
-    // Twardy fix: dodatkowo sprawdzamy pozycję DOM, bo IntersectionObserver
-    // przy szybkim scrollu nie zawsze łapie ratio=0 dla aero.
     if (smokeSystem) {
         let allowDept = currentDept;
         const firstSec = storySections[0];
         if (firstSec) {
             const rect = firstSec.getBoundingClientRect();
             if (rect.top > window.innerHeight * 0.5) {
-                // wróciliśmy do hero / nad pierwszą sekcją story
                 allowDept = 'all';
                 if (currentDept !== 'all' && partGroups) {
                     currentDept = 'all';

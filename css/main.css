@@ -1,6 +1,4 @@
-﻿/* ============================================
-   WUT RACING — Ultra-modern theme
-   ============================================ */
+﻿/* wut racing */
 
 :root {
     --bg-0: #050505;
@@ -67,9 +65,7 @@ button {
     color: inherit;
 }
 
-/* ============================================
-   Typography
-   ============================================ */
+/* typography */
 .eyebrow {
     font-size: 13px;
     font-weight: 600;
@@ -122,9 +118,7 @@ h1, h2, h3, h4 {
 .text-accent { color: var(--accent); }
 .text-mute   { color: var(--text-2); }
 
-/* ============================================
-   Layout helpers
-   ============================================ */
+/* layout helpers */
 .container {
     width: 100%;
     max-width: var(--maxw);
@@ -145,9 +139,7 @@ section { position: relative; }
     margin: 0 var(--pad-x);
 }
 
-/* ============================================
-   Top nav
-   ============================================ */
+/* top nav */
 .nav {
     position: fixed;
     top: 0;
@@ -290,9 +282,7 @@ section { position: relative; }
     .nav.is-open .nav-links a { padding: 14px 0; font-size: 17px; }
 }
 
-/* ============================================
-   Buttons
-   ============================================ */
+/* buttons */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -328,9 +318,7 @@ section { position: relative; }
 }
 .btn-arrow:hover::after { transform: translateX(4px); }
 
-/* ============================================
-   Footer
-   ============================================ */
+/* footer */
 .footer {
     background: var(--bg-1);
     border-top: 1px solid var(--line);
@@ -395,9 +383,7 @@ section { position: relative; }
     gap: 12px;
 }
 
-/* ============================================
-   Loader / page transitions
-   ============================================ */
+/* loader / page transitions */
 .loader {
     position: fixed;
     inset: 0;
@@ -441,9 +427,7 @@ section { position: relative; }
     color: var(--text-1);
 }
 
-/* ============================================
-   Scroll progress (top of page)
-   ============================================ */
+/* scroll progress (top of */
 .scroll-progress {
     position: fixed;
     top: 0; left: 0;
@@ -455,9 +439,7 @@ section { position: relative; }
     transition: width 0.1s linear;
 }
 
-/* ============================================
-   Reusable card / panels
-   ============================================ */
+/* reusable card / panels */
 .glass {
     background: var(--bg-glass);
     backdrop-filter: blur(20px) saturate(160%);
@@ -495,9 +477,7 @@ section { position: relative; }
     50% { opacity: 0.4; }
 }
 
-/* ============================================
-   Reveal on scroll
-   ============================================ */
+/* reveal on scroll */
 .reveal {
     opacity: 0;
     transform: translateY(40px);
@@ -515,9 +495,7 @@ section { position: relative; }
 .reveal[data-delay="4"] { transition-delay: 0.4s; }
 .reveal[data-delay="5"] { transition-delay: 0.5s; }
 
-/* ============================================
-   Page hero (used on subpages)
-   ============================================ */
+/* page hero (used on */
 .page-hero {
     padding: 200px var(--pad-x) 80px;
     position: relative;
@@ -544,9 +522,7 @@ section { position: relative; }
 .page-hero h1 { margin-bottom: 24px; }
 .page-hero .lead { margin-bottom: 0; }
 
-/* ============================================
-   Utilities
-   ============================================ */
+/* utilities */
 .sr-only {
     position: absolute;
     width: 1px; height: 1px;
@@ -564,9 +540,7 @@ section { position: relative; }
 ::-webkit-scrollbar-thumb { background: #2a2a2e; border-radius: 5px; }
 ::-webkit-scrollbar-thumb:hover { background: #3a3a3e; }
 
-/* ============================================
-   ANIMACJE — wsparcie dla js/animations.js
-   ============================================ */
+/* animacje */
 
 /* page enter — body fade-in */
 html.page-loading body { opacity: 0; }
@@ -620,9 +594,7 @@ html.page-loaded body {
     transform: perspective(900px);
 }
 
-/* ============================================
-   INTRO SPLASH — pierwszy load na sesję
-   ============================================ */
+/* intro splash */
 .intro-splash {
     position: fixed;
     inset: 0;
@@ -703,9 +675,7 @@ html.page-loaded body {
     to { left: 130%; }
 }
 
-/* ============================================
-   FILM GRAIN — ziarno filmowe na wierzchu wszystkiego
-   ============================================ */
+/* film grain */
 .film-grain {
     position: fixed;
     inset: 0;
@@ -725,9 +695,7 @@ html.page-loaded body {
     100% { transform: translate(0, 0); }
 }
 
-/* ============================================
-   FOOTER — designed by + shield logo
-   ============================================ */
+/* footer */
 .footer-bottom {
     align-items: center;
 }

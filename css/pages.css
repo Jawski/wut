@@ -1,6 +1,4 @@
-﻿/* ============================================
-   TEAM PAGE
-   ============================================ */
+﻿/* team page */
 
 .team-filter {
     display: flex;
@@ -36,9 +34,7 @@
     gap: 24px;
 }
 
-/* ============================================
-   MEMBER CARD — flip on click + grow to center
-   ============================================ */
+/* member card */
 .member-card {
     position: relative;
     aspect-ratio: 3 / 4.2;
@@ -86,15 +82,12 @@
     background: var(--bg-1);
     border: 1px solid var(--line);
     transition: border-color 0.4s var(--speed), opacity 0.3s linear 0.2s;
-    /* własny 3D layer per face — bez tego role-tag z przedniej strony
-       przeświecał lustrzanym odbiciem na tylnej (chrome/firefox bug
-       z backface-visibility kiedy child ma backdrop-filter). */
+    
     -webkit-transform: translateZ(0);
     transform: translateZ(0);
 }
 
-/* dodatkowe ukrywanie przez opacity skoordynowane z obrotem 0.7s —
-   przednia strona blednie w połowie animacji, tylna pojawia się */
+
 .member-card-inner.flipped .member-face-front {
     opacity: 0;
     pointer-events: none;
@@ -293,8 +286,7 @@
 }
 
 .member-back-bio-short {
-    /* pierwsze zdanie wyciągnięte w JS przez firstSentence() —
-       żadnego line-clamp żeby nie ucinało w pół słowa */
+    
 }
 
 .member-back-more {
@@ -573,9 +565,7 @@
 
 .modal-tenure strong { color: var(--text-0); font-weight: 600; }
 
-/* ============================================
-   ABOUT PAGE
-   ============================================ */
+/* about page */
 .about-intro {
     padding: 60px var(--pad-x) 140px;
     max-width: var(--maxw);
@@ -706,9 +696,7 @@
 .value-card h3 { font-size: 22px; margin-bottom: 12px; }
 .value-card p { color: var(--text-2); line-height: 1.6; }
 
-/* ============================================
-   CARS TIMELINE (bolidy.html)
-   ============================================ */
+/* cars timeline (bolidy.html) */
 .cars-timeline-section {
     padding: 60px var(--pad-x) 40px;
     background:
@@ -916,9 +904,7 @@
     color: var(--text-0);
 }
 
-/* ============================================
-   CARS PAGE (legacy list cards — still used elsewhere)
-   ============================================ */
+/* cars page (legacy list */
 .cars-list {
     padding: 60px var(--pad-x) 140px;
     max-width: var(--maxw);
@@ -1157,9 +1143,7 @@
 .spec-row .k { color: var(--text-2); }
 .spec-row .v { color: var(--text-0); font-weight: 500; font-family: 'JetBrains Mono', monospace; }
 
-/* ============================================
-   SPONSORS PAGE
-   ============================================ */
+/* sponsors page */
 .sponsors-tiers {
     padding: 60px var(--pad-x) 80px;
     max-width: var(--maxw);
@@ -1246,9 +1230,7 @@
 .tier.gold .sponsor-card { aspect-ratio: 5/2.5; }
 .tier.gold .sponsor-card .name { font-size: 28px; }
 
-/* ============================================
-   PROFILE PAGE (czlonek.html)
-   ============================================ */
+/* profile page (czlonek.html) */
 .profile-hero {
     padding: 140px var(--pad-x) 80px;
     position: relative;
@@ -1433,9 +1415,7 @@
     white-space: nowrap;
 }
 
-/* ============================================
-   ACHIEVEMENTS SECTION (used on bolid.html, wydarzenia.html)
-   ============================================ */
+/* achievements section (used on */
 .achievements-section {
     padding: clamp(80px, 12vh, 140px) var(--pad-x);
     background: var(--bg-1);
@@ -1447,9 +1427,7 @@
     margin: 0 auto;
 }
 
-/* ============================================
-   EVENTS / ZAWODY PAGE
-   ============================================ */
+/* events / zawody page */
 .events-intro {
     padding: 40px var(--pad-x) 60px;
     max-width: var(--maxw);
@@ -1710,9 +1688,7 @@
 .benefit h4 { font-size: 16px; margin-bottom: 8px; }
 .benefit p { font-size: 14px; color: var(--text-2); margin: 0; }
 
-/* ============================================
-   BOLID SHOWCASE — sticky model „przewijający się"
-   ============================================ */
+/* bolid showcase */
 .bolid-showcase {
     position: relative;
     padding: 60px var(--pad-x) 60px;
@@ -1821,9 +1797,7 @@
     }
 }
 
-/* ============================================
-   BOLIDS GENERATIONS — siatka klikalnych kart
-   ============================================ */
+/* bolids generations */
 .bolids-generations {
     padding: 100px var(--pad-x) 140px;
     background: var(--bg-1);

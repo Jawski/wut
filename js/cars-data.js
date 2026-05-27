@@ -1,8 +1,3 @@
-/* ============================================
-   WUT Racing — Bolidy: dane wszystkich generacji
-   Klasa Formula Student Combustion.
-   ============================================ */
-
 export const CARS = [
     {
         id: 'wut6',

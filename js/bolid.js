@@ -1,8 +1,3 @@
-/* ============================================
-   Single-bolid page — bolid.html?id=<carId>
-   Same dept-tour visuals as home but only technical data (no descriptions).
-   ============================================ */
-
 import * as THREE from 'three';
 import { loadCarParts, applyDept, tickOpacity, createSmokeSystem } from './car-model.js';
 import { CARS, findCar } from './cars-data.js';
@@ -84,9 +79,6 @@ renderStory();
 renderSpecs();
 renderAchievements();
 
-// =================================================
-// 3D SCENE
-// =================================================
 const canvas = document.getElementById('hero-canvas');
 const loaderEl = document.getElementById('loader');
 const loaderFill = document.querySelector('.loader-bar-fill');
@@ -158,7 +150,6 @@ loadCarParts((p) => {
 
 const storySections = Array.from(document.querySelectorAll('.story-section'));
 
-// Stała pozycja bolidu dla dept-touru (Aero / Chassis / Engine)
 const DEPT_TOUR_FRAME = { rot: -0.5, x: 1.4, camY: 2.0, camZ: 8.2, lookX: 0.9, lookY: 1.05 };
 
 function buildKeyframes() {
@@ -229,8 +220,6 @@ const deptObserver = new IntersectionObserver((entries) => {
             applyDept(partGroups, d);
         }
     } else if (bestRatio === 0 && currentDept !== 'all' && partGroups) {
-        // żadna sekcja story nie jest w viewport (np. wróciliśmy do hero) →
-        // reset do 'all' żeby zniknął dym/izolacja działów
         currentDept = 'all';
         applyDept(partGroups, 'all');
     }
@@ -289,16 +278,11 @@ function animate() {
         carGroup.position.y = inDeptTour ? 0 : Math.sin(now * 0.0008) * 0.04;
     }
 
-    // Twardy fix: sprawdzamy realną pozycję DOM zamiast polegać tylko na
-    // IntersectionObserverze (który przy szybkim scrollu może nie zdążyć
-    // zarejestrować ratio=0 na sekcji aero).
     if (smokeSystem) {
         let allowDept = currentDept;
         const firstSec = storySections[0];
         if (firstSec) {
             const rect = firstSec.getBoundingClientRect();
-            // Jeśli pierwsza sekcja jest poniżej połowy viewportu —
-            // czyli scrollowaliśmy z powrotem do hero — wymuś reset.
             if (rect.top > window.innerHeight * 0.5) {
                 allowDept = 'all';
                 if (currentDept !== 'all' && partGroups) {

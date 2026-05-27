@@ -1,13 +1,8 @@
-/* ============================================
-   Profile page — czlonek.html?id=<slug>
-   ============================================ */
-
 function param(key) {
     return new URLSearchParams(location.search).get(key);
 }
 
 function deptStory(m) {
-    // Generic narrative templated by department
     const dept = m.dept;
     const name = m.name.split(' ')[0];
     const yr = m.since || (2022 + (m.slug.charCodeAt(0) % 4));

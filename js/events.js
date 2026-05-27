@@ -1,7 +1,3 @@
-/* ============================================
-   Events / Zawody data + render
-   ============================================ */
-
 const EVENTS = [
     // 2026
     { year: 2026, name: 'Formula Student Czech', loc: 'Most', country: 'CZ', flag: '🇨🇿', date: 'Sierpień 2026', result: 'Sezon w toku.', car: 'WUT6' },
@@ -28,7 +24,7 @@ const EVENTS = [
     // 2021
     { year: 2021, name: 'Formula Student Czech', loc: 'Most', country: 'CZ', flag: '🇨🇿', date: 'Sierpień 2021', result: 'Powrót po pandemii, 30. miejsce.', car: 'WUT4' },
 
-    // 2020 — pandemia, brak zawodów
+    // 2020 - pandemia, brak zawodów
     { year: 2020, name: 'Sezon anulowany', loc: 'COVID-19', country: '—', flag: '⚠️', date: '2020', result: 'Wszystkie zawody Formula Student odwołane lub przeniesione online.', car: 'WUT4' },
 
     // 2019
@@ -55,7 +51,7 @@ const EVENTS = [
     { year: 2014, name: 'Formula Student Germany', loc: 'Hockenheimring', country: 'DE', flag: '🇩🇪', date: 'Sierpień 2014', result: 'Drugi sezon, 51. miejsce generalne.', car: 'WUT1' },
     { year: 2014, name: 'Formula Student East', loc: 'Hungaroring', country: 'HU', flag: '🇭🇺', date: 'Lipiec 2014', result: '38. miejsce, pierwsze ukończenie Acceleration.', car: 'WUT1' },
 
-    // 2013 — DEBIUT
+    // 2013 - DEBIUT
     { year: 2013, name: 'Formula Student Germany', loc: 'Hockenheimring', country: 'DE', flag: '🇩🇪', date: 'Sierpień 2013', result: '🎖️ Historyczny debiut WUT Racing na arenie międzynarodowej.', car: 'WUT1' },
 ];
 

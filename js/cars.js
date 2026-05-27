@@ -1,8 +1,3 @@
-/* ============================================
-   Cars page — interactive horizontal timeline.
-   Klikalne renderowane bolidy, panel z detalami pod spodem.
-   ============================================ */
-
 import { CARS } from './cars-data.js';
 
 const BOLID_RENDER = 'assets/bolid-render.png';

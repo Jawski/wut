@@ -1,9 +1,4 @@
-﻿/* ============================================
-   WUT Racing — common JS
-   nav inject, scroll progress, reveal-on-scroll
-   ============================================ */
-
-const NAV_HTML = `
+﻿const NAV_HTML = `
 <nav class="nav is-top" id="nav">
     <div class="nav-inner">
         <a href="index.html" class="brand" aria-label="WUT Racing — home">
@@ -104,7 +99,6 @@ function initNav(activePage) {
         });
     }
 
-    // Nav state on scroll
     let lastY = window.scrollY;
     function onScroll() {
         const y = window.scrollY;
@@ -119,7 +113,6 @@ function initNav(activePage) {
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
-    // Mobile menu
     const menuBtn = document.getElementById('menu-btn');
     if (menuBtn) {
         menuBtn.addEventListener('click', () => nav.classList.toggle('is-open'));
@@ -146,7 +139,6 @@ function initRevealOnScroll() {
     els.forEach(e => io.observe(e));
 }
 
-// Tiny counter animation (used in stats)
 function animateCount(el, target, duration = 1500, suffix = '') {
     const start = performance.now();
     const startVal = parseFloat(el.textContent) || 0;
@@ -176,7 +168,6 @@ function initCounters() {
     counters.forEach(c => io.observe(c));
 }
 
-// Countdown timer — odlicza do daty z data-target (ISO)
 function initCountdown() {
     const el = document.getElementById('rollout-countdown');
     if (!el) return;
@@ -212,7 +203,6 @@ function initCountdown() {
     const timer = setInterval(tick, 1000);
 }
 
-// Hero carousel — używane na stronie głównej i "O nas"
 function initHeroCarousel() {
     const slides = Array.from(document.querySelectorAll('.hero-slide'));
     const dots = Array.from(document.querySelectorAll('.hero-dot'));
