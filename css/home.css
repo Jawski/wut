@@ -633,9 +633,7 @@
 .events-strip {
     position: relative;
     z-index: 2;
-    background: var(--bg-1);
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
+    background: var(--bg-0);
     padding: clamp(80px, 12vh, 150px) var(--pad-x);
 }
 .events-strip-inner {
@@ -791,9 +789,9 @@
 .media-strip {
     position: relative;
     width: 100%;
-    height: clamp(50vh, 70vh, 760px);
+    height: clamp(70vh, 92vh, 1080px);
     overflow: hidden;
-    background: var(--bg-1);
+    background: var(--bg-0);
 }
 .media-strip img,
 .media-strip video {
@@ -803,21 +801,21 @@
     height: 100%;
     object-fit: cover;
     display: block;
-    filter: brightness(0.55) saturate(0.85) contrast(0.95);
+    filter: brightness(0.7) saturate(0.9);
 }
 .media-strip::before {
     content: "";
     position: absolute;
     inset: 0;
     background: linear-gradient(180deg,
-        rgba(10,10,13,1) 0%,
-        rgba(10,10,13,0.95) 5%,
-        rgba(10,10,13,0.55) 18%,
-        rgba(10,10,13,0.35) 38%,
-        rgba(10,10,13,0.35) 62%,
-        rgba(10,10,13,0.55) 82%,
-        rgba(10,10,13,0.95) 95%,
-        rgba(10,10,13,1) 100%);
+        rgba(5,5,5,1) 0%,
+        rgba(5,5,5,0.85) 4%,
+        rgba(5,5,5,0.25) 12%,
+        rgba(5,5,5,0.1) 28%,
+        rgba(5,5,5,0.1) 72%,
+        rgba(5,5,5,0.25) 88%,
+        rgba(5,5,5,0.85) 96%,
+        rgba(5,5,5,1) 100%);
     pointer-events: none;
     z-index: 2;
 }
@@ -825,9 +823,7 @@
     content: "";
     position: absolute;
     inset: 0;
-    background:
-        radial-gradient(ellipse at 50% 50%, transparent 30%, rgba(10,10,13,0.5) 100%),
-        rgba(10,10,13,0.2);
+    background: radial-gradient(ellipse at 50% 50%, transparent 45%, rgba(5,5,5,0.35) 100%);
     pointer-events: none;
     z-index: 1;
 }
@@ -835,9 +831,7 @@
 /* dept-strip - przerywnik z opisem dzialu w kolorze */
 .dept-strip {
     padding: clamp(80px, 14vh, 160px) var(--pad-x);
-    background: var(--bg-1);
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
+    background: var(--bg-0);
     position: relative;
 }
 .dept-strip-inner {
