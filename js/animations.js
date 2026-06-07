@@ -224,7 +224,6 @@
         initSplitHeadings();
         initTilt();
         initMagnetic();
-        initCursorGlow();
         initParallax();
     }
 
