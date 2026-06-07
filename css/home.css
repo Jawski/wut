@@ -788,11 +788,10 @@
     justify-content: center;
 }
 
-/* media-strip - filmy i zdjecia jako przerywniki */
 .media-strip {
     position: relative;
     width: 100%;
-    height: clamp(60vh, 85vh, 900px);
+    height: clamp(55vh, 75vh, 820px);
     overflow: hidden;
     background: var(--bg-0);
 }
@@ -804,17 +803,30 @@
     height: 100%;
     object-fit: cover;
     display: block;
+    filter: brightness(0.78) saturate(0.95);
+}
+/* gornie/dolne wygaszenie do czerni + lekkie przyciemnienie srodka */
+.media-strip::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg,
+        rgba(5,5,5,1) 0%,
+        rgba(5,5,5,0.7) 8%,
+        rgba(5,5,5,0.15) 22%,
+        rgba(5,5,5,0.15) 78%,
+        rgba(5,5,5,0.7) 92%,
+        rgba(5,5,5,1) 100%);
+    pointer-events: none;
+    z-index: 2;
 }
 .media-strip::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg,
-        rgba(5,5,5,0.4) 0%,
-        rgba(5,5,5,0.1) 30%,
-        rgba(5,5,5,0.1) 70%,
-        rgba(5,5,5,0.55) 100%);
+    background: rgba(5, 5, 5, 0.25);
     pointer-events: none;
+    z-index: 1;
 }
 
 /* dept-strip - przerywnik z opisem dzialu w kolorze */
