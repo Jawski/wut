@@ -825,7 +825,21 @@
     overflow: hidden;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+}
+.dept-aero,
+.dept-suspension,
+.dept-engine,
+.dept-logistics {
+    justify-content: flex-start;
+}
+.dept-chassis,
+.dept-electronics,
+.dept-pr {
+    justify-content: flex-end;
+}
+@media (max-width: 800px) {
+    .dept-strip { justify-content: center !important; }
 }
 .dept-strip-bg {
     position: absolute;
@@ -858,8 +872,8 @@
     position: relative;
     z-index: 1;
     width: 100%;
-    max-width: 1080px;
-    padding: clamp(40px, 6vw, 80px);
+    max-width: 720px;
+    padding: clamp(40px, 6vw, 70px);
     border-radius: clamp(20px, 2.4vw, 36px);
     background: rgba(15, 15, 18, 0.18);
     backdrop-filter: blur(8px) saturate(150%);
