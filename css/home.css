@@ -791,7 +791,7 @@
 .media-strip {
     position: relative;
     width: 100%;
-    height: clamp(55vh, 75vh, 820px);
+    height: clamp(50vh, 70vh, 760px);
     overflow: hidden;
     background: var(--bg-0);
 }
@@ -803,19 +803,20 @@
     height: 100%;
     object-fit: cover;
     display: block;
-    filter: brightness(0.78) saturate(0.95);
+    filter: brightness(0.55) saturate(0.85) contrast(0.95);
 }
-/* gornie/dolne wygaszenie do czerni + lekkie przyciemnienie srodka */
 .media-strip::before {
     content: "";
     position: absolute;
     inset: 0;
     background: linear-gradient(180deg,
         rgba(5,5,5,1) 0%,
-        rgba(5,5,5,0.7) 8%,
-        rgba(5,5,5,0.15) 22%,
-        rgba(5,5,5,0.15) 78%,
-        rgba(5,5,5,0.7) 92%,
+        rgba(5,5,5,0.95) 5%,
+        rgba(5,5,5,0.55) 18%,
+        rgba(5,5,5,0.35) 38%,
+        rgba(5,5,5,0.35) 62%,
+        rgba(5,5,5,0.55) 82%,
+        rgba(5,5,5,0.95) 95%,
         rgba(5,5,5,1) 100%);
     pointer-events: none;
     z-index: 2;
@@ -824,7 +825,9 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(5, 5, 5, 0.25);
+    background:
+        radial-gradient(ellipse at 50% 50%, transparent 30%, rgba(5,5,5,0.5) 100%),
+        rgba(5,5,5,0.2);
     pointer-events: none;
     z-index: 1;
 }
