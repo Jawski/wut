@@ -192,23 +192,17 @@
 
         const overlay = document.createElement('div');
         overlay.className = 'intro-splash';
-        overlay.innerHTML = `
-            <div class="intro-mark">
-                <img src="assets/logo.png" alt="WUT Racing" class="intro-logo">
-            </div>
-            <div class="intro-sub">Politechnika Warszawska · Formula Student</div>
-            <div class="intro-sweep"></div>
-        `;
+        overlay.innerHTML = `<img src="assets/logo.png" alt="WUT Racing" class="intro-logo">`;
         document.body.appendChild(overlay);
         document.body.style.overflow = 'hidden';
 
         requestAnimationFrame(() => overlay.classList.add('intro-show'));
-        setTimeout(() => overlay.classList.add('intro-sweep-go'), 1700);
-        setTimeout(() => overlay.classList.add('intro-out'), 2400);
+        setTimeout(() => overlay.classList.add('intro-dim'), 1600);
+        setTimeout(() => overlay.classList.add('intro-out'), 2200);
         setTimeout(() => {
             overlay.remove();
             document.body.style.overflow = '';
-        }, 3300);
+        }, 3100);
 
         overlay.addEventListener('click', () => {
             overlay.classList.add('intro-out');

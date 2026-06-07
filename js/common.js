@@ -32,15 +32,11 @@ const FOOTER_HTML = `
         <div class="footer-grid">
             <div class="footer-col">
                 <div class="brand">
-                    <span class="brand-mark">W</span>
-                    <span class="brand-text">
-                        <span class="b1">WUT RACING</span>
-                        <span class="b2">PW · FORMULA STUDENT</span>
-                    </span>
+                    <img src="assets/logo.png" alt="WUT Racing" class="brand-logo brand-logo-footer">
                 </div>
-                <p style="margin-top: 18px; max-width: 320px; line-height: 1.6;">
-                    Koło Naukowe Pojazdów Wyścigowych przy Politechnice Warszawskiej.
-                    Projektujemy i budujemy bolidy klasy Formula Student.
+                <p style="margin-top: 18px; max-width: 340px; line-height: 1.6;">
+                    Koło Naukowe WUT Racing przy Politechnice Warszawskiej. Projektujemy
+                    i budujemy bolidy klasy Formula Student.
                 </p>
             </div>
             <div class="footer-col">
@@ -57,9 +53,8 @@ const FOOTER_HTML = `
             <div class="footer-col">
                 <h4>Kontakt</h4>
                 <ul>
-                    <li><a href="mailto:kontakt@wutracing.pl">kontakt@wutracing.pl</a></li>
-                    <li><a href="#">+48 22 234 78 88</a></li>
-                    <li>Wydział SiMR<br>Narbutta 84, Warszawa</li>
+                    <li><a href="mailto:zarzad@wutracing.pl">zarzad@wutracing.pl</a></li>
+                    <li>Politechnika Warszawska<br>Wydział Mechaniczny Energetyki i Lotnictwa<br>ul. Nowowiejska 24<br>00-665 Warszawa</li>
                 </ul>
             </div>
             <div class="footer-col">

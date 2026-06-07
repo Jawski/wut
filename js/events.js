@@ -1,7 +1,7 @@
 const EVENTS = [
     // 2026
     { year: 2026, name: 'Formula Student Czech', loc: 'Most', country: 'CZ', flag: '🇨🇿', date: 'Sierpień 2026', result: 'Sezon w toku.', car: 'WUT6' },
-    { year: 2026, name: 'Formula Student East', loc: 'Hungaroring', country: 'HU', flag: '🇭🇺', date: 'Lipiec 2026', result: 'Sezon w toku.', car: 'WUT6' },
+    { year: 2026, name: 'Formula Student Poland', loc: 'Tor Poznań', country: 'PL', flag: '🇵🇱', date: '25–29 sierpnia 2026', result: 'Sezon w toku.', car: 'WUT6' },
     { year: 2026, name: 'Formula Student Germany', loc: 'Hockenheimring', country: 'DE', flag: '🇩🇪', date: 'Sierpień 2026', result: 'Sezon w toku.', car: 'WUT6' },
 
     // 2025
@@ -57,6 +57,7 @@ const EVENTS = [
 
 const COUNTRIES = [
     { id: 'all', label: 'Wszystkie' },
+    { id: 'PL', label: '🇵🇱 Polska' },
     { id: 'DE', label: '🇩🇪 Niemcy' },
     { id: 'HU', label: '🇭🇺 Węgry' },
     { id: 'CZ', label: '🇨🇿 Czechy' },
