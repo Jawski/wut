@@ -8,15 +8,18 @@
             </span>
         </a>
         <ul class="nav-links">
-            <li><a href="index.html" data-page="home">Start</a></li>
-            <li><a href="o-nas.html" data-page="about">O nas</a></li>
-            <li><a href="zespol.html" data-page="team">Zespół</a></li>
-            <li><a href="bolidy.html" data-page="cars">Bolidy</a></li>
-            <li><a href="wydarzenia.html" data-page="events">Zawody</a></li>
-            <li><a href="sponsorzy.html" data-page="sponsors">Sponsorzy</a></li>
+            <li><a href="index.html" data-page="home" data-i18n="nav.home">Start</a></li>
+            <li><a href="o-nas.html" data-page="about" data-i18n="nav.about">O nas</a></li>
+            <li><a href="zespol.html" data-page="team" data-i18n="nav.team">Zespół</a></li>
+            <li><a href="bolidy.html" data-page="cars" data-i18n="nav.cars">Bolidy</a></li>
+            <li><a href="sponsorzy.html" data-page="sponsors" data-i18n="nav.sponsors">Sponsorzy</a></li>
         </ul>
-        <a href="sponsorzy.html#kontakt" class="nav-cta">Wesprzyj nas</a>
-        <button class="menu-btn" aria-label="Otwórz menu" id="menu-btn">
+        <a href="sponsorzy.html#kontakt" class="nav-cta" data-i18n="nav.support">Wesprzyj nas</a>
+        <div class="lang-switch" id="lang-switch" role="group" aria-label="Język / Language">
+            <button type="button" data-lang="pl" class="active">PL</button>
+            <button type="button" data-lang="en">EN</button>
+        </div>
+        <button class="menu-btn" aria-label="Menu" id="menu-btn">
             <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M3 5h12M3 9h12M3 13h12"/>
             </svg>
@@ -34,24 +37,23 @@ const FOOTER_HTML = `
                 <div class="brand">
                     <img src="assets/logo.png" alt="WUT Racing" class="brand-logo brand-logo-footer">
                 </div>
-                <p style="margin-top: 18px; max-width: 340px; line-height: 1.6;">
+                <p style="margin-top: 18px; max-width: 340px; line-height: 1.6;" data-i18n="footer.about">
                     Koło Naukowe WUT Racing przy Politechnice Warszawskiej. Projektujemy
                     i budujemy bolidy klasy Formula Student.
                 </p>
             </div>
             <div class="footer-col">
-                <h4>Strona</h4>
+                <h4 data-i18n="footer.site">Strona</h4>
                 <ul>
-                    <li><a href="index.html">Start</a></li>
-                    <li><a href="o-nas.html">O nas</a></li>
-                    <li><a href="zespol.html">Zespół</a></li>
-                    <li><a href="bolidy.html">Bolidy</a></li>
-                    <li><a href="wydarzenia.html">Zawody</a></li>
-                    <li><a href="sponsorzy.html">Sponsorzy</a></li>
+                    <li><a href="index.html" data-i18n="nav.home">Start</a></li>
+                    <li><a href="o-nas.html" data-i18n="nav.about">O nas</a></li>
+                    <li><a href="zespol.html" data-i18n="nav.team">Zespół</a></li>
+                    <li><a href="bolidy.html" data-i18n="nav.cars">Bolidy</a></li>
+                    <li><a href="sponsorzy.html" data-i18n="nav.sponsors">Sponsorzy</a></li>
                 </ul>
             </div>
             <div class="footer-col">
-                <h4>Kontakt</h4>
+                <h4 data-i18n="footer.contact">Kontakt</h4>
                 <ul>
                     <li><a href="mailto:zarzad@wutracing.pl">zarzad@wutracing.pl</a></li>
                     <li>Politechnika Warszawska<br>Wydział Mechaniczny Energetyki i Lotnictwa<br>ul. Nowowiejska 24<br>00-665 Warszawa</li>
@@ -60,10 +62,10 @@ const FOOTER_HTML = `
             <div class="footer-col">
                 <h4>Social</h4>
                 <ul>
-                    <li><a href="#">Instagram</a></li>
-                    <li><a href="#">Facebook</a></li>
-                    <li><a href="#">LinkedIn</a></li>
-                    <li><a href="#">YouTube</a></li>
+                    <li><a href="https://www.instagram.com/wutracing/" target="_blank" rel="noopener">Instagram</a></li>
+                    <li><a href="https://www.facebook.com/WUTRacing/" target="_blank" rel="noopener">Facebook</a></li>
+                    <li><a href="https://www.linkedin.com/company/wut-racing/" target="_blank" rel="noopener">LinkedIn</a></li>
+                    <li><a href="https://www.youtube.com/@wutracing" target="_blank" rel="noopener">YouTube</a></li>
                 </ul>
             </div>
         </div>
@@ -114,6 +116,15 @@ function initNav(activePage) {
         document.querySelectorAll('.nav-links a').forEach(a => {
             a.addEventListener('click', () => nav.classList.remove('is-open'));
         });
+    }
+
+    // przelacznik jezyka
+    const langSwitch = document.getElementById('lang-switch');
+    if (langSwitch && typeof window.WUT_applyLang === 'function') {
+        langSwitch.querySelectorAll('button').forEach(b => {
+            b.addEventListener('click', () => window.WUT_applyLang(b.dataset.lang));
+        });
+        window.WUT_applyLang();
     }
 }
 

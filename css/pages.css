@@ -309,6 +309,48 @@
     border-color: var(--accent);
 }
 
+/* liquid glass tag (dzial) i przyciski */
+.glass-tag {
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.22) !important;
+    color: #fff !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.25);
+}
+.glass-btn {
+    align-self: flex-start;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #fff;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.22);
+    transition: background 0.25s var(--speed), transform 0.2s var(--speed);
+}
+.glass-btn:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-1px); }
+
+.member-back-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.member-back-mail {
+    display: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    word-break: break-all;
+}
+.member-face-back.mail-shown .member-back-mail { display: block; }
+
 .member-back-compact,
 .member-back-full {
     display: flex;
@@ -904,6 +946,77 @@
     color: var(--text-0);
 }
 
+/* timeline naglowek */
+.cars-timeline-head {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* czerwona mini-prezentacja bolidu */
+.car-show-section {
+    background: var(--accent);
+    padding: clamp(50px, 8vh, 110px) var(--pad-x);
+}
+.car-show-inner {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: clamp(32px, 5vw, 80px);
+    align-items: center;
+}
+@media (max-width: 860px) {
+    .car-show-inner { grid-template-columns: 1fr; gap: 32px; }
+}
+.car-show-photo img {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 24px 50px rgba(0, 0, 0, 0.45));
+}
+.car-show-year {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 0.2em;
+    color: rgba(255, 255, 255, 0.7);
+}
+.car-show-name {
+    font-size: clamp(48px, 8vw, 110px);
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+    color: #fff;
+    margin: 8px 0 28px;
+}
+.car-show-specs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+@media (max-width: 480px) { .car-show-specs { grid-template-columns: 1fr; } }
+.car-spec {
+    padding: 16px 18px;
+    border-radius: var(--r-md);
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+}
+.car-spec .lbl {
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.75);
+    margin-bottom: 6px;
+}
+.car-spec .val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+}
+
 /* cars page (legacy list */
 .cars-list {
     padding: 60px var(--pad-x) 140px;
@@ -1143,7 +1256,67 @@
 .spec-row .k { color: var(--text-2); }
 .spec-row .v { color: var(--text-0); font-weight: 500; font-family: 'JetBrains Mono', monospace; }
 
-/* sponsors page */
+/* sponsors page - tiers wg poziomow */
+.sponsor-tiers {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px var(--pad-x) 100px;
+}
+.sponsor-tier {
+    padding: 48px 0 8px;
+}
+.sponsor-tier-title {
+    text-align: center;
+    font-size: clamp(22px, 3vw, 38px);
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-0);
+    margin: 0 auto 40px;
+    padding-bottom: 16px;
+    width: fit-content;
+    max-width: 90%;
+    border-bottom: 2px solid var(--tier-color, var(--accent));
+}
+.sponsor-logos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 22px;
+}
+.sponsor-logo {
+    flex: 0 0 auto;
+    width: clamp(150px, 18vw, 210px);
+    height: clamp(96px, 11vw, 128px);
+    background: #fff;
+    border-radius: var(--r-md);
+    display: grid;
+    place-items: center;
+    padding: 20px 24px;
+    transition: transform 0.35s var(--speed), box-shadow 0.35s var(--speed);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+}
+.sponsor-logo:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 14px 36px rgba(0,0,0,0.4);
+}
+.sponsor-logo img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+.sponsor-fallback {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: #1c1c20;
+    line-height: 1.25;
+}
+
+/* sponsors page (stary uklad - legacy */
 .sponsors-tiers {
     padding: 60px var(--pad-x) 80px;
     max-width: var(--maxw);
