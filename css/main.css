@@ -291,6 +291,11 @@ section { position: relative; }
 @media (max-width: 900px) {
     .nav-links, .nav-cta { display: none; }
     .menu-btn { display: grid; }
+    .nav-inner { gap: 10px; flex-wrap: nowrap; }
+    .brand { min-width: 0; flex-shrink: 1; }
+    /* przyciag jezyka i hamburgera do prawej krawedzi */
+    .lang-switch { margin-left: auto; flex-shrink: 0; }
+    .menu-btn { flex-shrink: 0; }
     .nav.is-open .nav-links {
         display: flex;
         position: absolute;
@@ -302,6 +307,13 @@ section { position: relative; }
         border-bottom: 1px solid var(--line);
     }
     .nav.is-open .nav-links a { padding: 14px 0; font-size: 17px; }
+}
+
+@media (max-width: 480px) {
+    .nav { padding-left: 14px; padding-right: 14px; }
+    .brand-logo { height: 28px; max-width: 130px; }
+    .lang-switch { margin-left: auto; padding: 2px; }
+    .lang-switch button { padding: 5px 8px; font-size: 11px; }
 }
 
 /* liquid glass buttons */
