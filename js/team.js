@@ -1,29 +1,12 @@
-// opis fallback per dzial (uzywany na rewersie karty), zalezny od jezyka
-function deptStory(m) {
-    const name = m.name.split(' ')[0];
-    const lang = window.WUT_LANG || 'pl';
-    const pl = {
-        zarzad:      `${name} wchodzi w skład zarządu WUT Racing, koordynując pracę zespołu, budżet oraz plan startów w sezonie.`,
-        aero:        `${name} działa w dziale aerodynamiki — projektuje i optymalizuje elementy nadwozia, prowadzi symulacje CFD i wytwarza komponenty z kompozytów.`,
-        chassis:     `${name} działa w dziale chassis — projektuje i buduje monocoque oraz ramę, prowadzi analizy wytrzymałościowe MES i wytwarza elementy kompozytowe.`,
-        suspension:  `${name} działa w dziale zawieszenia — prowadzi obliczenia, symulacje i testy, projektuje części w CAD oraz dobiera parametry układu jezdnego.`,
-        electronics: `${name} działa w dziale elektroniki — projektuje systemy elektryczne i elektroniczne, sterowanie pracą silnika oraz akwizycję danych z bolidu.`,
-        engine:      `${name} działa w dziale silnika — projektuje i modyfikuje układy napędowe, zajmuje się mapowaniem silnika i optymalizacją zużycia paliwa.`,
-        pr:          `${name} działa w dziale PR — kreuje wizerunek WUT Racing, koordynuje działania medialne i promocję wydarzeń, w których bierze udział team.`,
-        logistics:   `${name} działa w dziale logistyki — organizuje wyjazdy zagraniczne koła, transport bolidu i zespołu oraz obecność na targach i eventach.`,
-    };
-    const en = {
-        zarzad:      `${name} is a member of the WUT Racing board, coordinating the team's work, budget and competition schedule.`,
-        aero:        `${name} works in the aerodynamics department — designs and optimises bodywork, runs CFD simulations and manufactures composite parts.`,
-        chassis:     `${name} works in the chassis department — designs and builds the monocoque and frame, runs FEA strength analysis and manufactures composite parts.`,
-        suspension:  `${name} works in the suspension department — runs calculations, simulations and tests, designs parts in CAD and tunes the running gear.`,
-        electronics: `${name} works in the electronics department — designs electrical and electronic systems, engine control and data acquisition from the car.`,
-        engine:      `${name} works in the engine department — designs and modifies powertrain systems, handles engine mapping and fuel-consumption optimisation.`,
-        pr:          `${name} works in the PR department — shapes the image of WUT Racing and coordinates media activities and event promotion.`,
-        logistics:   `${name} works in the logistics department — organises the team's trips abroad, transport of the car and presence at fairs and events.`,
-    };
-    const tpls = lang === 'en' ? en : pl;
-    return tpls[m.dept] || `${name} — WUT Racing.`;
+function t(key, fallback) {
+    return (window.WUT_t ? window.WUT_t(key) : null) || fallback;
+}
+
+function firstSentence(text) {
+    const m = text.match(/^[^.!?]+[.!?]/);
+    if (m) return m[0].trim();
+    const words = text.split(/\s+/);
+    return words.length <= 16 ? text : words.slice(0, 16).join(' ') + '...';
 }
 
 const ROLE_EN = {
@@ -48,17 +31,6 @@ function roleLabel(m) {
 }
 function deptLabel(m) {
     return t('dept.' + m.dept, window.WUT_getDeptLabel(m));
-}
-
-function firstSentence(text) {
-    const m = text.match(/^[^.!?]+[.!?]/);
-    if (m) return m[0].trim();
-    const words = text.split(/\s+/);
-    return words.length <= 16 ? text : words.slice(0, 16).join(' ') + '...';
-}
-
-function t(key, fallback) {
-    return (window.WUT_t ? window.WUT_t(key) : null) || fallback;
 }
 
 function renderFilters() {
@@ -88,13 +60,39 @@ function renderGrid(filter = 'all') {
     const moreLabel = t('team.more', 'Pokaż więcej');
     const lessLabel = t('team.less', 'Pokaż mniej');
     const emailLabel = t('team.email', 'Pokaż e-mail');
-    const closeHint = t('team.closeHint', 'kliknij aby zamknąć');
+    const noneLabel = t('team.none', 'brak');
+    const compLabel = t('team.competitions', 'Zawody');
+    const projLabel = t('team.projects', 'Projekty');
 
     grid.innerHTML = list.map((m, i) => {
         const dept = deptLabel(m);
         const role = roleLabel(m);
-        const bio = deptStory(m);
         const email = window.WUT_getEmail(m);
+        const hasBio = !!m.bio;
+        const ach = m.achievements || [];
+        const proj = m.projects || [];
+
+        const bioBlock = hasBio ? `
+            <p class="member-back-bio member-bio-short">${firstSentence(m.bio)}</p>
+            <p class="member-back-bio member-bio-full">${m.bio}</p>
+            <button class="member-back-more glass-btn" type="button">${moreLabel}</button>
+        ` : `<p class="member-back-bio member-back-none">${noneLabel}</p>`;
+
+        const achBlock = ach.length ? `
+            <div class="member-back-section">
+                <div class="member-back-title">${compLabel}</div>
+                <ul class="member-back-list">
+                    ${ach.map(a => `<li><span class="year">${a.year}</span><span>${a.text}</span></li>`).join('')}
+                </ul>
+            </div>` : '';
+
+        const projBlock = proj.length ? `
+            <div class="member-back-section">
+                <div class="member-back-title">${projLabel}</div>
+                <ul class="member-back-list member-back-projects">
+                    ${proj.map(p => `<li>${p}</li>`).join('')}
+                </ul>
+            </div>` : '';
 
         return `
         <div class="member-card reveal" data-slug="${m.slug}" data-delay="${(i % 4) + 1}" role="button" tabindex="0" aria-label="${m.name}">
@@ -121,23 +119,14 @@ function renderGrid(filter = 'all') {
                         <div class="member-back-role">${role}</div>
                     </div>
 
-                    <div class="member-back-compact">
-                        <p class="member-back-bio member-back-bio-short">${firstSentence(bio)}</p>
-                        <div class="member-back-actions">
-                            <button class="member-back-more glass-btn" type="button" data-action="expand">${moreLabel}</button>
-                            <button class="member-back-email glass-btn" type="button">${emailLabel}</button>
-                        </div>
-                        <a class="member-back-mail" href="mailto:${email}">${email}</a>
-                    </div>
+                    ${bioBlock}
+                    ${achBlock}
+                    ${projBlock}
 
-                    <div class="member-back-full">
-                        <p class="member-back-bio">${bio}</p>
-                        <div class="member-back-actions">
-                            <button class="member-back-more glass-btn" type="button" data-action="collapse">${lessLabel}</button>
-                            <button class="member-back-email glass-btn" type="button">${emailLabel}</button>
-                        </div>
-                        <a class="member-back-mail" href="mailto:${email}">${email}</a>
+                    <div class="member-back-actions">
+                        <button class="member-back-email glass-btn" type="button">${emailLabel}</button>
                     </div>
+                    <a class="member-back-mail" href="mailto:${email}">${email}</a>
 
                     <span class="arrow arrow-back" aria-hidden="true">↻</span>
                 </div>
@@ -163,10 +152,11 @@ function renderGrid(filter = 'all') {
                 card.querySelector('.member-face-back').classList.toggle('mail-shown');
                 return;
             }
-            const moreBtn = e.target.closest('.member-back-more');
-            if (moreBtn) {
+            if (e.target.closest('.member-back-more')) {
                 const back = card.querySelector('.member-face-back');
-                if (back) back.classList.toggle('bio-expanded');
+                const btn = card.querySelector('.member-back-more');
+                back.classList.toggle('bio-expanded');
+                btn.textContent = back.classList.contains('bio-expanded') ? lessLabel : moreLabel;
                 return;
             }
             if (e.target.closest('.member-back-mail')) return;

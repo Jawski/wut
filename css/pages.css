@@ -337,10 +337,16 @@
 }
 .glass-btn:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-1px); }
 
+.member-bio-full { display: none; }
+.member-face-back.bio-expanded .member-bio-short { display: none; }
+.member-face-back.bio-expanded .member-bio-full { display: block; }
+.member-back-none { color: var(--text-3); font-style: italic; }
+
 .member-back-actions {
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
+    margin-top: 4px;
 }
 .member-back-mail {
     display: none;

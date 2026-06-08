@@ -6,6 +6,9 @@
             'team.more': 'Pokaż więcej',
             'team.less': 'Pokaż mniej',
             'team.email': 'Pokaż e-mail',
+            'team.none': 'brak',
+            'team.competitions': 'Zawody',
+            'team.projects': 'Projekty',
             'cars.power': 'Moc silnika',
             'cars.vmax': 'Prędkość maks.',
             'cars.accel': '0 – 100 km/h',
@@ -113,6 +116,9 @@
             'team.more': 'Show more',
             'team.less': 'Show less',
             'team.email': 'Show e-mail',
+            'team.none': 'none',
+            'team.competitions': 'Competitions',
+            'team.projects': 'Projects',
 
             // sponsors
             'sponsors.eyebrow': 'Sponsors & Partners',
