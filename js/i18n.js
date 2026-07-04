@@ -26,6 +26,7 @@
             'footer.site': 'Site',
             'footer.contact': 'Contact',
             'common.scroll': 'SCROLL',
+            'common.dept': 'Department',
 
             // home hero
             'home.hero1': 'A car like<br>no other',
