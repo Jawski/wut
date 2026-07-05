@@ -146,8 +146,6 @@
     line-height: 0.92;
     color: var(--ink);
     margin: 0;
-    position: sticky;
-    top: calc(var(--nav-h) + 40px);
 }
 .intro-strip .dept-strip-title::after {
     content: "";
