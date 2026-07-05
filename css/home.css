@@ -194,11 +194,11 @@
     align-items: flex-end;
     margin-bottom: 2px;
 }
-.event-featured-photo { position: absolute; inset: 0; }
+.event-featured-photo { position: absolute; inset: 0; background: #101013; }
 .event-featured-photo img {
     width: 100%; height: 100%;
     object-fit: cover;
-    transition: transform 1.2s var(--ease);
+    transition: transform 1.2s var(--ease), opacity 0.45s var(--ease);
 }
 .event-featured:hover .event-featured-photo img { transform: scale(1.035); }
 
@@ -240,12 +240,13 @@
 /* pasek nadchodzacych zawodow */
 .events-races {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 2px;
     background: rgba(255, 255, 255, 0.08);
     border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
-@media (max-width: 860px) { .events-races { grid-template-columns: 1fr; } }
+@media (max-width: 1060px) { .events-races { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .events-races { grid-template-columns: 1fr; } }
 
 .race-card {
     position: relative;
@@ -256,6 +257,10 @@
     padding: 30px 28px 34px;
     overflow: hidden;
     transition: background 0.35s;
+    text-align: left;
+    font-family: inherit;
+    width: 100%;
+    cursor: pointer;
 }
 .race-card::before {
     content: "";
@@ -270,6 +275,9 @@
 }
 .race-card:hover { background: #101013; }
 .race-card:hover::before { transform: scaleX(1); }
+.race-card.is-active { background: #101013; }
+.race-card.is-active::before { transform: scaleX(1); }
+.race-card.is-active .race-name { color: #fff; }
 
 .race-flag {
     font-size: 20px;

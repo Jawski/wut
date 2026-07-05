@@ -108,13 +108,13 @@
 
             <article class="event-featured reveal" data-delay="1">
                 <div class="event-featured-photo">
-                    <img src="assets/wut7-rollout.jpg" alt="Roll-out WUT7" loading="lazy">
+                    <img id="event-banner-img" src="assets/wut7-rollout.jpg" alt="Roll-out WUT7" loading="lazy">
                 </div>
                 <div class="event-featured-overlay"></div>
                 <div class="event-featured-content">
                     <div class="event-featured-info">
-                        <h3 class="event-featured-title">Roll-out WUT7</h3>
-                        <p class="event-featured-meta" data-i18n="home.rolloutMeta">9 lipca 2026 · 18:00 · Politechnika Warszawska</p>
+                        <h3 class="event-featured-title" id="event-banner-title">Roll-out WUT7</h3>
+                        <p class="event-featured-meta" id="event-banner-meta">9 lipca 2026 · 18:00 · Politechnika Warszawska</p>
                     </div>
                     <div class="event-countdown" id="rollout-countdown" data-target="2026-07-09T18:00:00">
                         <div class="cd-unit"><span class="cd-val" data-cd="days">--</span><span class="cd-lbl" data-i18n="cd.days">dni</span></div>
@@ -128,31 +128,59 @@
                 </div>
             </article>
 
-            <div class="events-races">
-                <article class="race-card reveal" data-delay="1">
+            <div class="events-races" id="events-races">
+                <button class="race-card reveal is-active" data-delay="1" type="button"
+                        data-target="2026-07-09T18:00:00"
+                        data-photo="assets/wut7-rollout.jpg"
+                        data-title="Roll-out WUT7"
+                        data-meta-pl="9 lipca 2026 · 18:00 · Politechnika Warszawska"
+                        data-meta-en="9 July 2026 · 18:00 · Warsaw University of Technology">
+                    <div class="race-flag">🇵🇱</div>
+                    <div class="race-body">
+                        <div class="race-date" data-i18n="home.race0date">9 lipca 2026</div>
+                        <div class="race-name">Roll-out WUT7</div>
+                        <div class="race-loc">Politechnika Warszawska</div>
+                    </div>
+                </button>
+                <button class="race-card reveal" data-delay="2" type="button"
+                        data-target="2026-07-19T08:00:00"
+                        data-photo="assets/media/track-most.jpg"
+                        data-title="Formula Student Czech"
+                        data-meta-pl="19–24 lipca 2026 · Autodrom Most"
+                        data-meta-en="19–24 July 2026 · Autodrom Most">
                     <div class="race-flag">🇨🇿</div>
                     <div class="race-body">
                         <div class="race-date" data-i18n="home.race1date">19–24 lipca 2026</div>
                         <div class="race-name">Formula Student Czech</div>
                         <div class="race-loc">Autodrom Most</div>
                     </div>
-                </article>
-                <article class="race-card reveal" data-delay="2">
+                </button>
+                <button class="race-card reveal" data-delay="3" type="button"
+                        data-target="2026-07-26T08:00:00"
+                        data-photo="assets/media/track-redbullring.jpg"
+                        data-title="Formula Student Austria"
+                        data-meta-pl="26–30 lipca 2026 · Red Bull Ring, Spielberg"
+                        data-meta-en="26–30 July 2026 · Red Bull Ring, Spielberg">
                     <div class="race-flag">🇦🇹</div>
                     <div class="race-body">
                         <div class="race-date" data-i18n="home.race2date">26–30 lipca 2026</div>
                         <div class="race-name">Formula Student Austria</div>
                         <div class="race-loc">Red Bull Ring, Spielberg</div>
                     </div>
-                </article>
-                <article class="race-card reveal" data-delay="3">
+                </button>
+                <button class="race-card reveal" data-delay="4" type="button"
+                        data-target="2026-08-25T08:00:00"
+                        data-photo="assets/media/track-slomczyn.jpg"
+                        data-title="Formula Student Poland"
+                        data-meta-pl="25–29 sierpnia 2026 · Autodrom Słomczyn"
+                        data-meta-en="25–29 August 2026 · Autodrom Słomczyn">
                     <div class="race-flag">🇵🇱</div>
                     <div class="race-body">
                         <div class="race-date" data-i18n="home.race3date">25–29 sierpnia 2026</div>
                         <div class="race-name">Formula Student Poland</div>
                         <div class="race-loc">Autodrom Słomczyn</div>
                     </div>
-                </article>
+                </button>
             </div>
 
         </div>

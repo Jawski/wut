@@ -46,6 +46,7 @@
             'home.calendar': 'Calendar',
             'home.upcoming': 'Upcoming <span class="text-accent">events</span>.',
             'home.rolloutMeta': '9 July 2026 · 18:00 · Warsaw University of Technology',
+            'home.race0date': '9 July 2026',
             'home.race1date': '19–24 July 2026',
             'home.race2date': '26–30 July 2026',
             'home.race3date': '25–29 August 2026',

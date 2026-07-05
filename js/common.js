@@ -177,8 +177,6 @@ function initCounters() {
 function initCountdown() {
     const el = document.getElementById('rollout-countdown');
     if (!el) return;
-    const targetTime = new Date(el.dataset.target).getTime();
-    if (isNaN(targetTime)) return;
 
     const fields = {
         days:  el.querySelector('[data-cd="days"]'),
@@ -187,16 +185,18 @@ function initCountdown() {
         secs:  el.querySelector('[data-cd="secs"]'),
     };
 
+    let targetTime = new Date(el.dataset.target).getTime();
+    let timer = null;
+
     function pad(n) { return String(n).padStart(2, '0'); }
 
     function tick() {
         const diff = targetTime - Date.now();
-        if (diff <= 0) {
+        if (diff <= 0 || isNaN(targetTime)) {
             fields.days.textContent = '00';
             fields.hours.textContent = '00';
             fields.mins.textContent = '00';
             fields.secs.textContent = '00';
-            clearInterval(timer);
             return;
         }
         const s = Math.floor(diff / 1000);
@@ -205,8 +205,60 @@ function initCountdown() {
         fields.mins.textContent  = pad(Math.floor((s % 3600) / 60));
         fields.secs.textContent  = pad(s % 60);
     }
+
+    window.WUT_setCountdownTarget = function (iso) {
+        targetTime = new Date(iso).getTime();
+        el.dataset.target = iso;
+        tick();
+    };
+
     tick();
-    const timer = setInterval(tick, 1000);
+    timer = setInterval(tick, 1000);
+}
+
+// klikalne karty w kalendarzu podmieniaja baner i cel countdownu
+function initEventSwitcher() {
+    const wrap = document.getElementById('events-races');
+    const img = document.getElementById('event-banner-img');
+    const title = document.getElementById('event-banner-title');
+    const meta = document.getElementById('event-banner-meta');
+    if (!wrap || !img || !title || !meta) return;
+
+    function metaFor(card) {
+        const lang = window.WUT_LANG || 'pl';
+        return (lang === 'en' && card.dataset.metaEn) ? card.dataset.metaEn : card.dataset.metaPl;
+    }
+
+    function select(card) {
+        wrap.querySelectorAll('.race-card').forEach(c => c.classList.toggle('is-active', c === card));
+
+        title.textContent = card.dataset.title;
+        meta.textContent = metaFor(card);
+        if (window.WUT_setCountdownTarget) window.WUT_setCountdownTarget(card.dataset.target);
+
+        const nextSrc = card.dataset.photo;
+        if (img.getAttribute('src') !== nextSrc) {
+            img.style.opacity = '0';
+            const pre = new Image();
+            pre.onload = () => {
+                img.src = nextSrc;
+                requestAnimationFrame(() => { img.style.opacity = '1'; });
+            };
+            pre.onerror = () => { img.style.opacity = '1'; };
+            pre.src = nextSrc;
+        }
+    }
+
+    wrap.addEventListener('click', (e) => {
+        const card = e.target.closest('.race-card');
+        if (card) select(card);
+    });
+
+    // po zmianie jezyka odswiez meta aktywnego eventu
+    window.WUT_refreshCountdown = function () {
+        const active = wrap.querySelector('.race-card.is-active');
+        if (active) meta.textContent = metaFor(active);
+    };
 }
 
 function initHeroCarousel() {
@@ -245,5 +297,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initRevealOnScroll();
     initCounters();
     initCountdown();
+    initEventSwitcher();
     initHeroCarousel();
 });
