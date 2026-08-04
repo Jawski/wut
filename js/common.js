@@ -180,18 +180,6 @@ function initCounters() {
    najblizszy nadchodzacy. start = poczatek odliczania, end = koniec imprezy */
 const WUT_EVENTS = [
     {
-        start: '2025-07-20T08:00:00', end: '2025-07-25T20:00:00',
-        flag: '🇨🇿', photo: 'assets/media/track-most.jpg',
-        name: 'Formula Student Czech', loc: 'Autodrom Most',
-        datePl: '20–25 lipca 2025', dateEn: '20–25 July 2025',
-    },
-    {
-        start: '2025-08-04T08:00:00', end: '2025-08-09T20:00:00',
-        flag: '🇦🇹', photo: 'assets/media/track-redbullring.jpg',
-        name: 'Formula Student Austria', loc: 'Red Bull Ring, Spielberg',
-        datePl: '4–9 sierpnia 2025', dateEn: '4–9 August 2025',
-    },
-    {
         start: '2026-07-09T18:00:00', end: '2026-07-09T22:00:00',
         flag: '🇵🇱', photo: 'assets/wut7-rollout.jpg',
         name: 'Roll-out WUT7', loc: 'Politechnika Warszawska',
