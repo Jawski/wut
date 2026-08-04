@@ -147,11 +147,11 @@
 }
 .member-name {
     font-family: var(--font-d);
-    font-size: 22px;
-    font-weight: 600;
+    font-size: 17px;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.02em;
-    line-height: 1.05;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
 }
 .member-role {
     font-family: var(--font-u);
@@ -212,7 +212,8 @@
     border-bottom: 2px solid var(--ink);
 }
 .member-back-name {
-    font-size: 24px;
+    font-size: 18px;
+    line-height: 1.15;
     color: var(--ink);
     margin: 0;
 }
@@ -353,7 +354,7 @@ body[data-page="sponsors"] { background: var(--white); color: var(--ink); }
 }
 .timeline-inner { max-width: 1100px; margin: 0 auto; }
 
-.timeline-head { margin-bottom: 70px; }
+.timeline-head { margin-bottom: 70px; text-align: center; }
 .timeline-head .eyebrow { display: block; margin-bottom: 14px; }
 .timeline-head h2 { color: inherit; }
 .timeline-head .text-accent { color: var(--red); }
@@ -399,7 +400,7 @@ body[data-page="sponsors"] { background: var(--white); color: var(--ink); }
 }
 
 .timeline-title {
-    font-size: clamp(24px, 2.4vw, 34px);
+    font-size: clamp(19px, 1.9vw, 26px);
     color: inherit;
     margin-bottom: 8px;
 }
@@ -421,7 +422,7 @@ body[data-page="sponsors"] { background: var(--white); color: var(--ink); }
 .cars-timeline-head {
     max-width: var(--maxw);
     margin: 0 auto 8px;
-    text-align: left;
+    text-align: center;
 }
 .cars-timeline-head .eyebrow { display: block; margin-bottom: 12px; }
 
@@ -441,7 +442,7 @@ body[data-page="sponsors"] { background: var(--white); color: var(--ink); }
 
 .cars-timeline-track {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(7, 1fr);
     gap: 10px;
     position: relative;
 }
@@ -514,10 +515,10 @@ body[data-page="sponsors"] { background: var(--white); color: var(--ink); }
 .timeline-car .timeline-name {
     order: 4;
     font-family: var(--font-d);
-    font-size: 19px;
-    font-weight: 600;
+    font-size: 15px;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: -0.005em;
     color: var(--text-1);
     transition: color 0.3s;
 }
@@ -554,7 +555,7 @@ body[data-page="sponsors"] { background: var(--white); color: var(--ink); }
     padding-bottom: 6px;
 }
 .car-show-name {
-    font-size: clamp(60px, 8vw, 124px);
+    font-size: clamp(44px, 5.6vw, 88px);
     color: #fff;
     margin: 14px 0 34px;
 }
@@ -603,8 +604,8 @@ body[data-page="sponsors"] { background: var(--white); color: var(--ink); }
 }
 .sponsor-tier-title {
     text-align: center;
-    font-size: clamp(26px, 3vw, 40px);
-    letter-spacing: 0.08em;
+    font-size: clamp(20px, 2.3vw, 32px);
+    letter-spacing: 0.02em;
     color: var(--ink);
     margin: 0 auto 46px;
     padding-bottom: 14px;

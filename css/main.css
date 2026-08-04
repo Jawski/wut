@@ -23,7 +23,7 @@
     --line: var(--line-d);
     --line-strong: rgba(255, 255, 255, 0.28);
 
-    --font-d: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+    --font-d: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
     --font-b: 'Barlow', 'Helvetica Neue', sans-serif;
     --font-u: 'Chakra Petch', monospace;
 
@@ -68,20 +68,20 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 h1, h2, h3, h4 {
     font-family: var(--font-d);
-    font-weight: 600;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.015em;
-    line-height: 0.95;
+    letter-spacing: -0.015em;
+    line-height: 1;
 }
 
 .h-display {
-    font-size: clamp(52px, 8.5vw, 128px);
-    font-weight: 600;
+    font-size: clamp(38px, 6vw, 92px);
+    font-weight: 700;
 }
 
-.h-1 { font-size: clamp(38px, 5.2vw, 76px); }
-.h-2 { font-size: clamp(30px, 3.6vw, 48px); }
-.h-3 { font-size: clamp(20px, 2vw, 26px); }
+.h-1 { font-size: clamp(29px, 3.7vw, 56px); }
+.h-2 { font-size: clamp(24px, 2.8vw, 38px); }
+.h-3 { font-size: clamp(18px, 1.8vw, 23px); }
 
 .lead {
     font-family: var(--font-b);
@@ -425,6 +425,22 @@ section { position: relative; }
 .footer-col a:hover { color: #fff; }
 
 .brand-logo-footer { height: 40px; max-width: 230px; }
+
+.footer-brands {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    flex-wrap: wrap;
+}
+/* godlo PW jest czarna kreska — odwracamy na ciemna stopke */
+.pw-logo {
+    height: 54px;
+    width: auto;
+    filter: invert(1);
+    opacity: 0.85;
+    padding-left: 22px;
+    border-left: 1px solid rgba(255, 255, 255, 0.18);
+}
 .brand-mark { display: none !important; }
 
 .footer-bottom {

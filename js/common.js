@@ -34,8 +34,10 @@ const FOOTER_HTML = `
     <div class="footer-inner">
         <div class="footer-grid">
             <div class="footer-col">
-                <div class="brand">
+                <div class="brand footer-brands">
                     <img src="assets/logo.png" alt="WUT Racing" class="brand-logo brand-logo-footer">
+                    <img src="assets/pw-logo.png" alt="Politechnika Warszawska" class="pw-logo"
+                         onerror="this.remove();">
                 </div>
                 <p style="margin-top: 18px; max-width: 340px; line-height: 1.6;" data-i18n="footer.about">
                     Koło Naukowe WUT Racing przy Politechnice Warszawskiej. Projektujemy

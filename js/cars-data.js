@@ -11,4 +11,6 @@ export const CARS = [
       specs: { power: '86 KM', vmax: '121 km/h', accel: '4,0 s', mass: '219,5 kg' } },
     { id: 'wut6', name: 'WUT-6', year: 2025, photo: 'assets/cars/wut6.png',
       specs: { power: '86 KM', vmax: '121 km/h', accel: '4,0 s', mass: '245 kg' } },
+    { id: 'wut7', name: 'WUT-7', year: 2026, photo: 'assets/cars/wut7.png',
+      specs: { power: '86 KM', vmax: '121 km/h', accel: '4,0 s', mass: '220 kg' } },
 ];
