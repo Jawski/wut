@@ -174,25 +174,121 @@ function initCounters() {
     counters.forEach(c => io.observe(c));
 }
 
-function initCountdown() {
-    const el = document.getElementById('rollout-countdown');
-    if (!el) return;
+/* kalendarz startow — minione zostaja na osi, domyslnie zaznaczony
+   najblizszy nadchodzacy. start = poczatek odliczania, end = koniec imprezy */
+const WUT_EVENTS = [
+    {
+        start: '2025-07-20T08:00:00', end: '2025-07-25T20:00:00',
+        flag: '🇨🇿', photo: 'assets/media/track-most.jpg',
+        name: 'Formula Student Czech', loc: 'Autodrom Most',
+        datePl: '20–25 lipca 2025', dateEn: '20–25 July 2025',
+    },
+    {
+        start: '2025-08-04T08:00:00', end: '2025-08-09T20:00:00',
+        flag: '🇦🇹', photo: 'assets/media/track-redbullring.jpg',
+        name: 'Formula Student Austria', loc: 'Red Bull Ring, Spielberg',
+        datePl: '4–9 sierpnia 2025', dateEn: '4–9 August 2025',
+    },
+    {
+        start: '2026-07-09T18:00:00', end: '2026-07-09T22:00:00',
+        flag: '🇵🇱', photo: 'assets/wut7-rollout.jpg',
+        name: 'Roll-out WUT7', loc: 'Politechnika Warszawska',
+        datePl: '9 lipca 2026 · 18:00', dateEn: '9 July 2026 · 18:00',
+    },
+    {
+        start: '2026-07-19T08:00:00', end: '2026-07-24T20:00:00',
+        flag: '🇨🇿', photo: 'assets/media/track-most.jpg',
+        name: 'Formula Student Czech', loc: 'Autodrom Most',
+        datePl: '19–24 lipca 2026', dateEn: '19–24 July 2026',
+    },
+    {
+        start: '2026-07-26T08:00:00', end: '2026-07-30T20:00:00',
+        flag: '🇦🇹', photo: 'assets/media/track-redbullring.jpg',
+        name: 'Formula Student Austria', loc: 'Red Bull Ring, Spielberg',
+        datePl: '26–30 lipca 2026', dateEn: '26–30 July 2026',
+    },
+    {
+        start: '2026-08-25T08:00:00', end: '2026-08-29T20:00:00',
+        flag: '🇵🇱', photo: 'assets/media/track-slomczyn.jpg',
+        name: 'Formula Student Poland', loc: 'Autodrom Słomczyn',
+        datePl: '25–29 sierpnia 2026', dateEn: '25–29 August 2026',
+    },
+];
+
+function initEventsCalendar() {
+    const wrap = document.getElementById('events-races');
+    const img = document.getElementById('event-banner-img');
+    const title = document.getElementById('event-banner-title');
+    const meta = document.getElementById('event-banner-meta');
+    const cdBox = document.getElementById('rollout-countdown');
+    const elapsedBox = document.getElementById('event-elapsed');
+    if (!wrap || !img || !title || !meta || !cdBox || !elapsedBox) return;
 
     const fields = {
-        days:  el.querySelector('[data-cd="days"]'),
-        hours: el.querySelector('[data-cd="hours"]'),
-        mins:  el.querySelector('[data-cd="mins"]'),
-        secs:  el.querySelector('[data-cd="secs"]'),
+        days:  cdBox.querySelector('[data-cd="days"]'),
+        hours: cdBox.querySelector('[data-cd="hours"]'),
+        mins:  cdBox.querySelector('[data-cd="mins"]'),
+        secs:  cdBox.querySelector('[data-cd="secs"]'),
     };
+    const elVal = document.getElementById('event-elapsed-val');
+    const elLbl = document.getElementById('event-elapsed-lbl');
 
-    let targetTime = new Date(el.dataset.target).getTime();
+    const events = WUT_EVENTS.map(e => ({
+        ...e,
+        startMs: new Date(e.start).getTime(),
+        endMs: new Date(e.end).getTime(),
+    })).sort((a, b) => a.startMs - b.startMs);
+
+    const isPast = e => Date.now() > e.endMs;
+    const t = (key, fb) => (window.WUT_t ? window.WUT_t(key) : null) || fb;
+    const pad = n => String(n).padStart(2, '0');
+
+    // polska odmiana: 1 dzien / 2-4 dni / 5+ dni
+    function daysLabel(n) {
+        if ((window.WUT_LANG || 'pl') === 'en') return n === 1 ? 'day ago' : 'days ago';
+        return n === 1 ? 'dzień temu' : 'dni temu';
+    }
+
+    let activeIdx = 0;
     let timer = null;
 
-    function pad(n) { return String(n).padStart(2, '0'); }
+    function dateText(e) {
+        return (window.WUT_LANG || 'pl') === 'en' ? e.dateEn : e.datePl;
+    }
+
+    function renderCards() {
+        wrap.innerHTML = events.map((e, i) => `
+            <button class="race-card${isPast(e) ? ' is-past' : ''}${i === activeIdx ? ' is-active' : ''}"
+                    type="button" data-idx="${i}">
+                <div class="race-flag">${e.flag}</div>
+                <div class="race-body">
+                    <div class="race-date">${dateText(e)}</div>
+                    <div class="race-name">${e.name}</div>
+                    <div class="race-loc">${e.loc}</div>
+                </div>
+                ${isPast(e) ? `<span class="race-badge">${t('home.done', 'Odbyło się')}</span>` : ''}
+            </button>
+        `).join('');
+    }
 
     function tick() {
-        const diff = targetTime - Date.now();
-        if (diff <= 0 || isNaN(targetTime)) {
+        const e = events[activeIdx];
+        if (!e) return;
+
+        if (isPast(e)) {
+            cdBox.hidden = true;
+            elapsedBox.hidden = false;
+            const days = Math.max(0, Math.floor((Date.now() - e.endMs) / 86400000));
+            elVal.textContent = days;
+            elLbl.textContent = daysLabel(days);
+            return;
+        }
+
+        cdBox.hidden = false;
+        elapsedBox.hidden = true;
+        const diff = e.startMs - Date.now();
+        if (diff <= 0) {
+            // trwa wlasnie teraz
             fields.days.textContent = '00';
             fields.hours.textContent = '00';
             fields.mins.textContent = '00';
@@ -206,58 +302,111 @@ function initCountdown() {
         fields.secs.textContent  = pad(s % 60);
     }
 
-    window.WUT_setCountdownTarget = function (iso) {
-        targetTime = new Date(iso).getTime();
-        el.dataset.target = iso;
+    function select(i, scroll) {
+        activeIdx = i;
+        const e = events[i];
+
+        wrap.querySelectorAll('.race-card').forEach(c => {
+            c.classList.toggle('is-active', Number(c.dataset.idx) === i);
+        });
+
+        title.textContent = e.name;
+        meta.textContent = `${dateText(e)} · ${e.loc}`;
         tick();
-    };
 
-    tick();
-    timer = setInterval(tick, 1000);
-}
-
-// klikalne karty w kalendarzu podmieniaja baner i cel countdownu
-function initEventSwitcher() {
-    const wrap = document.getElementById('events-races');
-    const img = document.getElementById('event-banner-img');
-    const title = document.getElementById('event-banner-title');
-    const meta = document.getElementById('event-banner-meta');
-    if (!wrap || !img || !title || !meta) return;
-
-    function metaFor(card) {
-        const lang = window.WUT_LANG || 'pl';
-        return (lang === 'en' && card.dataset.metaEn) ? card.dataset.metaEn : card.dataset.metaPl;
-    }
-
-    function select(card) {
-        wrap.querySelectorAll('.race-card').forEach(c => c.classList.toggle('is-active', c === card));
-
-        title.textContent = card.dataset.title;
-        meta.textContent = metaFor(card);
-        if (window.WUT_setCountdownTarget) window.WUT_setCountdownTarget(card.dataset.target);
-
-        const nextSrc = card.dataset.photo;
-        if (img.getAttribute('src') !== nextSrc) {
+        if (img.getAttribute('src') !== e.photo) {
             img.style.opacity = '0';
             const pre = new Image();
             pre.onload = () => {
-                img.src = nextSrc;
+                img.src = e.photo;
                 requestAnimationFrame(() => { img.style.opacity = '1'; });
             };
             pre.onerror = () => { img.style.opacity = '1'; };
-            pre.src = nextSrc;
+            pre.src = e.photo;
+        }
+
+        if (scroll) {
+            const card = wrap.querySelector(`.race-card[data-idx="${i}"]`);
+            if (card) scrollRailTo(card.offsetLeft - 2);
         }
     }
 
-    wrap.addEventListener('click', (e) => {
-        const card = e.target.closest('.race-card');
-        if (card) select(card);
+    wrap.addEventListener('click', (ev) => {
+        const card = ev.target.closest('.race-card');
+        if (card) select(Number(card.dataset.idx), false);
     });
 
-    // po zmianie jezyka odswiez meta aktywnego eventu
+    // przewijanie osi strzalkami
+    // wlasny tween — Chrome ignoruje behavior:'smooth' na kontenerach ze scroll-snap
+    const prev = document.getElementById('rail-prev');
+    const next = document.getElementById('rail-next');
+    let railAnim = null;
+
+    function scrollRailTo(target) {
+        const max = wrap.scrollWidth - wrap.clientWidth;
+        const to = Math.max(0, Math.min(max, target));
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            wrap.scrollLeft = to;
+            syncNav();
+            return;
+        }
+        const from = wrap.scrollLeft;
+        const dist = to - from;
+        if (Math.abs(dist) < 1) return;
+        const dur = 420;
+        const t0 = performance.now();
+        if (railAnim) cancelAnimationFrame(railAnim);
+        (function step(now) {
+            const p = Math.min(1, (now - t0) / dur);
+            const e = 1 - Math.pow(1 - p, 3);
+            wrap.scrollLeft = from + dist * e;
+            if (p < 1) railAnim = requestAnimationFrame(step);
+            else { railAnim = null; syncNav(); }
+        })(t0);
+    }
+
+    function scrollRail(dir) {
+        const card = wrap.querySelector('.race-card');
+        const step = card ? card.getBoundingClientRect().width + 2 : 280;
+        scrollRailTo(wrap.scrollLeft + dir * step);
+    }
+    function syncNav() {
+        if (!prev || !next) return;
+        const max = wrap.scrollWidth - wrap.clientWidth;
+        const hasOverflow = max > 4;
+        prev.hidden = !hasOverflow;
+        next.hidden = !hasOverflow;
+        if (hasOverflow) {
+            prev.disabled = wrap.scrollLeft <= 2;
+            next.disabled = wrap.scrollLeft >= max - 2;
+        }
+    }
+    if (prev) prev.addEventListener('click', () => scrollRail(-1));
+    if (next) next.addEventListener('click', () => scrollRail(1));
+    wrap.addEventListener('scroll', syncNav, { passive: true });
+    window.addEventListener('resize', syncNav);
+
+    // domyslnie najblizszy nadchodzacy; jesli wszystkie minely — ostatni
+    const upcoming = events.findIndex(e => !isPast(e));
+    activeIdx = upcoming === -1 ? events.length - 1 : upcoming;
+
+    renderCards();
+    select(activeIdx, false);
+    // dosun os do zaznaczonego bez animacji
+    const activeCard = wrap.querySelector(`.race-card[data-idx="${activeIdx}"]`);
+    if (activeCard) {
+        const max = wrap.scrollWidth - wrap.clientWidth;
+        wrap.scrollLeft = Math.max(0, Math.min(max, activeCard.offsetLeft - 2));
+    }
+    syncNav();
+
+    timer = setInterval(tick, 1000);
+
+    // po zmianie jezyka przerenderuj teksty
     window.WUT_refreshCountdown = function () {
-        const active = wrap.querySelector('.race-card.is-active');
-        if (active) meta.textContent = metaFor(active);
+        renderCards();
+        select(activeIdx, false);
+        syncNav();
     };
 }
 
@@ -296,7 +445,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initNav(page);
     initRevealOnScroll();
     initCounters();
-    initCountdown();
-    initEventSwitcher();
+    initEventsCalendar();
     initHeroCarousel();
 });

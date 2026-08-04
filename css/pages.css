@@ -316,14 +316,16 @@
 
 .about-intro {
     padding: clamp(88px, 13vh, 170px) var(--pad-x);
+    background: transparent;
+}
+.about-intro-inner {
     max-width: var(--maxw);
     margin: 0 auto;
     display: grid;
     grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
     gap: clamp(40px, 6vw, 110px);
-    background: transparent;
 }
-@media (max-width: 900px) { .about-intro { grid-template-columns: 1fr; gap: 36px; } }
+@media (max-width: 900px) { .about-intro-inner { grid-template-columns: 1fr; gap: 36px; } }
 
 /* strony na bieli */
 body[data-page="about"],

@@ -600,6 +600,35 @@ section { position: relative; }
     align-self: flex-start;
     padding-top: 3px;
 }
+.event-countdown[hidden] { display: none; }
+
+/* licznik dni od minionego startu */
+.event-elapsed {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    transform: skewX(var(--skew));
+    padding: 12px 24px;
+}
+.event-elapsed[hidden] { display: none; }
+.event-elapsed .el-val {
+    transform: skewX(calc(-1 * var(--skew)));
+    font-family: var(--font-d);
+    font-size: 40px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1;
+}
+.event-elapsed .el-lbl {
+    transform: skewX(calc(-1 * var(--skew)));
+    font-family: var(--font-u);
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.75);
+}
 
 /* dostepnosc */
 :focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
