@@ -102,7 +102,7 @@ function renderGrid(filter = 'all') {
                     <div class="member-photo">
                         <span class="role-tag glass-tag">${dept}</span>
                         <img src="assets/team/${m.slug}.jpg"
-                             onerror="this.onerror=null;this.src='assets/team/_placeholder.jpg';this.classList.add('is-placeholder');"
+                             onerror="this.onerror=null;this.src='assets/team/${m.f ? '_placeholder_f' : '_placeholder'}.jpg';this.classList.add('is-placeholder');"
                              alt="${m.name}" loading="lazy">
                         <span class="arrow" aria-hidden="true">↻</span>
                     </div>
