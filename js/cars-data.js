@@ -1,9 +1,9 @@
 export const CARS = [
-    { id: 'wut1', name: 'WUT-1', year: 2012, photo: 'assets/cars/wut1.png',
+    { id: 'wut1', name: 'WUT-1', year: 2014, photo: 'assets/cars/wut1.png',
       specs: { power: '72 KM', vmax: '114 km/h', accel: '5,1 s', mass: '250 kg' } },
-    { id: 'wut2', name: 'WUT-2', year: 2015, photo: 'assets/cars/wut2.png',
+    { id: 'wut2', name: 'WUT-2', year: 2020, photo: 'assets/cars/wut2.png',
       specs: { power: '72 KM', vmax: '116 km/h', accel: '4,9 s', mass: '245 kg' } },
-    { id: 'wut3', name: 'WUT-3', year: 2020, photo: 'assets/cars/wut3.png',
+    { id: 'wut3', name: 'WUT-3', year: 2022, photo: 'assets/cars/wut3.png',
       specs: { power: '86 KM', vmax: '131 km/h', accel: '4,2 s', mass: '190 kg' } },
     { id: 'wut4', name: 'WUT-4', year: 2023, photo: 'assets/cars/wut4.png',
       specs: { power: '86 KM', vmax: '129 km/h', accel: '4,3 s', mass: '204 kg' } },

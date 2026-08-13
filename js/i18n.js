@@ -94,7 +94,7 @@
             'about.ctaTitle': 'Meet our <span class="text-accent">team</span>.',
 
             // cars
-            'cars.hero1': 'Six generations<br>one DNA',
+            'cars.hero1': 'Seven generations<br>one DNA',
             'cars.heroCta': 'See the timeline',
             'cars.hero2': 'Engineering<br>in detail',
             'cars.heroCta2': 'Pick a car',
