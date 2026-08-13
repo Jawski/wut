@@ -487,7 +487,6 @@
 }
 .cta-strip-inner { max-width: 900px; margin: 0 auto; }
 .cta-strip h2 { color: #fff; margin-bottom: 40px; }
-.cta-strip .text-accent { color: #fff; -webkit-text-stroke: 1.5px rgba(255,255,255,0.85); color: transparent; }
 
 .cta-strip .btn-primary {
     background: #fff;
