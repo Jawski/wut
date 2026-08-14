@@ -3,6 +3,7 @@
     { key: 'fb', url: 'https://www.facebook.com/WUTRacing', label: 'Facebook' },
     { key: 'in', url: 'https://pl.linkedin.com/company/wutracing', label: 'LinkedIn' },
     { key: 'yt', url: 'https://www.youtube.com/@WUTRacingTeam', label: 'YouTube' },
+    { key: 'tt', url: 'https://www.tiktok.com/@wut.racing', label: 'TikTok' },
 ];
 
 // dwie wersje ikony: biala na spoczynku, kolorowa po najechaniu
