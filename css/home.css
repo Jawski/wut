@@ -112,14 +112,6 @@
     border-radius: 50%;
 }
 
-.hero-photo-mode .scroll-hint {
-    position: absolute;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 3;
-}
-
 /* kim jestesmy - filmy w tle lecace po sobie */
 .intro-strip {
     position: relative;
@@ -393,10 +385,9 @@
     color: var(--text-2);
 }
 
-/* sekcje dzialow - ukosny podzial: tekst | zdjecie */
+/* sekcje dzialow - trzy ukosne pasy: czerwien | czern | zdjecie */
 .dept-strip {
-    --media-w: 54%;
-    --cut: 11%;
+    --media-w: 56%;
     position: relative;
     min-height: clamp(520px, 82vh, 860px);
     overflow: hidden;
@@ -406,10 +397,22 @@
 .dept-strip.is-gray  { background: var(--black); }
 .dept-strip.is-black { background: var(--deep); }
 
-/* zdjecie przyciete po skosie */
+/* duzy czerwony pas po skosie pod tekstem */
+.dept-accent {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: var(--red);
+    pointer-events: none;
+}
+.dept-strip.is-left  .dept-accent { clip-path: polygon(11% 0, 47% 0, 5% 100%, -31% 100%); }
+.dept-strip.is-right .dept-accent { clip-path: polygon(53% 0, 89% 0, 131% 100%, 95% 100%); }
+
+/* zdjecie przyciete tym samym skosem */
 .dept-media {
     position: absolute;
     top: 0; bottom: 0;
+    z-index: 1;
     width: var(--media-w);
     overflow: hidden;
 }
@@ -419,28 +422,17 @@
     object-fit: cover;
     /* srodek kadru na srodku widocznej (scietej) czesci, nie na srodku klatki */
     object-position: var(--focus, 50%) 50%;
-    will-change: transform;
 }
 .dept-strip.is-left .dept-media {
     right: 0;
-    clip-path: polygon(var(--cut) 0, 100% 0, 100% 100%, 0 100%);
-    --focus: 47%;
+    clip-path: polygon(34% 0, 100% 0, 100% 100%, 0 100%);
+    --focus: 42%;
 }
 .dept-strip.is-right .dept-media {
     left: 0;
-    clip-path: polygon(0 0, 100% 0, calc(100% - var(--cut)) 100%, 0 100%);
-    --focus: 53%;
+    clip-path: polygon(0 0, 66% 0, 100% 100%, 0 100%);
+    --focus: 58%;
 }
-
-/* wtopienie krawedzi zdjecia w tlo sekcji */
-.dept-media::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-}
-.dept-strip.is-left  .dept-media::after { background: linear-gradient(90deg,  rgba(10,10,12,0.62) 0%, transparent 30%); }
-.dept-strip.is-right .dept-media::after { background: linear-gradient(270deg, rgba(10,10,12,0.62) 0%, transparent 30%); }
 
 /* kolumna tekstu - rezerwujemy pas na zdjecie, wiec nic nie wchodzi na skos */
 .dept-copy {
@@ -450,11 +442,11 @@
     padding-block: clamp(48px, 8vh, 96px);
 }
 .dept-strip.is-left .dept-copy {
-    padding-left: clamp(22px, 5.5vw, 130px);
+    padding-left: clamp(22px, 5vw, 118px);
     padding-right: calc(var(--media-w) + 2%);
 }
 .dept-strip.is-right .dept-copy {
-    padding-right: clamp(22px, 5.5vw, 130px);
+    padding-right: clamp(22px, 5vw, 118px);
     padding-left: calc(var(--media-w) + 2%);
     text-align: right;
 }
@@ -479,28 +471,48 @@
     display: block;
     width: 62px;
     height: 3px;
-    background: var(--red);
+    background: var(--white);
     margin-top: 20px;
 }
 .dept-strip.is-right .dept-strip-title::after { margin-left: auto; }
 
 .dept-strip-body {
     font-size: clamp(15px, 1.1vw, 17px);
-    color: rgba(255, 255, 255, 0.84);
+    color: rgba(255, 255, 255, 0.9);
     line-height: 1.75;
     margin: 0;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.35);
 }
+
+/* wjazd przy przewijaniu: zdjecie i tekst wchodza z przeciwnych stron */
+.dept-media {
+    opacity: 0;
+    transform: translateX(6%);
+    transition: opacity 1.1s var(--ease), transform 1.1s var(--ease);
+}
+.dept-strip.is-right .dept-media { transform: translateX(-6%); }
+.dept-media.is-in { opacity: 1; transform: translateX(0); }
+
+.dept-accent {
+    opacity: 0;
+    transform: translateX(-5%);
+    transition: opacity 1s var(--ease) 0.1s, transform 1s var(--ease) 0.1s;
+}
+.dept-strip.is-right .dept-accent { transform: translateX(5%); }
+.dept-accent.is-in { opacity: 1; transform: translateX(0); }
 
 @media (max-width: 900px) {
     .dept-strip { min-height: 0; display: block; }
+    .dept-accent { display: none; }
     .dept-media {
         position: relative;
         width: 100%;
         height: clamp(230px, 38vh, 380px);
         clip-path: none !important;
         --focus: 50% !important;
+        transform: translateY(20px) !important;
     }
-    .dept-media::after { background: linear-gradient(180deg, transparent 52%, rgba(16,16,18,0.9) 100%) !important; }
+    .dept-media.is-in { transform: translateY(0) !important; }
     .dept-strip.is-left .dept-copy,
     .dept-strip.is-right .dept-copy {
         padding: 34px var(--pad-x) 54px;

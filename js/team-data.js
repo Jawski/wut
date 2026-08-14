@@ -44,7 +44,7 @@ window.WUT_TEAM = [
     // AERODYNAMIKA
     { slug: 'iga-gamska', name: 'Iga Gamska', dept: 'aero', role: 'Koordynator' },
     {
-        slug: 'benek-jez', name: 'Benek Jeż', dept: 'aero', role: 'Zastępca koordynatora', since: 2023, studies: 'PW · MEiL',
+        slug: 'benek-jez', name: 'Benedykt Jeż', dept: 'aero', role: 'Zastępca koordynatora', since: 2023, studies: 'PW · MEiL',
         bio: 'W zespole głównie zajmuję się prowadzeniem projektu aerodynamiki i obliczeniami CFD, ale lubię też prace warsztatowe przy wytwarzaniu elementów kompozytowych. W czasie kiedy akurat nie walczę z Fluentem albo nie siedzę na warsztacie lubię grać w kosza, wspinać się, żeglować albo jeździć na nartach :))',
         achievements: [{ year: 2025, text: 'Austria' }],
         projects: ['Sidepody i kanały chłodzenia WUT-6', 'Złożenia aero i sprinty CFD WUT-7'],
