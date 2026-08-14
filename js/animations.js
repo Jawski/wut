@@ -120,6 +120,24 @@
         });
     }
 
+    // Sekcje, ktore maja zostawac w miejscu. Gdy sekcja jest wyzsza od ekranu,
+    // "top: 0" przykleiloby ja od razu i jej dolu nigdy nie dalo sie zobaczyc -
+    // dlatego przesuwamy punkt przyklejenia o nadmiar wysokosci w gore.
+    function initStickyOffsets() {
+        const els = document.querySelectorAll('.scroll-stack .events-strip, .scroll-stack .intro-strip');
+        if (!els.length) return;
+
+        function apply() {
+            els.forEach(el => {
+                if (getComputedStyle(el).position !== 'sticky') { el.style.top = ''; return; }
+                const over = el.offsetHeight - window.innerHeight;
+                el.style.top = over > 0 ? -over + 'px' : '0px';
+            });
+        }
+        apply();
+        window.addEventListener('resize', apply);
+    }
+
     // film "Kim jestesmy" zostaje w miejscu, a tekst na nim gasnie,
     // zanim najada na niego sekcje dzialow
     function initIntroFade() {
@@ -188,6 +206,7 @@
         initIntroVideos();
         initParallaxMedia();
         initParallax();
+        initStickyOffsets();
         initIntroFade();
         initQuoteSpotlight();
     }

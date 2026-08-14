@@ -201,11 +201,11 @@
 .scroll-stack { position: relative; }
 
 /* kalendarz - czarna sekcja; zostaje w miejscu, film na niego najezdza.
-   Sekcja jest wyzsza niz ekran, wiec przyklejamy ja dolem - inaczej
-   jej dol nigdy nie bylby widoczny */
+   "top" ustawia skrypt: dla sekcji wyzszych niz ekran musi byc ujemny,
+   inaczej przykleilyby sie za wczesnie i ich dol bylby nieosiagalny */
 .events-strip {
     position: sticky;
-    bottom: 0;
+    top: 0;
     z-index: 0;
     background: var(--black);
     padding: clamp(88px, 13vh, 160px) var(--pad-x);
