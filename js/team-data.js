@@ -140,7 +140,8 @@ window.WUT_TEAM = [
         achievements: [{ year: 2026, text: 'FS Czech' }, { year: 2026, text: 'FS Austria' }],
     },
     {
-        slug: 'jan-oziemski', name: 'Jan Oziemski', dept: 'aero', since: 2025, studies: 'PW · Mechatronika',
+        // thumb: wchodzi do stosiku miniatur przy dziale przed innymi czlonkami
+        slug: 'jan-oziemski', name: 'Jan Oziemski', dept: 'aero', thumb: 1, since: 2025, studies: 'PW · Mechatronika',
         bio: 'Jako członek działu aerodynamiki zajmuję się projektowaniem i wykonaniem pakietu aerodynamicznego dla naszych najnowszych konstrukcji. Sporą część wolnego czasu spędzam na warsztacie laminując kolejne profile i przygotowując nowe foremniki.',
         achievements: [{ year: 2026, text: 'FS Poland' }],
         projects: ['Faza wykonawcza WUT-7', 'Foremniki profili FW', 'Rysunki wykonawcze częsci FW', 'Strona internetowa'],

@@ -33,6 +33,20 @@ function deptLabel(m) {
     return t('dept.' + m.dept, window.WUT_getDeptLabel(m));
 }
 
+// im nizsza liczba, tym wyzej w hierarchii - decyduje o kolejnosci w stosiku
+const RANGI = {
+    'Prezes': 0,
+    'Wiceprezes ds. technicznych': 1,
+    'Wiceprezes ds. operacyjno-finansowych': 1,
+    'Koordynator': 2,
+    'Zastępca koordynatora': 3,
+    'Fotograf': 4,
+};
+function ranga(m) {
+    const r = RANGI[m.role];
+    return r === undefined ? 5 : r;
+}
+
 // rzedy dzialow: zwiniete pokazuja stosik kart, po najechaniu rozkladaja sie
 function renderDeptRows() {
     const wrap = document.getElementById('dept-rows');
@@ -49,7 +63,18 @@ function renderDeptRows() {
         const brakZdjecia = window.WUT_NO_PHOTO || [];
         const wDziale = window.WUT_TEAM.filter(m => m.dept === f.id);
         const zeZdjeciem = wDziale.filter(m => brakZdjecia.indexOf(m.slug) === -1);
-        const karty = (zeZdjeciem.length ? zeZdjeciem : wDziale).slice(0, 3).map((m, i) => `
+        const pula = zeZdjeciem.length ? zeZdjeciem : wDziale;
+
+        // najwyzej postawiony na wierzchu; przy rownej randze wpierw oznaczeni "thumb"
+        const kolejnosc = pula
+            .map((m, idx) => ({ m, idx }))
+            .sort((a, b) =>
+                ranga(a.m) - ranga(b.m) ||
+                (b.m.thumb ? 1 : 0) - (a.m.thumb ? 1 : 0) ||
+                a.idx - b.idx)
+            .map(x => x.m);
+
+        const karty = kolejnosc.slice(0, 3).map((m, i) => `
             <span class="dept-card" style="--i:${i}">
                 <img src="assets/team/${m.slug}.jpg" alt=""
                      onerror="this.onerror=null;this.src='assets/team/${m.f ? '_placeholder_f' : '_placeholder'}.jpg';"

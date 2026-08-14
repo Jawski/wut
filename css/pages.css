@@ -77,9 +77,13 @@
     border: 1px solid rgba(255, 255, 255, 0.12);
     box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
     overflow: hidden;
+    /* najwyzej postawiony jest pierwszy w kodzie i ma lezec na wierzchu */
+    z-index: calc(3 - var(--i));
+    /* kolejni coraz bardziej przezroczysci - widac, ze w dziale jest wiecej osob */
+    opacity: calc(1 - var(--i) * 0.22);
     /* zwiniete: lekkie kąty, jakby lezaly na stole */
     transform: translateY(-50%) translateX(calc(var(--i) * 9px)) rotate(calc((var(--i) - 1) * 4deg));
-    transition: transform 0.6s var(--ease), box-shadow 0.5s var(--ease);
+    transition: transform 0.6s var(--ease), box-shadow 0.5s var(--ease), opacity 0.5s var(--ease);
 }
 .dept-card img {
     width: 100%; height: 100%;
