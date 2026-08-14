@@ -24,6 +24,33 @@ window.WUT_DEPT_INFO = {
     logistics:   { label: 'Logistyka',    defaultRole: 'Dział logistyki' },
 };
 
+// osoby bez wlasnego zdjecia - na karcie leci placeholder, a do miniatur
+// przy dzialach ich nie bierzemy (lista wygenerowana z assets/team)
+window.WUT_NO_PHOTO = [
+    'benek-jez',
+    'milosz-niedziela',
+    'stefan-jozefowicz-okonkwo',
+    'franciszek-knecht',
+    'mikolaj-konicki',
+    'marta-mnich',
+    'aleksander-abramowicz',
+    'marcin-gruszczynski',
+    'tomasz-zaleski',
+    'dominik-werpachowski',
+    'adam-tumidajewicz',
+    'kacper-kowalski',
+    'patrycja-wozniak',
+    'tymoteusz-celmer',
+    'mateusz-olszewski',
+    'wojciech-glownia',
+    'iwo-szaniawski',
+    'jakub-dzikowski',
+    'albert-kwasniewski',
+    'michal-szczawinski',
+    'patrycja-wojcik',
+    'marcin-malczewski',
+];
+
 window.WUT_TEAM = [
 
     // ZARZĄD

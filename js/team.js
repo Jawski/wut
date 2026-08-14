@@ -44,8 +44,12 @@ function renderDeptRows() {
 
     wrap.innerHTML = depts.map(f => {
         const label = t('dept.' + f.id, f.label);
-        // do stosiku bierzemy pierwsze osoby z dzialu
-        const karty = window.WUT_TEAM.filter(m => m.dept === f.id).slice(0, 3).map((m, i) => `
+        // do stosiku tylko osoby, ktore maja wlasne zdjecie - placeholder
+        // w miniaturze wyglada zle; gdyby takich nie bylo, bierzemy kogokolwiek
+        const brakZdjecia = window.WUT_NO_PHOTO || [];
+        const wDziale = window.WUT_TEAM.filter(m => m.dept === f.id);
+        const zeZdjeciem = wDziale.filter(m => brakZdjecia.indexOf(m.slug) === -1);
+        const karty = (zeZdjeciem.length ? zeZdjeciem : wDziale).slice(0, 3).map((m, i) => `
             <span class="dept-card" style="--i:${i}">
                 <img src="assets/team/${m.slug}.jpg" alt=""
                      onerror="this.onerror=null;this.src='assets/team/${m.f ? '_placeholder_f' : '_placeholder'}.jpg';"
