@@ -66,210 +66,214 @@
 
     </section>
 
-    <div class="events-strip">
-        <div class="events-strip-inner">
-            <div class="events-head reveal">
-                <span class="eyebrow" data-i18n="home.calendar">Kalendarz</span>
-                <h2 class="h-1" style="margin-top: 12px;" data-i18n="home.upcoming">Nadchodzące <span class="text-accent">wydarzenia</span>.</h2>
-            </div>
-
-            <article class="event-featured reveal" data-delay="1">
-                <div class="event-featured-photo">
-                    <img id="event-banner-img" src="assets/wut7-rollout.jpg" alt="" loading="lazy">
+    <!-- przyklejone tla: kalendarz i film zostaja w miejscu,
+         a kolejne sekcje na nie najezdzaja -->
+    <div class="scroll-stack">
+        <div class="events-strip">
+            <div class="events-strip-inner">
+                <div class="events-head reveal">
+                    <span class="eyebrow" data-i18n="home.calendar">Kalendarz</span>
+                    <h2 class="h-1" style="margin-top: 12px;" data-i18n="home.upcoming">Nadchodzące <span class="text-accent">wydarzenia</span>.</h2>
                 </div>
-                <div class="event-featured-overlay"></div>
-                <div class="event-featured-content">
-                    <div class="event-featured-info">
-                        <h3 class="event-featured-title" id="event-banner-title">Roll-out WUT7</h3>
-                        <p class="event-featured-meta" id="event-banner-meta">9 lipca 2026 · 18:00 · Politechnika Warszawska</p>
-                    </div>
 
-                    <div class="event-countdown" id="rollout-countdown">
-                        <div class="cd-unit"><span class="cd-val" data-cd="days">--</span><span class="cd-lbl" data-i18n="cd.days">dni</span></div>
-                        <div class="cd-sep">:</div>
-                        <div class="cd-unit"><span class="cd-val" data-cd="hours">--</span><span class="cd-lbl" data-i18n="cd.hours">godz</span></div>
-                        <div class="cd-sep">:</div>
-                        <div class="cd-unit"><span class="cd-val" data-cd="mins">--</span><span class="cd-lbl" data-i18n="cd.mins">min</span></div>
-                        <div class="cd-sep">:</div>
-                        <div class="cd-unit"><span class="cd-val" data-cd="secs">--</span><span class="cd-lbl" data-i18n="cd.secs">sek</span></div>
+                <article class="event-featured reveal" data-delay="1">
+                    <div class="event-featured-photo">
+                        <img id="event-banner-img" src="assets/wut7-rollout.jpg" alt="" loading="lazy">
                     </div>
+                    <div class="event-featured-overlay"></div>
+                    <div class="event-featured-content">
+                        <div class="event-featured-info">
+                            <h3 class="event-featured-title" id="event-banner-title">Roll-out WUT7</h3>
+                            <p class="event-featured-meta" id="event-banner-meta">9 lipca 2026 · 18:00 · Politechnika Warszawska</p>
+                        </div>
 
-                    <div class="event-elapsed" id="event-elapsed" hidden>
-                        <span class="el-val" id="event-elapsed-val">--</span>
-                        <span class="el-lbl" id="event-elapsed-lbl">dni temu</span>
+                        <div class="event-countdown" id="rollout-countdown">
+                            <div class="cd-unit"><span class="cd-val" data-cd="days">--</span><span class="cd-lbl" data-i18n="cd.days">dni</span></div>
+                            <div class="cd-sep">:</div>
+                            <div class="cd-unit"><span class="cd-val" data-cd="hours">--</span><span class="cd-lbl" data-i18n="cd.hours">godz</span></div>
+                            <div class="cd-sep">:</div>
+                            <div class="cd-unit"><span class="cd-val" data-cd="mins">--</span><span class="cd-lbl" data-i18n="cd.mins">min</span></div>
+                            <div class="cd-sep">:</div>
+                            <div class="cd-unit"><span class="cd-val" data-cd="secs">--</span><span class="cd-lbl" data-i18n="cd.secs">sek</span></div>
+                        </div>
+
+                        <div class="event-elapsed" id="event-elapsed" hidden>
+                            <span class="el-val" id="event-elapsed-val">--</span>
+                            <span class="el-lbl" id="event-elapsed-lbl">dni temu</span>
+                        </div>
                     </div>
+                </article>
+
+                <div class="events-rail">
+                    <button class="rail-nav rail-prev" id="rail-prev" type="button" aria-label="Poprzednie">‹</button>
+                    <div class="events-races" id="events-races"></div>
+                    <button class="rail-nav rail-next" id="rail-next" type="button" aria-label="Następne">›</button>
                 </div>
-            </article>
 
-            <div class="events-rail">
-                <button class="rail-nav rail-prev" id="rail-prev" type="button" aria-label="Poprzednie">‹</button>
-                <div class="events-races" id="events-races"></div>
-                <button class="rail-nav rail-next" id="rail-next" type="button" aria-label="Następne">›</button>
             </div>
-
         </div>
+
+        <section class="intro-strip dept-team" id="kim-jestesmy">
+            <div class="intro-bg" id="intro-bg">
+                <video class="intro-video is-active" data-clip="0" src="assets/media/film1.mp4" muted playsinline preload="auto"></video>
+                <video class="intro-video" data-clip="1" src="assets/media/film2.mp4" muted playsinline preload="auto"></video>
+            </div>
+            <div class="intro-strip-inner reveal">
+                    <h2 class="dept-strip-title" data-i18n="home.whoTitle">Kim jesteśmy?</h2>
+                <div class="intro-copy">
+                <p data-i18n="home.who1">
+                    Zapnijcie pasy i przeżyjcie ekscytującą podróż z Kołem Naukowym WUT Racing!
+                    Nasza historia rozpoczęła się w 2011 roku na Wydziale Mechanicznym Energetyki
+                    i Lotnictwa. Od tego czasu, zjednoczeni pasją do motoryzacji, dążymy do
+                    wspólnego celu — skonstruowania bolidu wyścigowego, który zmierzy się
+                    z wyzwaniami międzynarodowych zawodów Formula Student.
+                </p>
+                <p data-i18n="home.who2">
+                    Jesteśmy wyjątkowym zespołem zrzeszającym utalentowanych studentów czołowych
+                    warszawskich uczelni, których głównym celem jest osiągnięcie triumfu
+                    w prestiżowych zawodach FS. Jak zamierzamy tego dokonać? Nasza droga
+                    do sukcesu to współpraca oparta na determinacji i pasji, mająca na celu
+                    wspólne stworzenie konkurencyjnego bolidu.
+                </p>
+                <p data-i18n="home.who3">
+                    Poprzez nasze zaangażowanie i wspólny wysiłek, kreujemy nie tylko maszynę
+                    z metalu i technologii, ale także niepowtarzalną społeczność, w której każdy
+                    ma swój wkład w osiąganiu wspólnego celu. To dla nas więcej niż zwykły wyścig
+                    — to podróż w stronę spełniania marzeń i zdobywania uznania na przestrzeni
+                    studenckiego motorsportu.
+                </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="dept-strip dept-aero is-left is-gray">
+            <div class="dept-media reveal">
+                <img src="assets/media/dept-aero.jpg" alt="" loading="lazy">
+            </div>
+            <div class="dept-copy reveal">
+                <div class="dept-copy-in">
+                    <span class="dept-accent" aria-hidden="true"></span>
+                    <h2 class="dept-strip-title" data-i18n="dept.aero">Aerodynamika</h2>
+                    <p class="dept-strip-body" data-i18n="home.aeroBody">
+                    Dział aerodynamiki WUT Racing przeprowadza niezbędne obliczenia, symulacje
+                    oraz optymalizację elementów nadwozia. Wdrażając nowe rozwiązania, sprawdzają
+                    ich wpływ na całość projektu i dobierają najlepsze z nich. Członkowie działu
+                    mają za zadanie także wykonanie elementów aerodynamicznych z materiałów
+                    kompozytowych.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="dept-strip dept-chassis is-right is-black">
+            <div class="dept-media reveal">
+                <img src="assets/media/dept-chassis.jpg" alt="" loading="lazy">
+            </div>
+            <div class="dept-copy reveal">
+                <div class="dept-copy-in">
+                    <span class="dept-accent" aria-hidden="true"></span>
+                    <h2 class="dept-strip-title" data-i18n="dept.chassis">Chassis</h2>
+                    <p class="dept-strip-body" data-i18n="home.chassisBody">
+                    Dział chassis WUT Racing projektuje i buduje monocoque, a także ramę oraz
+                    pochłaniacz energii (Impact Attenuator). Przeprowadza analizę wytrzymałościową
+                    MES. Wytwarza elementy kompozytowe bolidu oraz bada ich próbki.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="dept-strip dept-suspension is-left is-gray">
+            <div class="dept-media reveal">
+                <img src="assets/media/foto2.jpg" alt="" loading="lazy">
+            </div>
+            <div class="dept-copy reveal">
+                <div class="dept-copy-in">
+                    <span class="dept-accent" aria-hidden="true"></span>
+                    <h2 class="dept-strip-title" data-i18n="dept.suspension">Zawieszenie</h2>
+                    <p class="dept-strip-body" data-i18n="home.suspensionBody">
+                    Dział zawieszenia WUT Racing przeprowadza obliczenia, symulacje oraz testy.
+                    Projektuje części w środowisku CAD, przygotowuje dokumentację techniczną oraz
+                    pomaga przy produkcji. Członkowie zajmują się liczeniem quasi-dynamiki
+                    pojazdu, tj. systemu amortyzacji i stabilizacji.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="dept-strip dept-electronics is-right is-black">
+            <div class="dept-media reveal">
+                <img src="assets/media/dept-electronics.jpg" alt="" loading="lazy">
+            </div>
+            <div class="dept-copy reveal">
+                <div class="dept-copy-in">
+                    <span class="dept-accent" aria-hidden="true"></span>
+                    <h2 class="dept-strip-title" data-i18n="dept.electronics">Elektronika</h2>
+                    <p class="dept-strip-body" data-i18n="home.electronicsBody">
+                    Dział elektroniki WUT Racing zajmuje się projektowaniem systemów elektrycznych
+                    i elektronicznych, których zadaniem jest zespolenie ze sobą elementów
+                    konstrukcji. Inżynierowie tworzą podzespoły odpowiadające za sterowanie pracą
+                    silnika wraz z układem przeniesienia napędu, a także za prawidłowe
+                    i bezawaryjne funkcjonowanie systemów wspomagających kierowcę. Dział ten
+                    zajmuje się również akwizycją danych, które później używane są w celu
+                    optymalnego wykorzystania potencjału bolidu.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="dept-strip dept-engine is-left is-gray">
+            <div class="dept-media reveal">
+                <img src="assets/media/foto3.jpg" alt="" loading="lazy">
+            </div>
+            <div class="dept-copy reveal">
+                <div class="dept-copy-in">
+                    <span class="dept-accent" aria-hidden="true"></span>
+                    <h2 class="dept-strip-title" data-i18n="dept.engine">Silnik</h2>
+                    <p class="dept-strip-body" data-i18n="home.engineBody">
+                    Dział silnika WUT Racing projektuje i modyfikuje poszczególne układy oraz
+                    ich elementy. Zajmuje się mapowaniem silnika dla różnych konkurencji, a także
+                    optymalizacją zużycia paliwa. Wśród zadań członków działu jest także
+                    rozwijanie stanowiska hamowni silnika.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="dept-strip dept-pr is-right is-black">
+            <div class="dept-media reveal">
+                <img src="assets/media/foto4.jpg" alt="" loading="lazy">
+            </div>
+            <div class="dept-copy reveal">
+                <div class="dept-copy-in">
+                    <span class="dept-accent" aria-hidden="true"></span>
+                    <h2 class="dept-strip-title" data-i18n="dept.pr">PR</h2>
+                    <p class="dept-strip-body" data-i18n="home.prBody">
+                    Dział PR WUT Racing to wizytówka organizacji. Zajmuje się kreowaniem
+                    wizerunku WUT Racing. Koordynuje działania medialne oraz promocję wszelkich
+                    wydarzeń, w których team bierze udział.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="dept-strip dept-logistics is-left is-gray">
+            <div class="dept-media reveal">
+                <img src="assets/media/foto0.jpg" alt="" loading="lazy">
+            </div>
+            <div class="dept-copy reveal">
+                <div class="dept-copy-in">
+                    <span class="dept-accent" aria-hidden="true"></span>
+                    <h2 class="dept-strip-title" data-i18n="dept.logistics">Logistyka</h2>
+                    <p class="dept-strip-body" data-i18n="home.logisticsBody">
+                    Dział logistyki WUT Racing zajmuje się organizacją aspektów logistycznych
+                    związanych z targami branżowymi oraz eventami, a także wyjazdów zagranicznych
+                    Koła. W zakresie obowiązków leżą także działania optymalizacyjne transportu
+                    członków i konstrukcji.
+                    </p>
+                </div>
+            </div>
+        </section>
     </div>
-
-    <section class="intro-strip dept-team" id="kim-jestesmy">
-        <div class="intro-bg" id="intro-bg">
-            <video class="intro-video is-active" data-clip="0" src="assets/media/film1.mp4" muted playsinline preload="auto"></video>
-            <video class="intro-video" data-clip="1" src="assets/media/film2.mp4" muted playsinline preload="auto"></video>
-        </div>
-        <div class="intro-strip-inner reveal">
-                <h2 class="dept-strip-title" data-i18n="home.whoTitle">Kim jesteśmy?</h2>
-            <div class="intro-copy">
-            <p data-i18n="home.who1">
-                Zapnijcie pasy i przeżyjcie ekscytującą podróż z Kołem Naukowym WUT Racing!
-                Nasza historia rozpoczęła się w 2011 roku na Wydziale Mechanicznym Energetyki
-                i Lotnictwa. Od tego czasu, zjednoczeni pasją do motoryzacji, dążymy do
-                wspólnego celu — skonstruowania bolidu wyścigowego, który zmierzy się
-                z wyzwaniami międzynarodowych zawodów Formula Student.
-            </p>
-            <p data-i18n="home.who2">
-                Jesteśmy wyjątkowym zespołem zrzeszającym utalentowanych studentów czołowych
-                warszawskich uczelni, których głównym celem jest osiągnięcie triumfu
-                w prestiżowych zawodach FS. Jak zamierzamy tego dokonać? Nasza droga
-                do sukcesu to współpraca oparta na determinacji i pasji, mająca na celu
-                wspólne stworzenie konkurencyjnego bolidu.
-            </p>
-            <p data-i18n="home.who3">
-                Poprzez nasze zaangażowanie i wspólny wysiłek, kreujemy nie tylko maszynę
-                z metalu i technologii, ale także niepowtarzalną społeczność, w której każdy
-                ma swój wkład w osiąganiu wspólnego celu. To dla nas więcej niż zwykły wyścig
-                — to podróż w stronę spełniania marzeń i zdobywania uznania na przestrzeni
-                studenckiego motorsportu.
-            </p>
-            </div>
-        </div>
-    </section>
-
-    <section class="dept-strip dept-aero is-left is-gray">
-        <div class="dept-media reveal">
-            <img src="assets/media/dept-aero.jpg" alt="" loading="lazy">
-        </div>
-        <div class="dept-copy reveal">
-            <div class="dept-copy-in">
-                <span class="dept-accent" aria-hidden="true"></span>
-                <h2 class="dept-strip-title" data-i18n="dept.aero">Aerodynamika</h2>
-                <p class="dept-strip-body" data-i18n="home.aeroBody">
-                Dział aerodynamiki WUT Racing przeprowadza niezbędne obliczenia, symulacje
-                oraz optymalizację elementów nadwozia. Wdrażając nowe rozwiązania, sprawdzają
-                ich wpływ na całość projektu i dobierają najlepsze z nich. Członkowie działu
-                mają za zadanie także wykonanie elementów aerodynamicznych z materiałów
-                kompozytowych.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <section class="dept-strip dept-chassis is-right is-black">
-        <div class="dept-media reveal">
-            <img src="assets/media/dept-chassis.jpg" alt="" loading="lazy">
-        </div>
-        <div class="dept-copy reveal">
-            <div class="dept-copy-in">
-                <span class="dept-accent" aria-hidden="true"></span>
-                <h2 class="dept-strip-title" data-i18n="dept.chassis">Chassis</h2>
-                <p class="dept-strip-body" data-i18n="home.chassisBody">
-                Dział chassis WUT Racing projektuje i buduje monocoque, a także ramę oraz
-                pochłaniacz energii (Impact Attenuator). Przeprowadza analizę wytrzymałościową
-                MES. Wytwarza elementy kompozytowe bolidu oraz bada ich próbki.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <section class="dept-strip dept-suspension is-left is-gray">
-        <div class="dept-media reveal">
-            <img src="assets/media/foto2.jpg" alt="" loading="lazy">
-        </div>
-        <div class="dept-copy reveal">
-            <div class="dept-copy-in">
-                <span class="dept-accent" aria-hidden="true"></span>
-                <h2 class="dept-strip-title" data-i18n="dept.suspension">Zawieszenie</h2>
-                <p class="dept-strip-body" data-i18n="home.suspensionBody">
-                Dział zawieszenia WUT Racing przeprowadza obliczenia, symulacje oraz testy.
-                Projektuje części w środowisku CAD, przygotowuje dokumentację techniczną oraz
-                pomaga przy produkcji. Członkowie zajmują się liczeniem quasi-dynamiki
-                pojazdu, tj. systemu amortyzacji i stabilizacji.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <section class="dept-strip dept-electronics is-right is-black">
-        <div class="dept-media reveal">
-            <img src="assets/media/dept-electronics.jpg" alt="" loading="lazy">
-        </div>
-        <div class="dept-copy reveal">
-            <div class="dept-copy-in">
-                <span class="dept-accent" aria-hidden="true"></span>
-                <h2 class="dept-strip-title" data-i18n="dept.electronics">Elektronika</h2>
-                <p class="dept-strip-body" data-i18n="home.electronicsBody">
-                Dział elektroniki WUT Racing zajmuje się projektowaniem systemów elektrycznych
-                i elektronicznych, których zadaniem jest zespolenie ze sobą elementów
-                konstrukcji. Inżynierowie tworzą podzespoły odpowiadające za sterowanie pracą
-                silnika wraz z układem przeniesienia napędu, a także za prawidłowe
-                i bezawaryjne funkcjonowanie systemów wspomagających kierowcę. Dział ten
-                zajmuje się również akwizycją danych, które później używane są w celu
-                optymalnego wykorzystania potencjału bolidu.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <section class="dept-strip dept-engine is-left is-gray">
-        <div class="dept-media reveal">
-            <img src="assets/media/foto3.jpg" alt="" loading="lazy">
-        </div>
-        <div class="dept-copy reveal">
-            <div class="dept-copy-in">
-                <span class="dept-accent" aria-hidden="true"></span>
-                <h2 class="dept-strip-title" data-i18n="dept.engine">Silnik</h2>
-                <p class="dept-strip-body" data-i18n="home.engineBody">
-                Dział silnika WUT Racing projektuje i modyfikuje poszczególne układy oraz
-                ich elementy. Zajmuje się mapowaniem silnika dla różnych konkurencji, a także
-                optymalizacją zużycia paliwa. Wśród zadań członków działu jest także
-                rozwijanie stanowiska hamowni silnika.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <section class="dept-strip dept-pr is-right is-black">
-        <div class="dept-media reveal">
-            <img src="assets/media/foto4.jpg" alt="" loading="lazy">
-        </div>
-        <div class="dept-copy reveal">
-            <div class="dept-copy-in">
-                <span class="dept-accent" aria-hidden="true"></span>
-                <h2 class="dept-strip-title" data-i18n="dept.pr">PR</h2>
-                <p class="dept-strip-body" data-i18n="home.prBody">
-                Dział PR WUT Racing to wizytówka organizacji. Zajmuje się kreowaniem
-                wizerunku WUT Racing. Koordynuje działania medialne oraz promocję wszelkich
-                wydarzeń, w których team bierze udział.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <section class="dept-strip dept-logistics is-left is-gray">
-        <div class="dept-media reveal">
-            <img src="assets/media/foto0.jpg" alt="" loading="lazy">
-        </div>
-        <div class="dept-copy reveal">
-            <div class="dept-copy-in">
-                <span class="dept-accent" aria-hidden="true"></span>
-                <h2 class="dept-strip-title" data-i18n="dept.logistics">Logistyka</h2>
-                <p class="dept-strip-body" data-i18n="home.logisticsBody">
-                Dział logistyki WUT Racing zajmuje się organizacją aspektów logistycznych
-                związanych z targami branżowymi oraz eventami, a także wyjazdów zagranicznych
-                Koła. W zakresie obowiązków leżą także działania optymalizacyjne transportu
-                członków i konstrukcji.
-                </p>
-            </div>
-        </div>
-    </section>
 
     <section class="quote-strip">
         <div class="quote-body reveal">

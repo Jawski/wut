@@ -117,7 +117,7 @@
     /* film zostaje w miejscu, kolejne sekcje na niego najezdzaja */
     position: sticky;
     top: 0;
-    z-index: 0;
+    z-index: 1;
     padding: clamp(96px, 15vh, 190px) var(--pad-x);
     background: var(--deep);
     color: #fff;
@@ -197,14 +197,29 @@
 }
 .intro-strip p:last-child { margin-bottom: 0; }
 
-/* kalendarz - czarna sekcja */
+/* kontener przyklejonych tel - poza nim wszystko wraca do normalnego przewijania */
+.scroll-stack { position: relative; }
+
+/* kalendarz - czarna sekcja; zostaje w miejscu, film na niego najezdza.
+   Sekcja jest wyzsza niz ekran, wiec przyklejamy ja dolem - inaczej
+   jej dol nigdy nie bylby widoczny */
 .events-strip {
-    position: relative;
+    position: sticky;
+    bottom: 0;
+    z-index: 0;
     background: var(--black);
     padding: clamp(88px, 13vh, 160px) var(--pad-x);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 .events-strip-inner { max-width: var(--maxw); margin: 0 auto; }
+
+/* na waskim ekranie obie sekcje sa wyzsze niz ekran - przyklejone uciac by
+   mogly czesc tresci, wiec tam przewijaja sie normalnie */
+@media (max-width: 900px) {
+    .events-strip,
+    .intro-strip { position: relative; }
+    .intro-strip-inner > * { opacity: 1; }
+}
 
 .events-head {
     display: flex;
@@ -397,7 +412,7 @@
 .dept-strip {
     --media-w: 56%;
     position: relative;
-    z-index: 1;
+    z-index: 2;
     min-height: clamp(520px, 82vh, 860px);
     overflow: hidden;
     display: grid;
