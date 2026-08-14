@@ -558,12 +558,26 @@
     .dept-strip.is-right .dept-strip-title::after { margin-left: 0; }
 }
 
+/* cta czeka pod cytatem i wyjezdza spod niego przy przewijaniu.
+   "bottom" w sticky podciaga element do dolu ekranu, zanim dojdzie do niego
+   w normalnym ukladzie - a cytat, bedac warstwe wyzej, zaslania go do konca */
+.reveal-stack { position: relative; }
+.reveal-stack .quote-strip { position: relative; z-index: 1; }
+
 /* cta - czerwien na plasko */
 .cta-strip {
     padding: clamp(96px, 14vh, 180px) var(--pad-x);
     background: var(--red);
     color: #fff;
     text-align: center;
+}
+.reveal-stack .cta-strip {
+    position: sticky;
+    bottom: 0;
+    z-index: 0;
+}
+@media (max-width: 900px) {
+    .reveal-stack .cta-strip { position: relative; }
 }
 .cta-strip-inner { max-width: 900px; margin: 0 auto; }
 .cta-strip h2 { color: #fff; margin-bottom: 40px; }
