@@ -562,7 +562,8 @@
    "bottom" w sticky podciaga element do dolu ekranu, zanim dojdzie do niego
    w normalnym ukladzie - a cytat, bedac warstwe wyzej, zaslania go do konca */
 .reveal-stack { position: relative; }
-.reveal-stack .quote-strip { position: relative; z-index: 1; }
+/* wszystko nad CTA jedzie warstwe wyzej i je zaslania */
+.reveal-stack > *:not(.cta-strip) { position: relative; z-index: 1; }
 
 /* cta - czerwien na plasko */
 .cta-strip {
