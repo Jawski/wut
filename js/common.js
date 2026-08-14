@@ -466,6 +466,41 @@ function initHeroCarousel() {
     start();
 }
 
+// rozwijane opisy konkurencji formula student
+function initRaceAccordion() {
+    const heads = document.querySelectorAll('.fs-race-head');
+    if (!heads.length) return;
+
+    heads.forEach(btn => {
+        const panel = document.getElementById(btn.getAttribute('aria-controls'));
+        if (!panel) return;
+
+        btn.addEventListener('click', () => {
+            const open = btn.getAttribute('aria-expanded') === 'true';
+            if (open) {
+                panel.style.height = panel.scrollHeight + 'px';
+                requestAnimationFrame(() => { panel.style.height = '0px'; });
+                panel.addEventListener('transitionend', function done() {
+                    panel.removeEventListener('transitionend', done);
+                    if (btn.getAttribute('aria-expanded') === 'false') {
+                        panel.hidden = true;
+                        panel.style.height = '';
+                    }
+                });
+            } else {
+                panel.hidden = false;
+                panel.style.height = '0px';
+                requestAnimationFrame(() => { panel.style.height = panel.scrollHeight + 'px'; });
+                panel.addEventListener('transitionend', function done() {
+                    panel.removeEventListener('transitionend', done);
+                    if (btn.getAttribute('aria-expanded') === 'true') panel.style.height = 'auto';
+                });
+            }
+            btn.setAttribute('aria-expanded', String(!open));
+        });
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const page = document.body.dataset.page;
     initNav(page);
@@ -473,4 +508,5 @@ document.addEventListener('DOMContentLoaded', () => {
     initCounters();
     initEventsCalendar();
     initHeroCarousel();
+    initRaceAccordion();
 });
