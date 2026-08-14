@@ -92,8 +92,8 @@ const FOOTER_HTML = `
         </div>
         <div class="footer-bottom">
             <span>© 2026 WUT Racing · Politechnika Warszawska</span>
-            <a class="footer-designed" href="https://www.instagram.com/janoziemski/" target="_blank" rel="noopener">
-                <img src="assets/wut-shield.png" alt="" class="footer-shield">
+            <a class="footer-designed" href="https://pl.linkedin.com/in/jan-oziemski-b3126333b" target="_blank" rel="noopener">
+                <img src="assets/javski-logo.png" alt="" class="footer-shield">
                 <span class="footer-designed-text">
                     <span class="fd-label">Designed by</span>
                     <span class="fd-name">JAVSKI</span>
