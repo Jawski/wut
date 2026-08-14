@@ -190,9 +190,9 @@ window.WUT_TEAM = [
     { slug: 'piotr-piwowarski', name: 'Piotr Piwowarski', dept: 'chassis' },
 
     // ZAWIESZENIE
-    { slug: 'tomasz-zaleski', name: 'Tomasz Zaleski', dept: 'suspension', role: 'Koordynator' },
+    { slug: 'tomasz-zaleski', name: 'Tomasz Zaleski', dept: 'suspension' },
     {
-        slug: 'ian-gjelleboll', name: 'Ian Gjelleboll', dept: 'suspension', role: 'Zastępca koordynatora',
+        slug: 'ian-gjelleboll', name: 'Ian Gjelleboll', dept: 'suspension', role: 'Koordynator',
         achievements: [{ year: 2026, text: 'FS Czech' }, { year: 2026, text: 'FS Austria' }, { year: 2026, text: 'FS Poland' }],
     },
     {
