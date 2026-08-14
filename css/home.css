@@ -114,9 +114,9 @@
 
 /* kim jestesmy - filmy w tle lecace po sobie */
 .intro-strip {
-    /* film zostaje w miejscu, kolejne sekcje na niego najezdzaja */
-    position: sticky;
-    top: 0;
+    /* film przewija sie normalnie razem z sekcjami dzialow;
+       warstwa wyzsza od kalendarza, bo na niego najezdza */
+    position: relative;
     z-index: 1;
     padding: clamp(96px, 15vh, 190px) var(--pad-x);
     background: var(--deep);
@@ -164,10 +164,6 @@
     .intro-strip-inner { grid-template-columns: 1fr; gap: 36px; }
 }
 
-/* tekst na filmie gasnie przy przewijaniu; na samym .intro-strip-inner
-   nie zadziala, bo .reveal.is-in nadpisuje opacity */
-.intro-strip-inner > * { opacity: var(--intro-fade, 1); }
-
 .intro-strip .dept-strip-title {
     font-family: var(--font-d);
     font-size: clamp(34px, 4.4vw, 68px);
@@ -213,12 +209,10 @@
 }
 .events-strip-inner { max-width: var(--maxw); margin: 0 auto; }
 
-/* na waskim ekranie obie sekcje sa wyzsze niz ekran - przyklejone uciac by
-   mogly czesc tresci, wiec tam przewijaja sie normalnie */
+/* na waskim ekranie kalendarz jest wyzszy niz ekran - przyklejony ucialby
+   czesc tresci, wiec tam przewija sie normalnie */
 @media (max-width: 900px) {
-    .events-strip,
-    .intro-strip { position: relative; }
-    .intro-strip-inner > * { opacity: 1; }
+    .events-strip { position: relative; }
 }
 
 .events-head {

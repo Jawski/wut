@@ -124,7 +124,7 @@
     // "top: 0" przykleiloby ja od razu i jej dolu nigdy nie dalo sie zobaczyc -
     // dlatego przesuwamy punkt przyklejenia o nadmiar wysokosci w gore.
     function initStickyOffsets() {
-        const els = document.querySelectorAll('.scroll-stack .events-strip, .scroll-stack .intro-strip');
+        const els = document.querySelectorAll('.scroll-stack .events-strip');
         if (!els.length) return;
 
         function apply() {
@@ -136,35 +136,6 @@
         }
         apply();
         window.addEventListener('resize', apply);
-    }
-
-    // film "Kim jestesmy" zostaje w miejscu, a tekst na nim gasnie,
-    // zanim najada na niego sekcje dzialow
-    function initIntroFade() {
-        const strip = document.querySelector('.intro-strip');
-        if (!strip) return;
-
-        // przyklejony element zwraca pozycje po przyklejeniu, wiec postep
-        // liczymy z sekcji, ktora na niego najezdza
-        const next = strip.nextElementSibling;
-        if (!next) return;
-
-        let ticking = false;
-        function update() {
-            ticking = false;
-            const h = strip.offsetHeight;
-            if (!h) return;
-            // 0 gdy film dopiero sie przykleil, 1 gdy jest juz calkiem zakryty
-            const covered = 1 - Math.min(1, Math.max(0, next.getBoundingClientRect().top / h));
-            const p = Math.min(1, covered / 0.45);
-            strip.style.setProperty('--intro-fade', (1 - p).toFixed(3));
-        }
-        function onScroll() {
-            if (!ticking) { ticking = true; requestAnimationFrame(update); }
-        }
-        window.addEventListener('scroll', onScroll, { passive: true });
-        window.addEventListener('resize', onScroll);
-        update();
     }
 
     // cytat odslaniany kregiem swiatla przy kursorze
@@ -207,7 +178,6 @@
         initParallaxMedia();
         initParallax();
         initStickyOffsets();
-        initIntroFade();
         initQuoteSpotlight();
     }
 
