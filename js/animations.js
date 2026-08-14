@@ -120,12 +120,46 @@
         });
     }
 
+    // cytat odslaniany kregiem swiatla przy kursorze
+    function initQuoteSpotlight() {
+        const strip = document.querySelector('.quote-strip');
+        if (!strip) return;
+        // na dotyku maska jest wylaczona w css, wiec nie ma czego sledzic
+        if (!window.matchMedia('(hover: hover)').matches || prefersReduce) return;
+
+        // maska siedzi na .quote-body, wiec liczymy wzgledem niego, nie wzgledem sekcji
+        const body = strip.querySelector('.quote-body');
+        if (!body) return;
+
+        let raf = null, px = 0, py = 0;
+
+        function apply() {
+            raf = null;
+            strip.style.setProperty('--qx', px + 'px');
+            strip.style.setProperty('--qy', py + 'px');
+        }
+
+        strip.addEventListener('pointermove', (e) => {
+            const r = body.getBoundingClientRect();
+            px = e.clientX - r.left;
+            py = e.clientY - r.top;
+            if (!raf) raf = requestAnimationFrame(apply);
+        }, { passive: true });
+
+        strip.addEventListener('pointerenter', () => strip.classList.add('is-lit'));
+        strip.addEventListener('pointerleave', () => {
+            strip.classList.remove('is-lit');
+            if (raf) { cancelAnimationFrame(raf); raf = null; }
+        });
+    }
+
     function init() {
         initIntroSplash();
         initPageEnter();
         initIntroVideos();
         initParallaxMedia();
         initParallax();
+        initQuoteSpotlight();
     }
 
     if (document.readyState === 'loading') {
