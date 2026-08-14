@@ -123,6 +123,7 @@
             'sponsors.eyebrow': 'Sponsors & Partners',
             'sponsors.title': 'Faster together<span class="text-accent">.</span>',
             'sponsors.lead': 'WUT Racing exists thanks to companies that invest in Polish student engineering. Every generation of the car is created in cooperation with our partners.',
+            'sponsors.main': 'Main partner',
             'sponsors.strategic': 'Strategic partners',
             'sponsors.platinum': 'Platinum partners',
             'sponsors.diamond': 'Diamond partners',

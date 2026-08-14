@@ -614,32 +614,38 @@ body[data-page="sponsors"] { background: var(--white); color: var(--ink); }
     gap: clamp(30px, 4.5vw, 64px);
     row-gap: 38px;
 }
+/* kafelek logo - klikalny, prowadzi na strone partnera.
+   --lw/--lh sa liczone per logo tak, zeby kazde mialo podobne pole,
+   inaczej szerokie logotypy przytlaczaja te kwadratowe */
 .sponsor-logo {
     display: grid;
     place-items: center;
-    height: clamp(52px, 6vw, 76px);
-    max-width: 220px;
-    opacity: 0.92;
-    transition: opacity 0.35s, transform 0.45s var(--ease);
-}
-.sponsor-logo:hover { opacity: 1; transform: translateY(-4px); }
-.sponsor-logo img {
+    width: calc(var(--lw, 3) * var(--u));
+    height: calc(var(--lh, 1) * var(--u));
     max-width: 100%;
-    max-height: 100%;
+    opacity: 0.9;
+    transition: opacity 0.35s var(--ease), transform 0.45s var(--ease);
+}
+.sponsor-logo:hover,
+.sponsor-logo:focus-visible { opacity: 1; transform: translateY(-4px); }
+/* wypelniamy kafelek i skalujemy w dol - procentowe max-height nie domyka sie
+   w gridzie, wiec ustawiamy wymiar wprost */
+.sponsor-logo img {
+    width: 100%;
+    height: 100%;
     object-fit: contain;
+    object-position: center;
 }
-.sponsor-fallback {
-    display: none;
-    text-align: center;
-    font-family: var(--font-d);
-    font-size: 17px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--ink);
-    line-height: 1.15;
-    max-width: 190px;
-}
+
+/* --u to jednostka poziomu; im wyzszy poziom, tym wieksza */
+.sponsor-tier { --u: clamp(40px, 4.4vw, 58px); }
+.tier-1 { --u: clamp(74px, 9vw, 118px); }
+.tier-2 { --u: clamp(58px, 6.4vw, 84px); }
+.tier-3 { --u: clamp(56px, 6vw, 79px); }
+.tier-4 { --u: clamp(52px, 5.5vw, 72px); }
+.tier-5 { --u: clamp(48px, 5vw, 66px); }
+.tier-6 { --u: clamp(44px, 4.4vw, 58px); }
+.tier-7 { --u: clamp(40px, 4vw, 53px); }
 
 /* zostan partnerem */
 .become-sponsor {
