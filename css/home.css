@@ -114,7 +114,10 @@
 
 /* kim jestesmy - filmy w tle lecace po sobie */
 .intro-strip {
-    position: relative;
+    /* film zostaje w miejscu, kolejne sekcje na niego najezdzaja */
+    position: sticky;
+    top: 0;
+    z-index: 0;
     padding: clamp(96px, 15vh, 190px) var(--pad-x);
     background: var(--deep);
     color: #fff;
@@ -160,6 +163,10 @@
 @media (max-width: 900px) {
     .intro-strip-inner { grid-template-columns: 1fr; gap: 36px; }
 }
+
+/* tekst na filmie gasnie przy przewijaniu; na samym .intro-strip-inner
+   nie zadziala, bo .reveal.is-in nadpisuje opacity */
+.intro-strip-inner > * { opacity: var(--intro-fade, 1); }
 
 .intro-strip .dept-strip-title {
     font-family: var(--font-d);
@@ -270,9 +277,8 @@
 
 .events-races {
     display: flex;
-    /* gdy karty nie wypelniaja szerokosci - srodkuj, zamiast zostawiac dziure z prawej;
-       "safe" przywraca dosuniecie do lewej, gdy jednak sie nie miesci */
-    justify-content: safe center;
+    /* karty rozciagaja sie na cala szerokosc pod zdjeciem, bez szarych przerw */
+    justify-content: flex-start;
     background: var(--deep);
     overflow-x: auto;
     scroll-snap-type: x proximity;
@@ -315,7 +321,9 @@
     text-align: left;
     font-family: inherit;
     cursor: pointer;
-    flex: 0 0 clamp(232px, 25%, 300px);
+    /* rowne kolumny wypelniajace pasek; ponizej min-width pasek sie przewija */
+    flex: 1 1 0;
+    min-width: 200px;
     scroll-snap-align: start;
     /* separator zamiast przerwy - dzieki temu wysrodkowanie nie robi jasnych pasow */
     border-left: 1px solid rgba(255, 255, 255, 0.08);
@@ -389,6 +397,7 @@
 .dept-strip {
     --media-w: 56%;
     position: relative;
+    z-index: 1;
     min-height: clamp(520px, 82vh, 860px);
     overflow: hidden;
     display: grid;
@@ -428,7 +437,9 @@
     object-fit: cover;
     /* srodek kadru na srodku widocznej (scietej) czesci, nie na srodku klatki */
     object-position: var(--focus, 50%) 50%;
+    transition: scale 0.7s var(--ease);
 }
+.dept-strip:hover .dept-media img { scale: 1.06; }
 .dept-strip.is-left .dept-media {
     right: 0;
     clip-path: polygon(34% 0, 100% 0, 100% 100%, 0 100%);
@@ -492,6 +503,13 @@
     margin: 0;
     text-shadow: 0 1px 10px rgba(0, 0, 0, 0.35);
 }
+
+/* opis razem z czerwonym pasem wjezdza z tej strony, po ktorej stoi */
+.dept-strip.is-left  .dept-copy.reveal { transform: translateX(-52px); }
+.dept-strip.is-right .dept-copy.reveal { transform: translateX(52px); }
+/* musi wygrac z regulami wyzej, stad ta sama para selektorow */
+.dept-strip.is-left  .dept-copy.reveal.is-in,
+.dept-strip.is-right .dept-copy.reveal.is-in { transform: translateX(0); }
 
 /* wjazd przy przewijaniu: zdjecie i tekst wchodza z przeciwnych stron */
 .dept-media {
