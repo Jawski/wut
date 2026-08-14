@@ -11,6 +11,39 @@
         });
     }
 
+    // filmy pod "Kim jestesmy" leca po sobie w petli
+    function initIntroVideos() {
+        const bg = document.getElementById('intro-bg');
+        if (!bg) return;
+        const clips = Array.from(bg.querySelectorAll('.intro-video'));
+        if (!clips.length) return;
+
+        let idx = 0;
+        function show(i) {
+            idx = (i + clips.length) % clips.length;
+            clips.forEach((v, n) => {
+                v.classList.toggle('is-active', n === idx);
+                if (n !== idx) { try { v.pause(); } catch (e) {} }
+            });
+            const cur = clips[idx];
+            cur.currentTime = 0;
+            cur.play().catch(() => {});
+        }
+        clips.forEach(v => v.addEventListener('ended', () => show(idx + 1)));
+
+        // odtwarzaj tylko gdy sekcja jest widoczna
+        const strip = bg.closest('.intro-strip');
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) clips[idx].play().catch(() => {});
+                else clips.forEach(v => { try { v.pause(); } catch (er) {} });
+            });
+        }, { threshold: 0.15 });
+        io.observe(strip);
+
+        show(0);
+    }
+
     // delikatny parallax na mediach w tle sekcji dzialow
     function initParallaxMedia() {
         if (prefersReduce) return;
@@ -19,7 +52,7 @@
 
         const items = strips.map(s => ({
             el: s,
-            media: s.querySelector('.dept-strip-bg img, .dept-strip-bg video'),
+            media: s.querySelector('.dept-media img, .dept-strip-bg img, .dept-strip-bg video'),
         })).filter(i => i.media);
 
         let ticking = false;
@@ -90,6 +123,7 @@
     function init() {
         initIntroSplash();
         initPageEnter();
+        initIntroVideos();
         initParallaxMedia();
         initParallax();
     }

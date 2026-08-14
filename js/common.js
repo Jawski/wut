@@ -1,31 +1,56 @@
-﻿const NAV_HTML = `
+﻿const SOCIAL = [
+    { key: 'ig', url: 'https://www.instagram.com/wut.racing/', label: 'Instagram',
+      d: 'M12 2.2c3.2 0 3.6 0 4.9.07 1.2.05 1.8.25 2.2.42.6.2 1 .48 1.4.9.4.4.7.8.9 1.4.17.4.37 1 .42 2.2.06 1.3.07 1.7.07 4.9s0 3.6-.07 4.9c-.05 1.2-.25 1.8-.42 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.17-1 .37-2.2.42-1.3.06-1.7.07-4.9.07s-3.6 0-4.9-.07c-1.2-.05-1.8-.25-2.2-.42-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.17-.4-.37-1-.42-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.07-4.9c.05-1.2.25-1.8.42-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.17 1-.37 2.2-.42C8.4 2.2 8.8 2.2 12 2.2zm0 5.4a4.4 4.4 0 100 8.8 4.4 4.4 0 000-8.8zm0 7.2a2.8 2.8 0 110-5.6 2.8 2.8 0 010 5.6zm5.6-7.4a1 1 0 11-2 0 1 1 0 012 0z' },
+    { key: 'fb', url: 'https://www.facebook.com/WUTRacing', label: 'Facebook',
+      d: 'M22 12a10 10 0 10-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0022 12z' },
+    { key: 'in', url: 'https://pl.linkedin.com/company/wutracing', label: 'LinkedIn',
+      d: 'M20.4 3H3.6C3.3 3 3 3.3 3 3.6v16.8c0 .3.3.6.6.6h16.8c.3 0 .6-.3.6-.6V3.6c0-.3-.3-.6-.6-.6zM8.3 18.3H5.6V9.7h2.7v8.6zM7 8.6a1.6 1.6 0 110-3.2 1.6 1.6 0 010 3.2zm11.3 9.7h-2.7v-4.2c0-1 0-2.3-1.4-2.3s-1.6 1.1-1.6 2.2v4.3h-2.7V9.7h2.6v1.2h.04c.4-.7 1.3-1.4 2.6-1.4 2.7 0 3.2 1.8 3.2 4.1v4.7z' },
+    { key: 'yt', url: 'https://www.youtube.com/@WUTRacingTeam', label: 'YouTube',
+      d: 'M21.6 7.2s-.2-1.4-.8-2c-.75-.8-1.6-.8-2-.85C16 4.2 12 4.2 12 4.2h-.01s-4 0-6.8.2c-.4.05-1.25.05-2 .85-.6.6-.8 2-.8 2S2.2 8.8 2.2 10.5v1.6c0 1.6.2 3.3.2 3.3s.2 1.4.8 2c.75.8 1.75.8 2.2.9 1.6.15 6.8.2 6.8.2s4 0 6.8-.2c.4-.06 1.25-.06 2-.86.6-.6.8-2 .8-2s.2-1.6.2-3.3v-1.6c0-1.6-.2-3.3-.2-3.3zM9.9 14.2V8.9l5.2 2.7-5.2 2.6z' },
+];
+
+const socialLinks = (cls) => SOCIAL.map(s =>
+    `<a class="${cls}" href="${s.url}" target="_blank" rel="noopener" aria-label="${s.label}" title="${s.label}">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="${s.d}"/></svg>
+    </a>`).join('');
+
+const NAV_HTML = `
 <nav class="nav is-top" id="nav">
     <div class="nav-inner">
-        <a href="index.html" class="brand" aria-label="WUT Racing — home">
-            <img src="assets/logo.png" alt="WUT Racing" class="brand-logo">
-            <span class="brand-text brand-text-sub">
-                <span class="b2">PW · FORMULA STUDENT</span>
-            </span>
-        </a>
-        <ul class="nav-links">
-            <li><a href="index.html" data-page="home" data-i18n="nav.home">Start</a></li>
-            <li><a href="o-nas.html" data-page="about" data-i18n="nav.about">O nas</a></li>
-            <li><a href="zespol.html" data-page="team" data-i18n="nav.team">Zespół</a></li>
-            <li><a href="bolidy.html" data-page="cars" data-i18n="nav.cars">Bolidy</a></li>
-            <li><a href="sponsorzy.html" data-page="sponsors" data-i18n="nav.sponsors">Sponsorzy</a></li>
-        </ul>
-        <a href="sponsorzy.html#kontakt" class="nav-cta" data-i18n="nav.support">Wesprzyj nas</a>
-        <div class="lang-switch" id="lang-switch" role="group" aria-label="Język / Language">
-            <button type="button" data-lang="pl" class="active">PL</button>
-            <button type="button" data-lang="en">EN</button>
-        </div>
-        <button class="menu-btn" aria-label="Menu" id="menu-btn">
-            <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M3 5h12M3 9h12M3 13h12"/>
-            </svg>
+        <button class="menu-btn" aria-label="Menu" aria-expanded="false" id="menu-btn">
+            <span class="menu-bars"><i></i><i></i><i></i></span>
         </button>
+        <a href="index.html" class="brand" aria-label="WUT Racing">
+            <img src="assets/logo.png" alt="WUT Racing" class="brand-logo">
+        </a>
+        <div class="nav-right">
+            <div class="nav-social">${socialLinks('nav-soc')}</div>
+            <div class="lang-switch" id="lang-switch" role="group" aria-label="Język / Language">
+                <button type="button" data-lang="pl" class="active">PL</button>
+                <button type="button" data-lang="en">EN</button>
+            </div>
+        </div>
     </div>
 </nav>
+
+<div class="menu-overlay" id="menu-overlay" hidden>
+    <div class="menu-overlay-top">
+        <button class="menu-close" aria-label="Zamknij menu" id="menu-close">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                <path d="M5 5l14 14M19 5L5 19"/>
+            </svg>
+        </button>
+        <img src="assets/logo.png" alt="WUT Racing" class="menu-logo">
+    </div>
+    <nav class="menu-links">
+        <a href="index.html" data-page="home" data-i18n="nav.home">Start</a>
+        <a href="o-nas.html" data-page="about" data-i18n="nav.about">O nas</a>
+        <a href="zespol.html" data-page="team" data-i18n="nav.team">Zespół</a>
+        <a href="bolidy.html" data-page="cars" data-i18n="nav.cars">Bolidy</a>
+        <a href="sponsorzy.html" data-page="sponsors" data-i18n="nav.sponsors">Sponsorzy</a>
+    </nav>
+    <div class="menu-social">${socialLinks('menu-soc')}</div>
+</div>
 <div class="scroll-progress" id="scroll-progress"></div>
 `;
 
@@ -64,10 +89,10 @@ const FOOTER_HTML = `
             <div class="footer-col">
                 <h4>Social</h4>
                 <ul>
-                    <li><a href="https://www.instagram.com/wutracing/" target="_blank" rel="noopener">Instagram</a></li>
-                    <li><a href="https://www.facebook.com/WUTRacing/" target="_blank" rel="noopener">Facebook</a></li>
-                    <li><a href="https://www.linkedin.com/company/wut-racing/" target="_blank" rel="noopener">LinkedIn</a></li>
-                    <li><a href="https://www.youtube.com/@wutracing" target="_blank" rel="noopener">YouTube</a></li>
+                    <li><a href="https://www.instagram.com/wut.racing/" target="_blank" rel="noopener">Instagram</a></li>
+                    <li><a href="https://www.facebook.com/WUTRacing" target="_blank" rel="noopener">Facebook</a></li>
+                    <li><a href="https://pl.linkedin.com/company/wutracing" target="_blank" rel="noopener">LinkedIn</a></li>
+                    <li><a href="https://www.youtube.com/@WUTRacingTeam" target="_blank" rel="noopener">YouTube</a></li>
                 </ul>
             </div>
         </div>
@@ -90,10 +115,9 @@ function initNav(activePage) {
     document.body.insertAdjacentHTML('beforeend', FOOTER_HTML);
 
     const nav = document.getElementById('nav');
-    const links = document.querySelectorAll('.nav-links a');
 
     if (activePage) {
-        links.forEach(a => {
+        document.querySelectorAll('.menu-links a').forEach(a => {
             if (a.dataset.page === activePage) a.classList.add('active');
         });
     }
@@ -112,11 +136,29 @@ function initNav(activePage) {
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
+    // pelnoekranowe menu
     const menuBtn = document.getElementById('menu-btn');
-    if (menuBtn) {
-        menuBtn.addEventListener('click', () => nav.classList.toggle('is-open'));
-        document.querySelectorAll('.nav-links a').forEach(a => {
-            a.addEventListener('click', () => nav.classList.remove('is-open'));
+    const overlay = document.getElementById('menu-overlay');
+    const closeBtn = document.getElementById('menu-close');
+
+    function openMenu() {
+        overlay.hidden = false;
+        requestAnimationFrame(() => overlay.classList.add('is-open'));
+        document.body.style.overflow = 'hidden';
+        menuBtn.setAttribute('aria-expanded', 'true');
+    }
+    function closeMenu() {
+        overlay.classList.remove('is-open');
+        document.body.style.overflow = '';
+        menuBtn.setAttribute('aria-expanded', 'false');
+        setTimeout(() => { if (!overlay.classList.contains('is-open')) overlay.hidden = true; }, 500);
+    }
+    if (menuBtn && overlay) {
+        menuBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        overlay.querySelectorAll('.menu-links a').forEach(a => a.addEventListener('click', closeMenu));
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeMenu();
         });
     }
 

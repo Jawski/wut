@@ -65,9 +65,12 @@ def main():
             pass
 
     # Allow socket reuse so quick restarts don't hit "address in use"
-    socketserver.TCPServer.allow_reuse_address = True
+    socketserver.ThreadingTCPServer.allow_reuse_address = True
+    socketserver.ThreadingTCPServer.daemon_threads = True
 
-    with socketserver.TCPServer(('', port), Handler) as httpd:
+    # Threaded: video streams hold their connections open, and a single-threaded
+    # server would stall every other request behind them.
+    with socketserver.ThreadingTCPServer(('', port), Handler) as httpd:
         print(f'WUT Racing — serving {DIRECTORY}')
         print(f'  http://localhost:{port}/')
         print('Press Ctrl+C to stop.')

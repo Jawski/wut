@@ -11,7 +11,7 @@ function renderTimeline() {
     const ordered = [...CARS].sort((a, b) => a.year - b.year);
     track.innerHTML = ordered.map((c) => `
         <button class="timeline-car ${c.id === activeId ? 'is-active' : ''}" data-id="${c.id}" aria-label="${c.name}">
-            <div class="timeline-dot"></div>
+            <div class="timeline-dot-row"><span class="timeline-dot"></span></div>
             <div class="timeline-car-graphic">
                 <img src="${c.photo}" alt="${c.name}" loading="lazy">
             </div>

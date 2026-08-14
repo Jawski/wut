@@ -87,7 +87,7 @@
 .member-face-front {
     display: flex;
     flex-direction: column;
-    background: #101013;
+    background: #1c1c21;
     border: 1px solid rgba(255, 255, 255, 0.09);
 }
 
@@ -116,7 +116,7 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, transparent 62%, rgba(6, 6, 7, 0.55) 100%);
+    background: linear-gradient(180deg, transparent 62%, rgba(16, 16, 20, 0.55) 100%);
     pointer-events: none;
 }
 
@@ -127,7 +127,7 @@
     z-index: 2;
     display: inline-block;
     transform: skewX(var(--skew));
-    background: #060607;
+    background: #101012;
     padding: 7px 13px;
     font-family: var(--font-u);
     font-size: 9px;
@@ -137,11 +137,11 @@
     color: #fff;
     border-bottom: 2px solid var(--red);
 }
-.glass-tag { background: #060607 !important; border: none; border-bottom: 2px solid var(--red) !important; color: #fff !important; }
+.glass-tag { background: #101012 !important; border: none; border-bottom: 2px solid var(--red) !important; color: #fff !important; }
 
 .member-info {
     padding: 16px 18px 18px;
-    background: #101013;
+    background: #1c1c21;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     flex-shrink: 0;
 }
@@ -174,7 +174,7 @@
     color: #fff;
     z-index: 3;
     transition: background 0.3s, border-color 0.3s, transform 0.5s var(--ease);
-    background: rgba(6, 6, 7, 0.35);
+    background: rgba(16, 16, 20, 0.35);
 }
 .member-card:hover .arrow {
     background: var(--red);
@@ -373,12 +373,14 @@ body[data-page="sponsors"] { background: var(--white); color: var(--ink); }
     padding-bottom: 52px;
 }
 .timeline-item:last-child { padding-bottom: 0; }
+/* romb wysrodkowany na linii: linia ma srodek w 8px, romb ma 18px szerokosci */
 .timeline-item::before {
     content: "";
     position: absolute;
-    left: -41px; top: 7px;
+    left: -45px; top: 7px;
     width: 12px; height: 12px;
-    background: #fff;
+    box-sizing: content-box;
+    background: var(--white);
     border: 3px solid var(--red);
     transform: rotate(45deg);
 }
@@ -428,13 +430,8 @@ body[data-page="sponsors"] { background: var(--white); color: var(--ink); }
     position: relative;
     padding: 44px 0 8px;
 }
-.cars-timeline-line {
-    position: absolute;
-    left: 0; right: 0;
-    bottom: 74px;
-    height: 1px;
-    background: rgba(255, 255, 255, 0.12);
-}
+/* linia rysowana przez rzad rombow, wiec zawsze przechodzi przez ich srodek */
+.cars-timeline-line { display: none; }
 
 .cars-timeline-track {
     display: grid;
@@ -487,19 +484,47 @@ body[data-page="sponsors"] { background: var(--white); color: var(--ink); }
     opacity: 1;
 }
 
+.timeline-dot-row {
+    position: relative;
+    width: 100%;
+    display: grid;
+    place-items: center;
+    order: 2;
+    height: 12px;
+}
+.timeline-dot-row::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: calc(-50% - 5px);
+    right: calc(-50% - 5px);
+    height: 1px;
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateY(-50%);
+}
+.timeline-car:first-child .timeline-dot-row::before { left: 50%; }
+.timeline-car:last-child .timeline-dot-row::before { right: 50%; }
+
 .timeline-car .timeline-dot {
+    position: relative;
+    z-index: 1;
+    display: block;
     width: 9px; height: 9px;
-    background: transparent;
+    background: var(--deep);
     border: 1px solid rgba(255, 255, 255, 0.35);
     transform: rotate(45deg);
     transition: background 0.3s, border-color 0.3s;
-    order: 2;
 }
 .timeline-car.is-active .timeline-dot,
 .timeline-car:hover .timeline-dot { background: var(--red); border-color: var(--red); }
 
 .timeline-car .timeline-year {
     order: 3;
+    /* to nie jest plakietka jak na osi czasu w "o nas" - czysty tekst */
+    background: none;
+    transform: none;
+    padding: 0;
+    margin-bottom: 0;
     font-family: var(--font-u);
     font-size: 11px;
     letter-spacing: 0.2em;

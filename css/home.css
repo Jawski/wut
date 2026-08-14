@@ -49,10 +49,10 @@
     inset: 0;
     z-index: 2;
     background: linear-gradient(180deg,
-        rgba(6, 6, 7, 0.62) 0%,
-        rgba(6, 6, 7, 0.1) 34%,
-        rgba(6, 6, 7, 0.22) 62%,
-        rgba(6, 6, 7, 0.88) 100%);
+        rgba(16, 16, 20, 0.62) 0%,
+        rgba(16, 16, 20, 0.1) 34%,
+        rgba(16, 16, 20, 0.22) 62%,
+        rgba(16, 16, 20, 0.88) 100%);
     pointer-events: none;
 }
 
@@ -120,13 +120,44 @@
     z-index: 3;
 }
 
-/* kim jestesmy - biala sekcja editorial */
+/* kim jestesmy - filmy w tle lecace po sobie */
 .intro-strip {
+    position: relative;
     padding: clamp(96px, 15vh, 190px) var(--pad-x);
-    background: var(--white);
-    color: var(--ink);
+    background: var(--deep);
+    color: #fff;
+    overflow: hidden;
+    isolation: isolate;
 }
+.intro-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+.intro-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1s var(--ease);
+}
+.intro-video.is-active { opacity: 1; }
+.intro-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg,
+        rgba(16,16,18,0.92) 0%,
+        rgba(16,16,18,0.74) 40%,
+        rgba(16,16,18,0.74) 60%,
+        rgba(16,16,18,0.94) 100%);
+}
+
 .intro-strip-inner {
+    position: relative;
+    z-index: 1;
     max-width: var(--maxw);
     margin: 0 auto;
     display: grid;
@@ -145,7 +176,7 @@
     letter-spacing: -0.02em;
     text-transform: uppercase;
     line-height: 1;
-    color: var(--ink);
+    color: #fff;
     margin: 0;
 }
 .intro-strip .dept-strip-title::after {
@@ -159,10 +190,11 @@
 
 .intro-strip p {
     font-size: clamp(16px, 1.35vw, 19px);
-    color: #3c3c42;
+    color: rgba(255, 255, 255, 0.88);
     line-height: 1.75;
     margin-bottom: 22px;
     max-width: 66ch;
+    text-shadow: 0 1px 14px rgba(0, 0, 0, 0.5);
 }
 .intro-strip p:last-child { margin-bottom: 0; }
 
@@ -194,7 +226,7 @@
     align-items: flex-end;
     margin-bottom: 2px;
 }
-.event-featured-photo { position: absolute; inset: 0; background: #101013; }
+.event-featured-photo { position: absolute; inset: 0; background: #1c1c21; }
 .event-featured-photo img {
     width: 100%; height: 100%;
     object-fit: cover;
@@ -206,9 +238,9 @@
     position: absolute;
     inset: 0;
     background: linear-gradient(76deg,
-        rgba(6, 6, 7, 0.88) 0%,
-        rgba(6, 6, 7, 0.42) 46%,
-        rgba(6, 6, 7, 0.1) 100%);
+        rgba(16, 16, 20, 0.88) 0%,
+        rgba(16, 16, 20, 0.42) 46%,
+        rgba(16, 16, 20, 0.1) 100%);
     pointer-events: none;
 }
 
@@ -267,7 +299,7 @@
     font-size: 26px;
     line-height: 1;
     color: #fff;
-    background: rgba(6, 6, 7, 0.86);
+    background: rgba(16, 16, 20, 0.86);
     border: 1px solid rgba(255, 255, 255, 0.22);
     transition: background 0.25s, opacity 0.25s, border-color 0.25s;
 }
@@ -323,9 +355,9 @@
     transform-origin: left;
     transition: transform 0.45s var(--ease);
 }
-.race-card:hover { background: #101013; }
+.race-card:hover { background: #1c1c21; }
 .race-card:hover::before { transform: scaleX(1); }
-.race-card.is-active { background: #101013; }
+.race-card.is-active { background: #1c1c21; }
 .race-card.is-active::before { transform: scaleX(1); }
 .race-card.is-active .race-name { color: #fff; }
 
@@ -356,126 +388,122 @@
     color: var(--text-2);
 }
 
-/* sekcje dzialow - pelnoekranowe media + typografia */
+/* sekcje dzialow - ukosny podzial: tekst | zdjecie */
 .dept-strip {
+    --media-w: 54%;
+    --cut: 11%;
     position: relative;
-    min-height: 92vh;
-    background: var(--black);
+    min-height: clamp(520px, 82vh, 860px);
     overflow: hidden;
-    display: flex;
-    align-items: flex-end;
+    display: grid;
+    align-items: center;
 }
+.dept-strip.is-gray  { background: var(--black); }
+.dept-strip.is-black { background: var(--deep); }
 
-.dept-strip-bg { position: absolute; inset: 0; z-index: 0; }
-.dept-strip-bg img,
-.dept-strip-bg video {
+/* zdjecie przyciete po skosie */
+.dept-media {
+    position: absolute;
+    top: 0; bottom: 0;
+    width: var(--media-w);
+    overflow: hidden;
+}
+.dept-media img {
     width: 100%;
-    height: 112%;
+    height: 100%;
     object-fit: cover;
-    display: block;
+    /* srodek kadru na srodku widocznej (scietej) czesci, nie na srodku klatki */
+    object-position: var(--focus, 50%) 50%;
     will-change: transform;
 }
-.dept-strip-bg::after {
+.dept-strip.is-left .dept-media {
+    right: 0;
+    clip-path: polygon(var(--cut) 0, 100% 0, 100% 100%, 0 100%);
+    --focus: 47%;
+}
+.dept-strip.is-right .dept-media {
+    left: 0;
+    clip-path: polygon(0 0, 100% 0, calc(100% - var(--cut)) 100%, 0 100%);
+    --focus: 53%;
+}
+
+/* wtopienie krawedzi zdjecia w tlo sekcji */
+.dept-media::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg,
-        rgba(6, 6, 7, 0.5) 0%,
-        rgba(6, 6, 7, 0.06) 30%,
-        rgba(6, 6, 7, 0.14) 58%,
-        rgba(6, 6, 7, 0.92) 100%);
     pointer-events: none;
 }
+.dept-strip.is-left  .dept-media::after { background: linear-gradient(90deg,  rgba(10,10,12,0.62) 0%, transparent 30%); }
+.dept-strip.is-right .dept-media::after { background: linear-gradient(270deg, rgba(10,10,12,0.62) 0%, transparent 30%); }
 
-/* dodatkowy scrim od strony tekstu */
-.dept-aero .dept-strip-bg::before,
-.dept-suspension .dept-strip-bg::before,
-.dept-engine .dept-strip-bg::before,
-.dept-logistics .dept-strip-bg::before,
-.dept-chassis .dept-strip-bg::before,
-.dept-electronics .dept-strip-bg::before,
-.dept-pr .dept-strip-bg::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-}
-.dept-aero .dept-strip-bg::before,
-.dept-suspension .dept-strip-bg::before,
-.dept-engine .dept-strip-bg::before,
-.dept-logistics .dept-strip-bg::before {
-    background: linear-gradient(90deg, rgba(6,6,7,0.66) 0%, rgba(6,6,7,0.18) 46%, transparent 72%);
-}
-.dept-chassis .dept-strip-bg::before,
-.dept-electronics .dept-strip-bg::before,
-.dept-pr .dept-strip-bg::before {
-    background: linear-gradient(270deg, rgba(6,6,7,0.66) 0%, rgba(6,6,7,0.18) 46%, transparent 72%);
-}
-
-.dept-glass {
+/* kolumna tekstu - rezerwujemy pas na zdjecie, wiec nic nie wchodzi na skos */
+.dept-copy {
     position: relative;
     z-index: 2;
     width: 100%;
-    max-width: var(--maxw);
-    margin: 0 auto;
-    padding: 0 var(--pad-x) clamp(56px, 9vh, 110px);
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    padding-block: clamp(48px, 8vh, 96px);
 }
-.dept-chassis .dept-glass,
-.dept-electronics .dept-glass,
-.dept-pr .dept-glass { align-items: flex-end; text-align: right; }
+.dept-strip.is-left .dept-copy {
+    padding-left: clamp(22px, 5.5vw, 130px);
+    padding-right: calc(var(--media-w) + 2%);
+}
+.dept-strip.is-right .dept-copy {
+    padding-right: clamp(22px, 5.5vw, 130px);
+    padding-left: calc(var(--media-w) + 2%);
+    text-align: right;
+}
+.dept-copy > * { max-width: 640px; }
+.dept-strip .dept-strip-title { max-width: none; }
+.dept-strip.is-right .dept-copy > * { margin-left: auto; }
 
-.dept-strip-eyebrow {
-    display: inline-block;
-    transform: skewX(var(--skew));
+/* nazwa dzialu konturem - tylko w paskach dzialow, naglowek "Kim jestesmy" zostaje pelny */
+.dept-strip .dept-strip-title {
+    font-size: clamp(28px, 3.6vw, 68px);
+    line-height: 1.04;
+    letter-spacing: 0.005em;
+    margin: 0 0 22px;
+    overflow-wrap: anywhere;
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.95);
+    text-stroke: 1.5px rgba(255, 255, 255, 0.95);
+    paint-order: stroke fill;
+}
+.dept-strip-title::after {
+    content: "";
+    display: block;
+    width: 62px;
+    height: 3px;
     background: var(--red);
-    padding: 5px 14px;
-    margin-bottom: 22px;
-    font-family: var(--font-u);
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: #fff;
+    margin-top: 20px;
 }
-.dept-strip-eyebrow > span,
-.dept-strip-eyebrow { text-indent: 0; }
-.dept-strip-eyebrow span { display: inline-block; transform: skewX(calc(-1 * var(--skew))); }
-
-.dept-strip-title {
-    font-size: clamp(32px, 4.4vw, 70px);
-    color: #fff;
-    margin: 0 0 20px;
-}
+.dept-strip.is-right .dept-strip-title::after { margin-left: auto; }
 
 .dept-strip-body {
-    font-size: clamp(15px, 1.2vw, 17.5px);
-    color: rgba(255, 255, 255, 0.86);
-    line-height: 1.72;
-    max-width: 56ch;
+    font-size: clamp(15px, 1.1vw, 17px);
+    color: rgba(255, 255, 255, 0.84);
+    line-height: 1.75;
     margin: 0;
-    text-shadow: 0 1px 14px rgba(0, 0, 0, 0.6);
 }
-.dept-chassis .dept-strip-body,
-.dept-electronics .dept-strip-body,
-.dept-pr .dept-strip-body { margin-left: auto; }
 
-@media (max-width: 720px) {
-    .dept-strip { min-height: 78vh; align-items: flex-end; }
-    .dept-chassis .dept-glass,
-    .dept-electronics .dept-glass,
-    .dept-pr .dept-glass { align-items: flex-start; text-align: left; }
-    .dept-chassis .dept-strip-body,
-    .dept-electronics .dept-strip-body,
-    .dept-pr .dept-strip-body { margin-left: 0; }
-    .dept-chassis .dept-strip-bg::before,
-    .dept-electronics .dept-strip-bg::before,
-    .dept-pr .dept-strip-bg::before {
-        background: linear-gradient(90deg, rgba(6,6,7,0.66) 0%, rgba(6,6,7,0.18) 46%, transparent 72%);
+@media (max-width: 900px) {
+    .dept-strip { min-height: 0; display: block; }
+    .dept-media {
+        position: relative;
+        width: 100%;
+        height: clamp(230px, 38vh, 380px);
+        clip-path: none !important;
+        --focus: 50% !important;
     }
+    .dept-media::after { background: linear-gradient(180deg, transparent 52%, rgba(16,16,18,0.9) 100%) !important; }
+    .dept-strip.is-left .dept-copy,
+    .dept-strip.is-right .dept-copy {
+        padding: 34px var(--pad-x) 54px;
+        text-align: left;
+    }
+    .dept-copy > * { max-width: 100%; }
+    .dept-strip.is-right .dept-copy > * { margin-left: 0; }
+    .dept-strip.is-right .dept-strip-title::after { margin-left: 0; }
 }
 
 /* cta - czerwien na plasko */
@@ -525,7 +553,7 @@
     position: absolute;
     inset: 0;
     background: linear-gradient(180deg,
-        rgba(6,6,7,0.85) 0%, rgba(6,6,7,0.12) 18%,
-        rgba(6,6,7,0.12) 82%, rgba(6,6,7,0.85) 100%);
+        rgba(16,16,20,0.85) 0%, rgba(16,16,20,0.12) 18%,
+        rgba(16,16,20,0.12) 82%, rgba(16,16,20,0.85) 100%);
     pointer-events: none;
 }

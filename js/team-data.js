@@ -28,13 +28,13 @@ window.WUT_TEAM = [
 
     // ZARZĄD
     {
-        slug: 'kuba-pacocha', name: 'Kuba Pacocha', dept: 'zarzad', role: 'Prezes', since: 2022, studies: 'PW · MEiL',
+        slug: 'kuba-pacocha', name: 'Jakub Pacocha', dept: 'zarzad', role: 'Prezes', since: 2022, studies: 'PW · MEiL',
         bio: 'Obecnie jestem prezesem, do tej pory działałem również jako wiceprezes ds. finansów, oraz koordynator działu Fundraising. Na co dzień lubię jazdę na rowerze oraz śledzę Formułę 1',
         achievements: [{ year: 2023, text: 'Węgry' }, { year: 2024, text: 'Węgry' }, { year: 2024, text: 'Chorwacja' }, { year: 2025, text: 'Austria' }, { year: 2025, text: 'Czechy' }, { year: 2025, text: 'Polska' }],
         projects: ['Projekt sidepodów oraz kanałów chłodzących - WUT6', 'Badanie spadku ciśnienia w chłodnicy - WUT6'],
     },
     {
-        slug: 'bartek-pietrzak', name: 'Bartek Pietrzak', dept: 'zarzad', role: 'Wiceprezes ds. operacyjno-finansowych', since: 2024, studies: 'PW · EiTI',
+        slug: 'bartek-pietrzak', name: 'Bartosz Pietrzak', dept: 'zarzad', role: 'Wiceprezes ds. operacyjno-finansowych', since: 2024, studies: 'PW · EiTI',
         bio: 'Uczestnik światowych finałów F1 in Schools w Singapurze 2023. Projektuje układy PCB, programuje w C++, C#, Python. Lubi podróżować.',
         achievements: [{ year: 2025, text: 'FS Czech' }, { year: 2025, text: 'FS Poland' }],
         projects: ['Projekt panelu LVMS', 'System telemetrii', 'System oświetlenia LED bolidu'],
@@ -50,14 +50,14 @@ window.WUT_TEAM = [
         projects: ['Sidepody i kanały chłodzenia WUT-6', 'Złożenia aero i sprinty CFD WUT-7'],
     },
     {
-        slug: 'kuba-krajewski', name: 'Kuba Krajewski', dept: 'aero', role: 'Zastępca koordynatora', since: 2024, studies: 'PW · MT',
+        slug: 'kuba-krajewski', name: 'Jakub Krajewski', dept: 'aero', role: 'Zastępca koordynatora', since: 2024, studies: 'PW · MT',
         bio: 'Kompozyty & Aero. Ręczna obróbka CNC: cięcie i wiele innych. Starszy Dremlowy.',
         achievements: [{ year: 2025, text: 'FS Austria' }, { year: 2025, text: 'FS Czech Republic' }],
         projects: ['Nakładki aero na koła; endplate tylnego skrzydła'],
     },
-    { slug: 'magda-sienska', name: 'Magda Sieńska', dept: 'aero' },
+    { slug: 'magda-sienska', name: 'Magdalena Sieńska', dept: 'aero' },
     { slug: 'milosz-niedziela', name: 'Miłosz Niedziela', dept: 'aero' },
-    { slug: 'ola-bres', name: 'Ola Breś', dept: 'aero' },
+    { slug: 'ola-bres', name: 'Aleksandra Breś', dept: 'aero' },
     { slug: 'kamil-grabowski', name: 'Kamil Grabowski', dept: 'aero' },
     { slug: 'stefan-jozefowicz-okonkwo', name: 'Stefan Józefowicz-Okonkwo', dept: 'aero' },
     {
@@ -83,12 +83,12 @@ window.WUT_TEAM = [
         slug: 'mikolaj-magnuski', name: 'Mikołaj Magnuski', dept: 'aero', since: 2025, studies: 'PW · IM',
         bio: 'Do moich głównych zainteresowań należą materiały kompozytowe dlatego bardzo lubię wraz z innymi członkami koła tworzyć elementy aero z włókna węglowego. Jest to bardzo interesujący proces który daje mi dużo satysfakcji.',
     },
-    { slug: 'marta-mnich', name: 'Marta Mnich', dept: 'aero', f: 1 },
+    { slug: 'marta-mnich', name: 'Marta Mnicho', dept: 'aero', f: 1 },
     { slug: 'wiktor-mikolajczyk', name: 'Wiktor Mikołajczyk', dept: 'aero' },
     {
         slug: 'jan-oziemski', name: 'Jan Oziemski', dept: 'aero', since: 2025, studies: 'PW · Mechatronika',
         bio: 'Jako członek działu aerodynamiki zajmuję się projektowaniem i wykonaniem pakietu aerodynamicznego dla naszych najnowszych konstrukcji. Sporą część wolnego czasu spędzam na warsztacie laminując kolejne profile i przygotowując nowe foremniki.',
-        projects: ['Faza wykonawcza WUT-7'],
+        projects: ['Faza wykonawcza WUT-7', 'Foremniki profili FW', 'Rysunki wykonawcze częsci FW', 'Strona internetowa'],
     },
     {
         slug: 'patryk-pietrzykowski', name: 'Patryk Pietrzykowski', dept: 'aero', since: 2025, studies: 'PW · MEiL',
@@ -110,7 +110,7 @@ window.WUT_TEAM = [
         projects: ['Stanowisko do spawania ramy WUT-7', 'Stanowisko do badania sztywności skrętnej', 'Analiza MES ramy WUT-7', 'Zagłówek do WUT-6', 'Analiza MES monocoque WUT-6', 'Analiza MES monocoque WUT-5', 'Owiewka kokpitu WUT-5', 'Badanie środka ciężkości WUT-4'],
     },
     {
-        slug: 'bartlomiej-misurski', name: 'Bartłomiej Misurski', dept: 'chassis', since: 2024, studies: 'PW · SiMR',
+        slug: 'bartlomiej-misurski', name: 'Bartłomiej Misiurski', dept: 'chassis', since: 2024, studies: 'PW · SiMR',
         bio: 'Zajmuję się projektowaniem i wykonaniem monocoque’u, jego obliczeniami strukturalnymi oraz zapewnieniem zgodności konstrukcji z regulaminem Formula Student. Interesuję się materiałami kompozytowymi, szczególnie ich zastosowaniem w motorsporcie i lekkich konstrukcjach. Lubię pracę zespołową, analizę techniczną i szukanie praktycznych rozwiązań, które pozwalają połączyć wytrzymałość z niską masą konstrukcji.',
         achievements: [{ year: 2025, text: 'FS Poland' }],
         projects: ['kompozytowe wykroje foremników monocoque', 'aluminiowe inserty', 'wykonanie monocoque WUT7', 'push bar'],
@@ -124,8 +124,8 @@ window.WUT_TEAM = [
     // ZAWIESZENIE
     { slug: 'tomasz-zaleski', name: 'Tomasz Zaleski', dept: 'suspension', role: 'Koordynator' },
     { slug: 'ian-gjelleboll', name: 'Ian Gjelleboll', dept: 'suspension', role: 'Zastępca koordynatora' },
-    { slug: 'maks-wozniak', name: 'Maks Woźniak', dept: 'suspension', role: 'Zastępca koordynatora' },
-    { slug: 'tomek-kolakowski', name: 'Tomek Kołakowski', dept: 'suspension' },
+    { slug: 'maks-wozniak', name: 'Maksymilian Woźniak', dept: 'suspension', role: 'Zastępca koordynatora' },
+    { slug: 'tomek-kolakowski', name: 'Tomasz Kołakowski', dept: 'suspension' },
     {
         slug: 'grzes-siedlecki', name: 'Grzegorz Siedlecki', dept: 'suspension', since: 2023, studies: 'PW · SiMR',
         bio: 'W zespole głównie zajmuje się projektami z zakresu zawieszenia, a w szczególności ARB oraz pracami warsztatowymi. W wolnym czasie jestem sędzią sportów samochodowych i pasjonatem niskobudżetowego ścigania.',
@@ -142,7 +142,7 @@ window.WUT_TEAM = [
         slug: 'tamara-saganek', name: 'Tamara Saganek', dept: 'suspension', since: 2024, studies: 'PW · SiMR',
         bio: 'W kole zajmuje się pracą warsztatową, projektowaniem, analizą wytrzymałością oraz optymalizacją topologiczną elementów zawieszenia.',
         achievements: [{ year: 2025, text: 'Czechy' }, { year: 2025, text: 'Polska' }],
-        projects: ['Mocowania wachaczy, Pedał gazu, Przewody hamulcowe'],
+        projects: ['Mocowania wachaczy', 'Pedał gazu', 'Przewody hamulcowe'],
     },
     {
         slug: 'dominik-werpachowski', name: 'Dominik Werpachowski', dept: 'suspension', since: 2024, studies: 'PW · EiTI',
@@ -194,6 +194,10 @@ window.WUT_TEAM = [
         bio: 'Dołączyłem do działu elektroniki, żeby poszerzać wiedzę w tej dziedzinie. Bardziej interesuje mnie informatyka od strony sprzętowej i w tym kierunku chcę zdobywać doświadczenie. Realizowanie praktycznych zadań, które mają rzeczywiste zastosowanie, pozwala mi szybko się uczyć. Ponadto satysfakcję sprawia mi świadomość, że elementy, nad którymi pracuję, są faktycznie wykorzystywane.',
         projects: ['Aplikacja do telemetrii', 'PCB do obsługi LEDów'],
     },
+    {
+        slug: 'iwo-szaniawski', name: 'Iwo Szaniawski', dept: 'electronics', since: 2026, studies: 'PW · SiMR',
+        bio: 'Jestem Iwo i w WUT Racing działam od wiosny 2026. Jako dumny członek działu elektroniki współtworzę złożone projekty systemów pokładowych w naszym bolidzie. Kocham Motorsport i od najmłodszych lat rozwijałem moją pasję do technologii, również hobbistycznie w zakresie projektowania i wykonywania własnych systemów audio łącząc pasję do precyzyjnej elektroniki z miłością do dobrego brzmienia ; )',
+    },
 
     // SILNIK
     {
@@ -203,12 +207,12 @@ window.WUT_TEAM = [
         projects: ['Układ przeniesienia napędu', 'Mocowania dyferencjału', 'Układ turbodoładowania'],
     },
     {
-        slug: 'kuba-czarzasty', name: 'Kuba Czarzasty', dept: 'engine', role: 'Zastępca koordynatora', since: 2024, studies: 'PW · SiMR',
+        slug: 'kuba-czarzasty', name: 'Jakub Czarzasty', dept: 'engine', role: 'Zastępca koordynatora', since: 2024, studies: 'PW · SiMR',
         bio: 'Od listopada 2024 roku należę do zespołu, przez ten czas miałem szansę wykorzystać wiedzę, którą zbieram na studiach w projektowaniu samochodów. Poza studiami lubię też jeździć na rowerze i zjeżdżać ze stoku na nartach.',
         achievements: [{ year: 2025, text: 'Czechy' }],
         projects: ['Planowanie i zarządzanie wydatkami działu na rok 2025/26', 'KNTI "Turbo"', 'Mocowania dyferencjału WUT-7', 'Podtrzymka spawalnicza wydechu WUT-7', 'Mocowania silnika WUT-7', 'Mocowania wydechu WUT-6'],
     },
-    { slug: 'franek-kajdzik', name: 'Franek Kajdzik', dept: 'engine' },
+    { slug: 'franek-kajdzik', name: 'Franciszek Kajdzik', dept: 'engine' },
     { slug: 'michal-milaniuk', name: 'Michał Milaniuk', dept: 'engine' },
     { slug: 'jakub-dzikowski', name: 'Jakub Dzikowski', dept: 'engine' },
     { slug: 'mikolaj-klonowski', name: 'Mikołaj Klonowski', dept: 'engine' },
@@ -235,7 +239,7 @@ window.WUT_TEAM = [
     },
 
     // PR
-    { slug: 'kuba-kotowicz', name: 'Kuba Kotowicz', dept: 'pr', role: 'Koordynator' },
+    { slug: 'kuba-kotowicz', name: 'Jakub Kotowicz', dept: 'pr', role: 'Koordynator' },
     { slug: 'dagmara-legien', name: 'Dagmara Legień', dept: 'pr', role: 'Zastępca koordynatora' },
     { slug: 'michal-wisniewski', name: 'Michał Wiśniewski', dept: 'pr', role: 'Fotograf' },
     { slug: 'patrycja-wojcik', name: 'Patrycja Wójcik', dept: 'pr', f: 1 },
@@ -257,7 +261,7 @@ window.WUT_TEAM = [
 
     // LOGISTYKA
     {
-        slug: 'antek-starczynowski', name: 'Antek Starczynowski', dept: 'logistics', role: 'Koordynator', since: 2024, studies: 'PW · WZ',
+        slug: 'antek-starczynowski', name: 'Antoni Starczynowski', dept: 'logistics', role: 'Koordynator', since: 2024, studies: 'PW · WZ',
         bio: 'W kole staram się zapewnić utrzymanie operacyjności oraz statusu najaktywniejszego koła naukowego PW.  Prywatnie jestem piłkarskim trenerem dzieciaków w moim lokalnym klubie. Uwielbiam pichcenie czegoś smacznego w kuchni. Książki, futbol, windsurfing - ulubione formy spędzania wolnego czasu.',
         achievements: [{ year: 2025, text: 'Czechy' }],
         projects: ['Business Plan Presentation ’26', 'Akcelerator Kół Naukowych ’25', 'Wszystkie targi'],
