@@ -348,16 +348,16 @@ body[data-page="sponsors"] { background: var(--white); color: var(--ink); }
 
 /* os czasu */
 .timeline {
-    /* zapas u dolu na kropkowany bolid, zeby nie wchodzil na os */
-    padding: clamp(80px, 12vh, 150px) var(--pad-x) clamp(190px, 26vh, 300px);
+    padding: clamp(80px, 12vh, 150px) var(--pad-x) clamp(90px, 13vh, 160px);
     border-top: 1px solid var(--line-l);
 }
 .timeline-inner { max-width: 1240px; margin: 0 auto; }
 
-/* bolid siedzi na samym dole sekcji, pod osia */
-.timeline.paper-deco-br::after {
-    width: clamp(280px, 36vw, 620px);
-    transform: translate(10%, 22%) scaleX(-1);
+/* kropkowany bolid siedzi na samym dole podstrony */
+.fs-races-sec.paper-deco-br { padding-bottom: clamp(150px, 20vh, 250px); }
+.fs-races-sec.paper-deco-br::after {
+    width: clamp(300px, 38vw, 660px);
+    transform: translate(10%, 26%) scaleX(-1);
     opacity: 0.45;
 }
 
@@ -369,7 +369,7 @@ body[data-page="sponsors"] { background: var(--white); color: var(--ink); }
     position: relative;
     list-style: none;
     display: grid;
-    grid-template-columns: repeat(7, minmax(0, 1fr));
+    grid-template-columns: repeat(8, minmax(0, 1fr));
     align-items: start;
     margin: 0;
     padding: 0;
