@@ -3,6 +3,7 @@
     const DICT = {
         pl: {
             'team.all': 'Wszyscy',
+            'team.backToDepts': 'Wszystkie działy',
             'team.more': 'Pokaż więcej',
             'team.less': 'Pokaż mniej',
             'team.email': 'Pokaż e-mail',
@@ -144,6 +145,7 @@
             'team.heroCta2': 'Filter by department',
             'team.hero3': 'One<br>goal',
             'team.all': 'All',
+            'team.backToDepts': 'All departments',
             'team.more': 'Show more',
             'team.less': 'Show less',
             'team.email': 'Show e-mail',

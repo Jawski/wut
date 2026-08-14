@@ -33,25 +33,59 @@ function deptLabel(m) {
     return t('dept.' + m.dept, window.WUT_getDeptLabel(m));
 }
 
-function renderFilters() {
-    const wrap = document.getElementById('team-filter');
+// rzedy dzialow: zwiniete pokazuja stosik kart, po najechaniu rozkladaja sie
+function renderDeptRows() {
+    const wrap = document.getElementById('dept-rows');
+    if (!wrap) return;
+
     const counts = {};
     window.WUT_TEAM.forEach(m => { counts[m.dept] = (counts[m.dept] || 0) + 1; });
-    const visible = window.WUT_DEPT_FILTERS.filter(f => f.id === 'all' || counts[f.id] > 0);
+    const depts = window.WUT_DEPT_FILTERS.filter(f => f.id !== 'all' && counts[f.id] > 0);
 
-    wrap.innerHTML = visible.map(f => {
-        const n = f.id === 'all' ? window.WUT_TEAM.length : (counts[f.id] || 0);
-        const label = f.id === 'all' ? t('team.all', f.label) : t('dept.' + f.id, f.label);
-        return `<button data-filter="${f.id}" ${f.id === 'all' ? 'class="active"' : ''}>${label} <span style="opacity:0.5;margin-left:6px;">${n}</span></button>`;
+    wrap.innerHTML = depts.map(f => {
+        const label = t('dept.' + f.id, f.label);
+        // do stosiku bierzemy pierwsze osoby z dzialu
+        const karty = window.WUT_TEAM.filter(m => m.dept === f.id).slice(0, 3).map((m, i) => `
+            <span class="dept-card" style="--i:${i}">
+                <img src="assets/team/${m.slug}.jpg" alt=""
+                     onerror="this.onerror=null;this.src='assets/team/${m.f ? '_placeholder_f' : '_placeholder'}.jpg';"
+                     loading="lazy">
+                <span class="dept-card-name">${m.name}</span>
+            </span>`).join('');
+
+        return `
+        <button class="dept-row" type="button" data-dept="${f.id}" aria-label="${label}">
+            <span class="dept-row-panel" aria-hidden="true"></span>
+            <span class="dept-row-name">${label}</span>
+            <span class="dept-row-cards">${karty}</span>
+            <span class="dept-row-go" aria-hidden="true"><span class="dept-row-arrow"></span></span>
+            <span class="dept-row-count">${counts[f.id]}</span>
+        </button>`;
     }).join('');
 
-    wrap.addEventListener('click', (e) => {
-        const btn = e.target.closest('button');
-        if (!btn) return;
-        wrap.querySelectorAll('button').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        renderGrid(btn.dataset.filter);
+    wrap.querySelectorAll('.dept-row').forEach(row => {
+        row.addEventListener('click', () => otworzDzial(row.dataset.dept));
     });
+}
+
+function otworzDzial(dept) {
+    const widok = document.getElementById('team-open');
+    const tytul = document.getElementById('team-open-title');
+    if (!widok) return;
+    const f = window.WUT_DEPT_FILTERS.find(x => x.id === dept);
+    if (tytul && f) tytul.textContent = t('dept.' + dept, f.label);
+    widok.hidden = false;
+    widok.dataset.dept = dept;
+    renderGrid(dept);
+    widok.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function zamknijDzial() {
+    const widok = document.getElementById('team-open');
+    if (!widok) return;
+    const rows = document.getElementById('dept-rows');
+    widok.hidden = true;
+    if (rows) rows.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function renderGrid(filter = 'all') {
@@ -100,7 +134,6 @@ function renderGrid(filter = 'all') {
 
                 <div class="member-face member-face-front">
                     <div class="member-photo">
-                        <span class="role-tag glass-tag">${dept}</span>
                         <img src="assets/team/${m.slug}.jpg"
                              onerror="this.onerror=null;this.src='assets/team/${m.f ? '_placeholder_f' : '_placeholder'}.jpg';this.classList.add('is-placeholder');"
                              alt="${m.name}" loading="lazy">
@@ -113,21 +146,21 @@ function renderGrid(filter = 'all') {
                 </div>
 
                 <div class="member-face member-face-back">
-                    <div class="member-back-top">
-                        <span class="role-tag glass-tag">${dept}</span>
-                        <h3 class="member-back-name">${m.name}</h3>
-                        <div class="member-back-role">${role}</div>
+                    <div class="member-back-scroll">
+                        <div class="member-back-top">
+                            <h3 class="member-back-name">${m.name}</h3>
+                            <div class="member-back-role">${role}</div>
+                        </div>
+
+                        ${bioBlock}
+                        ${achBlock}
+                        ${projBlock}
+
+                        <div class="member-back-actions">
+                            <button class="member-back-email glass-btn" type="button">${emailLabel}</button>
+                        </div>
+                        <a class="member-back-mail" href="mailto:${email}">${email}</a>
                     </div>
-
-                    ${bioBlock}
-                    ${achBlock}
-                    ${projBlock}
-
-                    <div class="member-back-actions">
-                        <button class="member-back-email glass-btn" type="button">${emailLabel}</button>
-                    </div>
-                    <a class="member-back-mail" href="mailto:${email}">${email}</a>
-
                     <span class="arrow arrow-back" aria-hidden="true">↻</span>
                 </div>
 
@@ -206,16 +239,22 @@ document.addEventListener('click', (e) => {
 });
 
 window.WUT_renderTeam = function () {
-    const activeFilter = document.querySelector('#team-filter button.active');
-    renderFilters();
-    renderGrid(activeFilter ? activeFilter.dataset.filter : 'all');
+    const widok = document.getElementById('team-open');
+    renderDeptRows();
+    if (widok && !widok.hidden && widok.dataset.dept) {
+        const f = window.WUT_DEPT_FILTERS.find(x => x.id === widok.dataset.dept);
+        const tytul = document.getElementById('team-open-title');
+        if (tytul && f) tytul.textContent = t('dept.' + widok.dataset.dept, f.label);
+        renderGrid(widok.dataset.dept);
+    }
     const total = document.getElementById('team-total');
     if (total) total.textContent = window.WUT_TEAM.length;
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    renderFilters();
-    renderGrid('all');
+    renderDeptRows();
+    const back = document.getElementById('team-open-back');
+    if (back) back.addEventListener('click', zamknijDzial);
     const total = document.getElementById('team-total');
     if (total) total.textContent = window.WUT_TEAM.length;
 });

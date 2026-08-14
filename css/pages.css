@@ -2,41 +2,205 @@
 
 /* ============ zespol ============ */
 
-.team-filter {
-    display: flex;
-    gap: 26px;
-    flex-wrap: wrap;
-    padding: 44px var(--pad-x) 0;
+/* ==== rzedy dzialow ==== */
+.dept-rows {
     max-width: var(--maxw);
     margin: 0 auto;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: clamp(40px, 6vh, 80px) var(--pad-x) clamp(60px, 9vh, 110px);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
 }
 
-.team-filter button {
+.dept-row {
     position: relative;
-    padding: 10px 2px 16px;
-    font-family: var(--font-b);
+    display: block;
+    width: 100%;
+    height: clamp(150px, 19vw, 230px);
+    padding: 0;
+    overflow: hidden;
+    background: var(--black-2);
+    text-align: left;
+    isolation: isolate;
+}
+
+/* jasny panel wysuwa sie z lewej po najechaniu */
+.dept-row-panel {
+    position: absolute;
+    inset: 0 22% 0 0;
+    background: #ededf0;
+    transform: scaleX(0) skewX(var(--skew));
+    transform-origin: left center;
+    transition: transform 0.6s var(--ease);
+    z-index: 0;
+}
+.dept-row:hover .dept-row-panel,
+.dept-row:focus-visible .dept-row-panel { transform: scaleX(1) skewX(var(--skew)); }
+
+/* nazwa dzialu - duza, przygaszona; po najechaniu chowa sie za panel */
+.dept-row-name {
+    position: absolute;
+    left: clamp(180px, 22vw, 320px);
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    font-family: var(--font-d);
+    font-size: clamp(28px, 4.6vw, 68px);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: #34343c;
+    white-space: nowrap;
+    transition: opacity 0.4s var(--ease), transform 0.6s var(--ease);
+}
+.dept-row:hover .dept-row-name,
+.dept-row:focus-visible .dept-row-name { opacity: 0; transform: translateY(-50%) translateX(30px); }
+
+/* stosik kart - zwiniety lezy jedna na drugiej, po najechaniu rozklada sie */
+.dept-row-cards {
+    position: absolute;
+    left: clamp(10px, 1.6vw, 26px);
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    display: block;
+    width: clamp(120px, 15vw, 190px);
+    height: clamp(120px, 15vw, 180px);
+}
+.dept-card {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: clamp(96px, 11.5vw, 145px);
+    aspect-ratio: 3 / 4;
+    background: #1c1c21;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
+    overflow: hidden;
+    /* zwiniete: lekkie kąty, jakby lezaly na stole */
+    transform: translateY(-50%) translateX(calc(var(--i) * 9px)) rotate(calc((var(--i) - 1) * 4deg));
+    transition: transform 0.6s var(--ease), box-shadow 0.5s var(--ease);
+}
+.dept-card img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+    filter: grayscale(35%);
+}
+.dept-card-name {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    padding: 16px 8px 7px;
+    background: linear-gradient(180deg, transparent, rgba(12, 12, 14, 0.9));
+    font-family: var(--font-d);
+    font-size: 9.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: #fff;
+    line-height: 1.1;
+    text-align: center;
+}
+/* rozlozone: rozjezdzaja sie w bok, kazda pod innym katem */
+.dept-row:hover .dept-card,
+.dept-row:focus-visible .dept-card {
+    transform: translateY(-50%) translateX(calc(var(--i) * clamp(88px, 10.6vw, 134px)))
+               rotate(calc((var(--i) - 1) * 5deg));
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* czerwony klin ze strzalka - wjezdza z prawej */
+.dept-row-go {
+    position: absolute;
+    top: 0; bottom: 0; right: 0;
+    width: 30%;
+    z-index: 3;
+    background: var(--red);
+    clip-path: polygon(18% 0, 100% 0, 100% 100%, 0 100%);
+    /* klin jest sciety, wiec musi zjechac dalej niz o wlasna szerokosc */
+    transform: translateX(125%);
+    transition: transform 0.6s var(--ease);
+    display: grid;
+    place-items: center;
+}
+.dept-row:hover .dept-row-go,
+.dept-row:focus-visible .dept-row-go { transform: translateX(0); }
+
+.dept-row-arrow {
+    width: 46px; height: 46px;
+    background: url("../assets/icons/arrow.png") center / contain no-repeat;
+    transition: transform 0.4s var(--ease);
+}
+.dept-row:hover .dept-row-arrow { transform: translateX(6px); }
+
+/* licznik osob w rogu, znika po najechaniu */
+.dept-row-count {
+    position: absolute;
+    right: clamp(16px, 2vw, 30px);
+    top: clamp(12px, 1.6vw, 22px);
+    z-index: 1;
+    font-family: var(--font-u);
     font-size: 12px;
-    font-weight: 600;
     letter-spacing: 0.18em;
+    color: var(--text-3);
+    transition: opacity 0.35s var(--ease);
+}
+.dept-row:hover .dept-row-count { opacity: 0; }
+
+@media (max-width: 820px) {
+    /* na dotyku nie ma najechania - rzad jest od razu rozlozony */
+    .dept-row { height: 150px; }
+    .dept-row-panel { display: none; }
+    /* nazwa nie moze wchodzic pod czerwony klin */
+    .dept-row-name {
+        left: clamp(110px, 32vw, 190px);
+        right: 84px;
+        font-size: clamp(15px, 4.4vw, 24px);
+        color: #6a6a75;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .dept-row-cards { width: 110px; height: 110px; }
+    .dept-card { width: 82px; }
+    .dept-row:hover .dept-card { transform: translateY(-50%) translateX(calc(var(--i) * 9px)) rotate(calc((var(--i) - 1) * 4deg)); }
+    .dept-row-go { width: 74px; transform: translateX(0); clip-path: polygon(30% 0, 100% 0, 100% 100%, 0 100%); }
+    .dept-row-arrow { width: 26px; height: 26px; }
+    .dept-row-count { display: none; }
+}
+
+/* ==== widok otwartego dzialu ==== */
+.team-open { padding-top: clamp(20px, 4vh, 44px); }
+.team-open-head {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0 var(--pad-x);
+    display: flex;
+    align-items: center;
+    gap: clamp(18px, 3vw, 40px);
+    flex-wrap: wrap;
+}
+.team-open-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-u);
+    font-size: 11px;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--text-2);
-    transition: color 0.3s;
+    transition: color 0.25s;
 }
-.team-filter button span { font-family: var(--font-u); font-size: 10px; }
-.team-filter button::after {
-    content: "";
-    position: absolute;
-    left: 0; right: 0; bottom: -1px;
-    height: 2px;
-    background: var(--red);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.35s var(--ease);
+.team-open-back:hover { color: #fff; }
+.team-open-back-arrow {
+    width: 30px; height: 30px;
+    background: url("../assets/icons/arrow.png") center / contain no-repeat;
+    transform: rotate(180deg);
 }
-.team-filter button:hover { color: #fff; }
-.team-filter button.active { color: #fff; }
-.team-filter button.active::after { transform: scaleX(1); }
+.team-open-title {
+    font-size: clamp(24px, 3.2vw, 44px);
+    color: var(--text-0);
+    margin: 0;
+}
 
 .team-grid {
     max-width: var(--maxw);
@@ -183,20 +347,27 @@
 }
 
 /* tyl - biala karta techniczna */
+/* sama sciana sie nie przewija - dzieki temu strzalka stoi w miejscu;
+   przewija sie tylko tresc w srodku */
 .member-face-back {
     transform: rotateY(180deg) translateZ(0);
     background: #fff;
     color: var(--ink);
-    padding: 20px 20px 16px;
+    overflow: hidden;
+}
+.member-back-scroll {
+    height: 100%;
+    padding: 20px 20px 46px;
     display: flex;
     flex-direction: column;
     gap: 12px;
     overflow-y: auto;
+    overscroll-behavior: contain;
     scrollbar-width: thin;
     scrollbar-color: var(--red) transparent;
 }
-.member-face-back::-webkit-scrollbar { width: 4px; }
-.member-face-back::-webkit-scrollbar-thumb { background: var(--red); }
+.member-back-scroll::-webkit-scrollbar { width: 4px; }
+.member-back-scroll::-webkit-scrollbar-thumb { background: var(--red); }
 
 .member-face-back .role-tag {
     position: static;
