@@ -150,10 +150,7 @@ section { position: relative; }
 }
 .paper-deco-tl::before {
     top: 0; left: 0;
-    transform: translate(-26%, -52%);
-    /* krawedz sekcji ucinala bolid ostra kreska - u gory wytapiamy go do zera */
-    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 42%);
-    mask-image: linear-gradient(180deg, transparent 0%, #000 42%);
+    transform: translate(-28%, -34%);
 }
 .paper-deco-br::after {
     bottom: 0; right: 0;
