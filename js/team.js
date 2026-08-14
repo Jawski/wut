@@ -88,7 +88,6 @@ function renderDeptRows() {
             <span class="dept-row-name">${label}</span>
             <span class="dept-row-cards">${karty}</span>
             <span class="dept-row-go" aria-hidden="true"><span class="dept-row-arrow"></span></span>
-            <span class="dept-row-count">${counts[f.id]}</span>
         </button>`;
     }).join('');
 
