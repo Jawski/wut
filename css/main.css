@@ -132,8 +132,11 @@ section { position: relative; }
 .section-light .eyebrow { color: var(--red); }
 
 /* kropkowany bolid przenikajacy w rogach bialych sekcji */
+/* isolation zamyka z-index dzieci w tej sekcji. Bez tego tresc (z-index 1)
+   potrafi wyskoczyc nad sasiednia sekcje, a tlo zostaje pod spodem - wtedy
+   spod sekcji przebija to, co jest za nia */
 .paper-deco-tl,
-.paper-deco-br { position: relative; overflow: hidden; }
+.paper-deco-br { position: relative; overflow: hidden; isolation: isolate; }
 .paper-deco-tl > *,
 .paper-deco-br > * { position: relative; z-index: 1; }
 

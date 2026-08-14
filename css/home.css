@@ -561,9 +561,10 @@
 /* cta czeka pod cytatem i wyjezdza spod niego przy przewijaniu.
    "bottom" w sticky podciaga element do dolu ekranu, zanim dojdzie do niego
    w normalnym ukladzie - a cytat, bedac warstwe wyzej, zaslania go do konca */
-.reveal-stack { position: relative; }
-/* wszystko nad CTA jedzie warstwe wyzej i je zaslania */
-.reveal-stack > *:not(.cta-strip) { position: relative; z-index: 1; }
+/* isolation robi z kontenera wlasny kontekst ukladania, dzieki czemu CTA
+   z ujemna warstwa chowa sie pod tlami wszystkich sasiadow - niezaleznie
+   od tego, czy maja wlasny z-index */
+.reveal-stack { position: relative; isolation: isolate; }
 
 /* cta - czerwien na plasko */
 .cta-strip {
@@ -575,7 +576,7 @@
 .reveal-stack .cta-strip {
     position: sticky;
     bottom: 0;
-    z-index: 0;
+    z-index: -1;
 }
 @media (max-width: 900px) {
     .reveal-stack .cta-strip { position: relative; }
