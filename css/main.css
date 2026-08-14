@@ -216,17 +216,31 @@ section { position: relative; }
     gap: 18px;
 }
 
-.nav-social { display: flex; align-items: center; gap: 4px; }
-.nav-soc {
+/* ikony social: biala wersja, po najechaniu przenika kolorowa */
+.soc {
+    position: relative;
     display: grid;
     place-items: center;
-    width: 34px; height: 34px;
     border-radius: 50%;
-    color: rgba(255, 255, 255, 0.75);
-    transition: color 0.25s, background 0.25s;
+    transition: background 0.25s var(--ease);
 }
-.nav-soc svg { width: 17px; height: 17px; fill: currentColor; }
-.nav-soc:hover { color: #fff; background: rgba(255, 255, 255, 0.1); }
+.soc img {
+    grid-area: 1 / 1;
+    display: block;
+    width: 100%; height: 100%;
+    object-fit: contain;
+    transition: opacity 0.25s var(--ease), transform 0.25s var(--ease);
+}
+.soc .soc-off { opacity: 0.78; }
+.soc .soc-on { opacity: 0; }
+.soc:hover .soc-off,
+.soc:focus-visible .soc-off { opacity: 0; }
+.soc:hover .soc-on,
+.soc:focus-visible .soc-on { opacity: 1; transform: scale(1.06); }
+
+.nav-social { display: flex; align-items: center; gap: 6px; }
+.nav-soc { width: 34px; height: 34px; padding: 8px; }
+.nav-soc:hover { background: rgba(255, 255, 255, 0.1); }
 
 /* hamburger */
 .menu-btn {
@@ -317,16 +331,21 @@ section { position: relative; }
     padding: 0 var(--pad-x) clamp(28px, 5vh, 56px);
 }
 .menu-soc {
-    display: grid;
-    place-items: center;
     width: 44px; height: 44px;
+    padding: 11px;
     border: 1px solid rgba(255, 255, 255, 0.22);
-    border-radius: 50%;
-    color: rgba(255, 255, 255, 0.8);
-    transition: color 0.25s, background 0.25s, border-color 0.25s;
+    transition: background 0.25s var(--ease), border-color 0.25s var(--ease);
 }
-.menu-soc svg { width: 19px; height: 19px; fill: currentColor; }
-.menu-soc:hover { color: #fff; background: var(--red); border-color: var(--red); }
+.menu-soc:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.45); }
+
+/* stopka - te same ikony w rzedzie */
+.footer-social { display: flex; gap: 10px; margin-top: 4px; }
+.footer-soc {
+    width: 38px; height: 38px;
+    padding: 9px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+}
+.footer-soc:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.4); }
 
 /* przelacznik jezyka - tekstowy */
 .lang-switch {
@@ -419,19 +438,17 @@ section { position: relative; }
     text-transform: uppercase;
     color: #fff;
 }
+/* strzalka z pliku (ikonadalej) - kolko z szewronem jest juz w grafice */
 .hero-discover .disc-arrow {
-    display: grid;
-    place-items: center;
-    width: 40px; height: 40px;
-    border: 1px solid rgba(255, 255, 255, 0.55);
-    border-radius: 50%;
-    font-size: 15px;
-    transition: background 0.35s, border-color 0.35s, transform 0.35s var(--ease);
+    display: block;
+    width: 42px; height: 42px;
+    font-size: 0;
+    background: url('../assets/icons/arrow.png') center / contain no-repeat;
+    transition: transform 0.35s var(--ease), filter 0.35s var(--ease);
 }
 .hero-discover:hover .disc-arrow {
-    background: var(--red);
-    border-color: var(--red);
-    transform: translateX(4px);
+    transform: translateX(5px);
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.35));
 }
 
 /* stopka */

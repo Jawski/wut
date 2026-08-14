@@ -278,8 +278,10 @@
 
 .events-races {
     display: flex;
-    gap: 2px;
-    background: rgba(255, 255, 255, 0.08);
+    /* gdy karty nie wypelniaja szerokosci - srodkuj, zamiast zostawiac dziure z prawej;
+       "safe" przywraca dosuniecie do lewej, gdy jednak sie nie miesci */
+    justify-content: safe center;
+    background: var(--deep);
     overflow-x: auto;
     scroll-snap-type: x proximity;
     scrollbar-width: none;
@@ -323,7 +325,10 @@
     cursor: pointer;
     flex: 0 0 clamp(232px, 25%, 300px);
     scroll-snap-align: start;
+    /* separator zamiast przerwy - dzieki temu wysrodkowanie nie robi jasnych pasow */
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
 }
+.race-card:first-child { border-left: 0; }
 
 /* minione — wygaszone, z plakietka */
 .race-card.is-past { opacity: 0.5; }
