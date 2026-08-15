@@ -651,6 +651,8 @@
     filter: grayscale(100%) contrast(1.06);
 }
 .quote-ford .quote-photo img { --qpos: 42% 50%; }
+.quote-porsche .quote-photo img { --qpos: 45% 38%; }
+.quote-chapman .quote-photo img { --qpos: 62% 34%; }
 /* gdyby zdjecia zabraklo - zostaje sam ukosny panel */
 .quote-photo.is-empty { background: #1a1a1f; }
 

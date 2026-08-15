@@ -149,6 +149,8 @@
             // cytaty
             'quote.ferrari': 'If you ask any child to draw a car,<br>they&rsquo;ll draw a red one.',
             'quote.ford': 'Coming together is a beginning, staying together is progress,<br>working together is success.',
+            'quote.porsche': 'In the beginning I looked around and could not find the car<br>I had been dreaming of. So I decided to build it myself.',
+            'quote.chapman': 'Adding power makes you faster on the straights;<br>subtracting weight makes you faster everywhere.',
             'team.backToDepts': 'All departments',
             'team.more': 'Show more',
             'team.less': 'Show less',
