@@ -188,9 +188,10 @@ window.WUT_TEAM = [
         achievements: [{ year: 2026, text: 'FS Czech' }],
     },
     { slug: 'piotr-piwowarski', name: 'Piotr Piwowarski', dept: 'chassis' },
+    { slug: 'tomasz-zaleski', name: 'Tomasz Załęski', dept: 'chassis' },
 
     // ZAWIESZENIE
-    { slug: 'tomasz-zaleski', name: 'Tomasz Zaleski', dept: 'suspension' },
+    { slug: 'michal-zielinski', name: 'Michał Zieliński', dept: 'suspension' },
     {
         slug: 'ian-gjelleboll', name: 'Ian Gjelleboll', dept: 'suspension', role: 'Koordynator',
         achievements: [{ year: 2026, text: 'FS Czech' }, { year: 2026, text: 'FS Austria' }, { year: 2026, text: 'FS Poland' }],
@@ -251,13 +252,12 @@ window.WUT_TEAM = [
     },
 
     // ELEKTRONIKA
-    { slug: 'michal-zielinski', name: 'Michał Zieliński', dept: 'electronics', role: 'Koordynator' },
     {
-        slug: 'blazej-molas', name: 'Błażej Molas', dept: 'electronics', role: 'Zastępca koordynatora',
+        slug: 'blazej-molas', name: 'Błażej Molas', dept: 'electronics', role: 'Koordynator',
         achievements: [{ year: 2026, text: 'FS Czech' }, { year: 2026, text: 'FS Austria' }],
     },
     {
-        slug: 'kacper-kowalski', name: 'Kacper Kowalski', dept: 'electronics', since: 2023, studies: 'PW · EiTI',
+        slug: 'kacper-kowalski', name: 'Kacper Kowalski', dept: 'electronics', role: 'Zastępca koordynatora', since: 2023, studies: 'PW · EiTI',
         bio: 'Specjalizuje się w projektowaniu zaawansowanych płytek PCB oraz programowaniu systemów wbudowanych opartych na mikrokontrolerach STM32. W kole naukowym odpowiada bezpośrednio za rozwój i wdrażanie układów elektronicznych. Prywatnie pasjonuje się szeroko pojętym majsterkowaniem oraz muzyka.',
         achievements: [{ year: 2024, text: 'Węgry' }, { year: 2025, text: 'Austria Czechy Polska' }, { year: 2026, text: 'FS Poland' }],
         projects: ['Moduł pomiarowy i zarządzania bezpieczeństwem pakiety baterii układu hybrydowego', 'wiązka'],
