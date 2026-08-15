@@ -116,19 +116,41 @@ function initNav(activePage) {
         });
     }
 
+    const progress = document.getElementById('scroll-progress');
+
+    // pasek chowa sie przy przewijaniu w dol i wraca przy przewijaniu w gore
+    const PROG = 8;          // ile trzeba przewinac, zeby uznac kierunek za zmieniony
+    const GORA = 80;         // przy samej gorze pasek jest zawsze widoczny
     let lastY = window.scrollY;
+    let schowany = false;
+
+    function pokazPasek(czy) {
+        if (schowany === !czy) return;
+        schowany = !czy;
+        nav.classList.toggle('is-hidden', schowany);
+        if (progress) progress.classList.toggle('is-hidden', schowany);
+    }
+
     function onScroll() {
         const y = window.scrollY;
         if (y < 40) nav.classList.add('is-top');
         else nav.classList.remove('is-top');
         const max = document.documentElement.scrollHeight - window.innerHeight;
         const pct = max > 0 ? (y / max) * 100 : 0;
-        const progress = document.getElementById('scroll-progress');
         if (progress) progress.style.width = pct + '%';
-        lastY = y;
+
+        // lastY przesuwamy dopiero po przekroczeniu progu - inaczej powolne
+        // przewijanie nigdy by go nie uzbieralo i pasek by nie reagowal
+        const roznica = y - lastY;
+        if (y <= GORA) { pokazPasek(true); lastY = y; }
+        else if (roznica > PROG) { pokazPasek(false); lastY = y; }
+        else if (roznica < -PROG) { pokazPasek(true); lastY = y; }
     }
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
+
+    // schowany pasek nadal da sie zlapac tabulatorem - wtedy musi wrocic na ekran
+    nav.addEventListener('focusin', () => pokazPasek(true));
 
     // pelnoekranowe menu
     const menuBtn = document.getElementById('menu-btn');

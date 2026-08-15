@@ -176,8 +176,11 @@ section { position: relative; }
     backdrop-filter: blur(18px) saturate(140%);
     -webkit-backdrop-filter: blur(18px) saturate(140%);
     border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-    transition: background 0.4s var(--ease), border-color 0.4s var(--ease);
+    transition: background 0.4s var(--ease), border-color 0.4s var(--ease),
+                transform 0.35s var(--ease);
 }
+/* przy przewijaniu w dol pasek chowa sie nad krawedzia ekranu */
+.nav.is-hidden { transform: translateY(-100%); }
 /* na samej gorze pasek jest calkiem przezroczysty */
 .nav.is-top {
     background: linear-gradient(180deg, rgba(16,16,18,0.6), transparent);
@@ -398,7 +401,10 @@ section { position: relative; }
     background: var(--red);
     z-index: 99;
     width: 0;
+    transition: transform 0.35s var(--ease);
 }
+/* pasek postepu jedzie razem z nawigacja, zeby nie zostac sam w powietrzu */
+.scroll-progress.is-hidden { transform: translateY(calc(-1 * var(--nav-h))); }
 
 /* przyciski - prostokaty, uppercase */
 .btn {
