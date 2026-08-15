@@ -392,6 +392,8 @@
     margin: 0;
 }
 .member-bio-full { display: none; }
+/* nadmiarowe zawody chowaja sie do czasu klikniecia "pokaz wiecej" */
+.member-face-back:not(.ach-expanded) .ach-extra { display: none; }
 .member-face-back.bio-expanded .member-bio-short { display: none; }
 .member-face-back.bio-expanded .member-bio-full { display: block; }
 .member-back-none { color: #b0b0b6; font-style: italic; }
@@ -1127,4 +1129,12 @@ body[data-page="team"] .hero-photo-sub { display: none; }
     .fs-race-label { max-width: 64%; }
     .fs-race-name { font-size: 15px; }
     .fs-race-en { font-size: 9.5px; letter-spacing: 0.16em; }
+
+    /* skos zjada na waskim ekranie tyle szerokosci, ze tekst wychodzil poza
+       czarne tlo - na telefonie panel jest zwyklym prostokatem */
+    .fs-race-panel { transform: none; }
+    .fs-race-panel p {
+        transform: none;
+        padding: 22px 20px;
+    }
 }

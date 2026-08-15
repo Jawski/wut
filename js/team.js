@@ -140,18 +140,31 @@ function renderGrid(filter = 'all') {
         const ach = m.achievements || [];
         const proj = m.projects || [];
 
-        const bioBlock = hasBio ? `
-            <p class="member-back-bio member-bio-short">${firstSentence(m.bio)}</p>
+        // przy krotkim opisie pierwsze zdanie to caly opis - przycisk nie ma czego pokazac
+        const opisSkrocony = hasBio ? firstSentence(m.bio) : '';
+        const opisDluzszy = hasBio && opisSkrocony.trim() !== m.bio.trim();
+
+        const bioBlock = !hasBio
+            ? `<p class="member-back-bio member-back-none">${noneLabel}</p>`
+            : (opisDluzszy ? `
+            <p class="member-back-bio member-bio-short">${opisSkrocony}</p>
             <p class="member-back-bio member-bio-full">${m.bio}</p>
             <button class="member-back-more glass-btn" type="button">${moreLabel}</button>
-        ` : `<p class="member-back-bio member-back-none">${noneLabel}</p>`;
+        ` : `<p class="member-back-bio">${m.bio}</p>`);
 
+        // przy dluzszej liscie zawodow karta sie rozpychala - widac dwa, reszta pod przyciskiem
+        const achPozycja = (a, extra) =>
+            `<li${extra ? ' class="ach-extra"' : ''}><span class="year">${a.year}</span><span>${a.text}</span></li>`;
         const achBlock = ach.length ? `
             <div class="member-back-section">
                 <div class="member-back-title">${compLabel}</div>
                 <ul class="member-back-list">
-                    ${ach.map(a => `<li><span class="year">${a.year}</span><span>${a.text}</span></li>`).join('')}
+                    ${ach.slice(0, 2).map(a => achPozycja(a, false)).join('')}
+                    ${ach.slice(2).map(a => achPozycja(a, true)).join('')}
                 </ul>
+                ${ach.length > 2
+                    ? `<button class="member-back-more-ach glass-btn" type="button">${moreLabel}</button>`
+                    : ''}
             </div>` : '';
 
         const projBlock = proj.length ? `
@@ -217,6 +230,13 @@ function renderGrid(filter = 'all') {
 
             if (e.target.closest('.member-back-email')) {
                 card.querySelector('.member-face-back').classList.toggle('mail-shown');
+                return;
+            }
+            if (e.target.closest('.member-back-more-ach')) {
+                const back = card.querySelector('.member-face-back');
+                const btn = card.querySelector('.member-back-more-ach');
+                back.classList.toggle('ach-expanded');
+                btn.textContent = back.classList.contains('ach-expanded') ? lessLabel : moreLabel;
                 return;
             }
             if (e.target.closest('.member-back-more')) {
