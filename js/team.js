@@ -118,7 +118,13 @@ function zamknijDzial() {
 
 function renderGrid(filter = 'all') {
     const grid = document.getElementById('team-grid');
-    const list = filter === 'all' ? window.WUT_TEAM : window.WUT_TEAM.filter(m => m.dept === filter);
+    const wybrani = filter === 'all' ? window.WUT_TEAM : window.WUT_TEAM.filter(m => m.dept === filter);
+
+    // najpierw koordynator, potem zastepca, dalej czlonkowie w kolejnosci z danych
+    const list = wybrani
+        .map((m, idx) => ({ m, idx }))
+        .sort((a, b) => ranga(a.m) - ranga(b.m) || a.idx - b.idx)
+        .map(x => x.m);
     const moreLabel = t('team.more', 'Pokaż więcej');
     const lessLabel = t('team.less', 'Pokaż mniej');
     const emailLabel = t('team.email', 'Pokaż e-mail');
