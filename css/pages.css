@@ -745,13 +745,13 @@ body[data-page="sponsors"] { background: var(--white); color: var(--ink); }
 /* zdjecia bolidow maja rozne proporcje (od 1,49 do 2,34), wiec bez stalej
    ramki czerwona sekcja zmienialaby wysokosc przy kazdej zmianie bolidu */
 .car-show-photo {
+    /* zwykly blok, nie siatka: w siatce wysokosc procentowa zdjecia sie nie
+       rozwiazywala i zdjecie wystawalo poza ramke.
+       min-height: 0, bo ramka sama jest elementem siatki i jej automatyczny
+       minimalny rozmiar rozpychalby sie do wysokosci zdjecia.
+       Bez przycinania, bo cien rzucany przez bolid wychodzi poza ramke. */
     aspect-ratio: 16 / 9;
-    display: grid;
-    place-items: center;
-    /* ramka jest elementem siatki - bez tego jej automatyczny minimalny rozmiar
-       rozpycha sie do wysokosci zdjecia i proporcja przestaje obowiazywac */
     min-height: 0;
-    overflow: hidden;
 }
 .car-show-photo img {
     width: 100%;
