@@ -20,7 +20,7 @@ const NAV_HTML = `
             <span class="menu-bars"><i></i><i></i><i></i></span>
         </button>
         <a href="index.html" class="brand" aria-label="WUT Racing">
-            <img src="assets/logo.png" alt="WUT Racing" class="brand-logo">
+            <img src="assets/logo-main.png" alt="WUT Racing" class="brand-logo">
         </a>
         <div class="nav-right">
             <div class="nav-social">${socialLinks('nav-soc')}</div>
@@ -39,7 +39,7 @@ const NAV_HTML = `
                 <path d="M5 5l14 14M19 5L5 19"/>
             </svg>
         </button>
-        <img src="assets/logo.png" alt="WUT Racing" class="menu-logo">
+        <img src="assets/logo-main.png" alt="WUT Racing" class="menu-logo">
     </div>
     <nav class="menu-links">
         <a href="index.html" data-page="home" data-i18n="nav.home">Start</a>

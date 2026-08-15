@@ -100,8 +100,7 @@
         const overlay = document.createElement('div');
         overlay.className = 'intro-splash';
         overlay.innerHTML = `
-            <img src="assets/logo.png" alt="WUT Racing" class="intro-logo">
-            <div class="intro-line"></div>
+            <img src="assets/logo-main.png" alt="WUT Racing" class="intro-logo">
         `;
         document.body.appendChild(overlay);
         document.body.style.overflow = 'hidden';

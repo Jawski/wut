@@ -92,25 +92,17 @@
     transform: translateX(-50%);
     z-index: 5;
     display: flex;
-    gap: 16px;
+    gap: 10px;
 }
+/* kreski zamiast kropek - tak jak przy wyborze bolidu */
 .hero-dot {
-    position: relative;
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.45);
+    width: 26px; height: 3px;
+    background: rgba(255, 255, 255, 0.5);
     padding: 0;
-    transition: background 0.3s;
+    transition: background 0.3s var(--ease), width 0.3s var(--ease);
 }
-.hero-dot:hover { background: #fff; }
-.hero-dot.is-active { background: var(--red); }
-.hero-dot.is-active::after {
-    content: "";
-    position: absolute;
-    inset: -5px;
-    border: 1px solid rgba(255, 255, 255, 0.7);
-    border-radius: 50%;
-}
+.hero-dot:hover { background: #fff; width: 34px; }
+.hero-dot.is-active { background: var(--red); width: 52px; }
 
 /* kim jestesmy - filmy w tle lecace po sobie */
 .intro-strip {
