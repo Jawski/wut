@@ -28,15 +28,52 @@ function renderTimeline() {
     `).join('');
 
     track.querySelectorAll('.timeline-car').forEach(b => {
-        b.addEventListener('click', () => {
-            if (b.dataset.id === activeId) return;
-            // dodatni = wybrano bolid dalej w prawo, wiec tresc jedzie w lewo
-            const kierunek = Math.sign(idxNaOsi(b.dataset.id) - idxNaOsi(activeId));
-            activeId = b.dataset.id;
-            track.querySelectorAll('.timeline-car').forEach(x => x.classList.toggle('is-active', x.dataset.id === activeId));
-            renderActive(kierunek);
-        });
+        b.addEventListener('click', () => przelacz(b.dataset.id));
     });
+}
+
+// jedno miejsce zmiany bolidu - uzywa go i os, i strzalki
+function przelacz(id) {
+    if (!id || id === activeId) return;
+    // dodatni = wybrany bolid lezy dalej w prawo, wiec tresc jedzie w lewo
+    const kierunek = Math.sign(idxNaOsi(id) - idxNaOsi(activeId));
+    activeId = id;
+    document.querySelectorAll('.timeline-car').forEach(x =>
+        x.classList.toggle('is-active', x.dataset.id === activeId));
+    renderActive(kierunek);
+    odswiezStrzalki();
+}
+
+function odswiezStrzalki() {
+    const lista = poRoku();
+    const i = idxNaOsi(activeId);
+    const prev = document.getElementById('car-prev');
+    const next = document.getElementById('car-next');
+    if (prev) prev.disabled = i <= 0;
+    if (next) next.disabled = i >= lista.length - 1;
+}
+
+// boot() leci dwa razy - z DOMContentLoaded i z przelacznika jezyka.
+// Strzalki sa w statycznym HTML, wiec bez tej blokady dostawalyby podwojny
+// nasluch i jeden klik przeskakiwalby o dwa bolidy.
+let strzalkiPodpiete = false;
+
+function initStrzalki() {
+    const lista = () => poRoku();
+    const prev = document.getElementById('car-prev');
+    const next = document.getElementById('car-next');
+    if (strzalkiPodpiete) { odswiezStrzalki(); return; }
+    strzalkiPodpiete = true;
+    if (prev) prev.addEventListener('click', () => {
+        const i = idxNaOsi(activeId);
+        if (i > 0) przelacz(lista()[i - 1].id);
+    });
+    if (next) next.addEventListener('click', () => {
+        const l = lista();
+        const i = idxNaOsi(activeId);
+        if (i < l.length - 1) przelacz(l[i + 1].id);
+    });
+    odswiezStrzalki();
 }
 
 function budujPanel(car) {
@@ -100,9 +137,10 @@ function renderActive(kierunek = 0) {
 }
 
 function boot() {
-    activeId = CARS[0].id;
+    activeId = poRoku()[0].id;
     renderTimeline();
     renderActive();
+    initStrzalki();
 }
 
 window.WUT_renderCars = boot;

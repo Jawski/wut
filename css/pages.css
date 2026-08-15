@@ -742,10 +742,43 @@ body[data-page="sponsors"] { background: var(--white); color: var(--ink); }
     .car-show-inner, .car-show-photo { transition: none; }
 }
 
+/* zdjecia bolidow maja rozne proporcje (od 1,49 do 2,34), wiec bez stalej
+   ramki czerwona sekcja zmienialaby wysokosc przy kazdej zmianie bolidu */
+.car-show-photo {
+    aspect-ratio: 16 / 9;
+    display: grid;
+    place-items: center;
+    /* ramka jest elementem siatki - bez tego jej automatyczny minimalny rozmiar
+       rozpycha sie do wysokosci zdjecia i proporcja przestaje obowiazywac */
+    min-height: 0;
+    overflow: hidden;
+}
 .car-show-photo img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: contain;
     filter: drop-shadow(0 30px 46px rgba(0, 0, 0, 0.4));
+}
+
+/* strzalki po bokach - drugi sposob zmiany bolidu obok osi na gorze */
+.car-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    width: clamp(42px, 4.4vw, 60px);
+    height: clamp(42px, 4.4vw, 60px);
+    background: url("../assets/icons/arrow.png") center / contain no-repeat;
+    transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+}
+.car-prev { left: clamp(6px, 1.6vw, 26px); transform: translateY(-50%) rotate(180deg); }
+.car-next { right: clamp(6px, 1.6vw, 26px); }
+.car-prev:hover:not(:disabled) { transform: translateY(-50%) rotate(180deg) translateX(5px); }
+.car-next:hover:not(:disabled) { transform: translateY(-50%) translateX(5px); }
+.car-nav:disabled { opacity: 0.25; cursor: default; }
+
+@media (max-width: 880px) {
+    .car-nav { width: 34px; height: 34px; }
 }
 
 .car-show-year {
