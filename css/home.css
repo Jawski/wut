@@ -646,9 +646,11 @@
 .quote-photo img {
     width: 100%; height: 100%;
     object-fit: cover;
-    object-position: 50% 26%;
+    /* kadr ustawiany per cytat - portret i szeroki plan chca czego innego */
+    object-position: var(--qpos, 50% 26%);
     filter: grayscale(100%) contrast(1.06);
 }
+.quote-ford .quote-photo img { --qpos: 42% 50%; }
 /* gdyby zdjecia zabraklo - zostaje sam ukosny panel */
 .quote-photo.is-empty { background: #1a1a1f; }
 

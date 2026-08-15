@@ -139,11 +139,12 @@
 
     // cytat odslaniany kregiem swiatla przy kursorze
     function initQuoteSpotlight() {
-        const strip = document.querySelector('.quote-strip');
-        if (!strip) return;
         // na dotyku maska jest wylaczona w css, wiec nie ma czego sledzic
         if (!window.matchMedia('(hover: hover)').matches || prefersReduce) return;
+        document.querySelectorAll('.quote-strip').forEach(podepnij);
+    }
 
+    function podepnij(strip) {
         // maska siedzi na .quote-body, wiec liczymy wzgledem niego, nie wzgledem sekcji
         const body = strip.querySelector('.quote-body');
         if (!body) return;

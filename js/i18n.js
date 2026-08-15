@@ -145,6 +145,10 @@
             'team.heroCta2': 'Filter by department',
             'team.hero3': 'One<br>goal',
             'team.all': 'All',
+
+            // cytaty
+            'quote.ferrari': 'If you ask any child to draw a car,<br>they&rsquo;ll draw a red one.',
+            'quote.ford': 'Coming together is a beginning, staying together is progress,<br>working together is success.',
             'team.backToDepts': 'All departments',
             'team.more': 'Show more',
             'team.less': 'Show less',
