@@ -6,6 +6,13 @@ function t(key, fallback) {
 
 let activeId = CARS[0].id;
 
+// kolejnosc widoczna na osi decyduje o kierunku przesuwania
+const poRoku = () => [...CARS].sort((a, b) => a.year - b.year);
+const idxNaOsi = (id) => poRoku().findIndex(c => c.id === id);
+const bezAnimacji = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+// rosnie przy kazdym przelaczeniu - opozniona podmiana sprawdza, czy nadal jest aktualna
+let pokolenie = 0;
+
 function renderTimeline() {
     const track = document.getElementById('cars-timeline-track');
     const ordered = [...CARS].sort((a, b) => a.year - b.year);
@@ -22,17 +29,17 @@ function renderTimeline() {
 
     track.querySelectorAll('.timeline-car').forEach(b => {
         b.addEventListener('click', () => {
+            if (b.dataset.id === activeId) return;
+            // dodatni = wybrano bolid dalej w prawo, wiec tresc jedzie w lewo
+            const kierunek = Math.sign(idxNaOsi(b.dataset.id) - idxNaOsi(activeId));
             activeId = b.dataset.id;
             track.querySelectorAll('.timeline-car').forEach(x => x.classList.toggle('is-active', x.dataset.id === activeId));
-            renderActive();
+            renderActive(kierunek);
         });
     });
 }
 
-function renderActive() {
-    const car = CARS.find(c => c.id === activeId) || CARS[0];
-    const panel = document.getElementById('active-car-panel');
-
+function budujPanel(car) {
     const rows = [
         { lbl: t('cars.power', 'Moc silnika'), val: car.specs.power },
         { lbl: t('cars.vmax', 'Prędkość maks.'), val: car.specs.vmax },
@@ -40,7 +47,7 @@ function renderActive() {
         { lbl: t('cars.mass', 'Masa'), val: car.specs.mass },
     ];
 
-    panel.innerHTML = `
+    return `
         <div class="car-show-inner">
             <div class="car-show-photo">
                 <img src="${car.photo}" alt="${car.name}">
@@ -59,6 +66,37 @@ function renderActive() {
             </div>
         </div>
     `;
+}
+
+function renderActive(kierunek = 0) {
+    const moje = ++pokolenie;
+    const car = CARS.find(c => c.id === activeId) || CARS[0];
+    const panel = document.getElementById('active-car-panel');
+    const stary = panel.querySelector('.car-show-inner');
+    const html = budujPanel(car);
+
+    if (!stary || !kierunek || bezAnimacji) {
+        panel.innerHTML = html;
+        panel.style.minHeight = '';
+        return;
+    }
+
+    // wysokosc panelu zalezy od proporcji zdjecia - blokujemy ja na czas
+    // podmiany, zeby sekcja nie skakala w polowie animacji
+    panel.style.minHeight = panel.offsetHeight + 'px';
+
+    stary.classList.add(kierunek > 0 ? 'is-out-left' : 'is-out-right');
+
+    setTimeout(() => {
+        // w miedzyczasie mogl paść kolejny klik - wtedy ta podmiana jest juz nieaktualna
+        if (moje !== pokolenie) return;
+        panel.innerHTML = html;
+        const nowy = panel.querySelector('.car-show-inner');
+        nowy.classList.add(kierunek > 0 ? 'is-in-right' : 'is-in-left');
+        void nowy.offsetWidth;                 // wymus wyliczenie stanu poczatkowego
+        nowy.classList.remove('is-in-right', 'is-in-left');
+        setTimeout(() => { if (moje === pokolenie) panel.style.minHeight = ''; }, 450);
+    }, 240);
 }
 
 function boot() {

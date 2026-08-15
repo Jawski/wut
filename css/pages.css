@@ -721,6 +721,27 @@ body[data-page="sponsors"] { background: var(--white); color: var(--ink); }
 }
 @media (max-width: 880px) { .car-show-inner { grid-template-columns: 1fr; gap: 36px; } }
 
+/* przesuwanie przy zmianie bolidu - stary panel wyjezdza w strone,
+   w ktora "jedziemy" po osi, nowy wjezdza z przeciwnej */
+.car-show-inner {
+    transition: transform 0.45s var(--ease), opacity 0.35s var(--ease);
+}
+.car-show-inner.is-out-left  { transform: translateX(-6%); opacity: 0; }
+.car-show-inner.is-out-right { transform: translateX(6%);  opacity: 0; }
+.car-show-inner.is-in-right  { transform: translateX(6%);  opacity: 0; }
+.car-show-inner.is-in-left   { transform: translateX(-6%); opacity: 0; }
+
+/* zdjecie jedzie odrobine dalej niz dane - daje glebie */
+.car-show-photo { transition: transform 0.5s var(--ease); }
+.is-out-left  .car-show-photo { transform: translateX(-7%); }
+.is-out-right .car-show-photo { transform: translateX(7%); }
+.is-in-right  .car-show-photo { transform: translateX(7%); }
+.is-in-left   .car-show-photo { transform: translateX(-7%); }
+
+@media (prefers-reduced-motion: reduce) {
+    .car-show-inner, .car-show-photo { transition: none; }
+}
+
 .car-show-photo img {
     width: 100%;
     height: auto;
