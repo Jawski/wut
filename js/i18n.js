@@ -62,6 +62,7 @@
             'dept.engine': 'Engine',
             'dept.pr': 'PR',
             'dept.logistics': 'Logistics',
+            'dept.fundraising': 'Fundraising',
 
             // home dept bodies
             'home.aeroBody': 'The aerodynamics department of WUT Racing carries out the necessary calculations, simulations and optimisation of the bodywork. By implementing new solutions, they check their impact on the whole project and pick the best ones. Department members are also responsible for manufacturing the aerodynamic parts from composite materials.',

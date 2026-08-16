@@ -13,7 +13,11 @@ const ROLE_EN = {
     'Prezes': 'President',
     'Wiceprezes ds. operacyjno-finansowych': 'VP Operations & Finance',
     'Wiceprezes ds. technicznych': 'VP Engineering',
+    'Wiceprezes ds. organizacyjnych': 'VP Organisation',
+    'Wiceprezes ds. finansowych': 'VP Finance',
+    'Lider działu technicznego': 'Head of engineering',
     'Koordynator': 'Coordinator',
+    'Koordynator · Lider działu operacyjnego': 'Coordinator · Head of operations',
     'Zastępca koordynatora': 'Deputy coordinator',
     'Fotograf': 'Photographer',
     'Członek zarządu': 'Board member',
@@ -24,13 +28,11 @@ const ROLE_EN = {
     'Inżynier silnika': 'Engine engineer',
     'Dział PR': 'PR',
     'Dział logistyki': 'Logistics',
+    'Dział fundraisingu': 'Fundraising',
 };
 function roleLabel(m) {
     const pl = window.WUT_getRole(m);
     return (window.WUT_LANG === 'en' && ROLE_EN[pl]) ? ROLE_EN[pl] : pl;
-}
-function deptLabel(m) {
-    return t('dept.' + m.dept, window.WUT_getDeptLabel(m));
 }
 
 // im nizsza liczba, tym wyzej w hierarchii - decyduje o kolejnosci w stosiku
@@ -43,27 +45,89 @@ const RANGI = {
     'Fotograf': 4,
 };
 function ranga(m) {
+    if (typeof m.rank === 'number') return m.rank;   // sklady archiwalne niosa range wprost
     const r = RANGI[m.role];
     return r === undefined ? 5 : r;
 }
+
+/* ------------------------------------------------------------------ sezony */
+
+const SEZONY = window.WUT_SEASONS || [{ id: 'now', label: '', current: true }];
+const SEZON_BIEZACY = (SEZONY.find(s => s.current) || SEZONY[SEZONY.length - 1]).id;
+let sezon = SEZON_BIEZACY;
+
+function biezacy() { return sezon === SEZON_BIEZACY; }
+
+function sklad() {
+    if (biezacy()) return window.WUT_TEAM || [];
+    return (window.WUT_TEAM_ARCHIVE || {})[sezon] || [];
+}
+
+// zdjecia archiwalnych sezonow leza w podfolderach, biezacy zostaje na miejscu
+function zdjecie(m) {
+    return biezacy() ? `assets/team/${m.slug}.jpg` : `assets/team/${sezon}/${m.slug}.jpg`;
+}
+
+function zastepcze(m) {
+    return `assets/team/${m.f ? '_placeholder_f' : '_placeholder'}.jpg`;
+}
+
+function wDziale(dept) {
+    return window.WUT_deptMembers(sklad(), dept);
+}
+
+function renderSeasons() {
+    const wrap = document.getElementById('season-switch');
+    if (!wrap || SEZONY.length < 2) return;
+
+    wrap.innerHTML = SEZONY.map(s => `
+        <button class="season-tab ${s.id === sezon ? 'is-active' : ''}" type="button"
+                data-season="${s.id}" aria-pressed="${s.id === sezon}">
+            <span>${s.label}</span>
+        </button>`).join('');
+
+    wrap.querySelectorAll('.season-tab').forEach(b => {
+        b.addEventListener('click', () => zmienSezon(b.dataset.season));
+    });
+}
+
+function zmienSezon(id) {
+    if (id === sezon) return;
+    sezon = id;
+    renderSeasons();
+    renderDeptRows();
+
+    // otwarty dzial zostawiamy, o ile w nowym sezonie w ogole istnieje
+    const widok = document.getElementById('team-open');
+    if (widok && !widok.hidden) {
+        if (widok.dataset.dept && wDziale(widok.dataset.dept).length) renderGrid(widok.dataset.dept);
+        else zamknijDzial();
+    }
+    odswiezLicznik();
+}
+
+function odswiezLicznik() {
+    const total = document.getElementById('team-total');
+    if (total) total.textContent = sklad().length;
+}
+
+/* ------------------------------------------------------- rzedy i siatka */
 
 // rzedy dzialow: zwiniete pokazuja stosik kart, po najechaniu rozkladaja sie
 function renderDeptRows() {
     const wrap = document.getElementById('dept-rows');
     if (!wrap) return;
 
-    const counts = {};
-    window.WUT_TEAM.forEach(m => { counts[m.dept] = (counts[m.dept] || 0) + 1; });
-    const depts = window.WUT_DEPT_FILTERS.filter(f => f.id !== 'all' && counts[f.id] > 0);
+    const depts = window.WUT_DEPT_FILTERS.filter(f => f.id !== 'all' && wDziale(f.id).length > 0);
 
     wrap.innerHTML = depts.map(f => {
         const label = t('dept.' + f.id, f.label);
         // do stosiku tylko osoby, ktore maja wlasne zdjecie - placeholder
         // w miniaturze wyglada zle; gdyby takich nie bylo, bierzemy kogokolwiek
-        const brakZdjecia = window.WUT_NO_PHOTO || [];
-        const wDziale = window.WUT_TEAM.filter(m => m.dept === f.id);
-        const zeZdjeciem = wDziale.filter(m => brakZdjecia.indexOf(m.slug) === -1);
-        const pula = zeZdjeciem.length ? zeZdjeciem : wDziale;
+        const brakZdjecia = biezacy() ? (window.WUT_NO_PHOTO || []) : [];
+        const ludzie = wDziale(f.id);
+        const zeZdjeciem = ludzie.filter(m => brakZdjecia.indexOf(m.slug) === -1);
+        const pula = zeZdjeciem.length ? zeZdjeciem : ludzie;
 
         // najwyzej postawiony na wierzchu; przy rownej randze wpierw oznaczeni "thumb"
         const kolejnosc = pula
@@ -76,8 +140,8 @@ function renderDeptRows() {
 
         const karty = kolejnosc.slice(0, 3).map((m, i) => `
             <span class="dept-card" style="--i:${i}">
-                <img src="assets/team/${m.slug}.jpg" alt=""
-                     onerror="this.onerror=null;this.src='assets/team/${m.f ? '_placeholder_f' : '_placeholder'}.jpg';"
+                <img src="${zdjecie(m)}" alt=""
+                     onerror="this.onerror=null;this.src='${zastepcze(m)}';"
                      loading="lazy">
                 <span class="dept-card-name">${m.name}</span>
             </span>`).join('');
@@ -118,7 +182,7 @@ function zamknijDzial() {
 
 function renderGrid(filter = 'all') {
     const grid = document.getElementById('team-grid');
-    const wybrani = filter === 'all' ? window.WUT_TEAM : window.WUT_TEAM.filter(m => m.dept === filter);
+    const wybrani = filter === 'all' ? sklad() : wDziale(filter);
 
     // najpierw koordynator, potem zastepca, dalej czlonkowie w kolejnosci z danych
     const list = wybrani
@@ -132,9 +196,35 @@ function renderGrid(filter = 'all') {
     const compLabel = t('team.competitions', 'Zawody');
     const projLabel = t('team.projects', 'Projekty');
 
+    // opisy, zawody i maile mamy tylko dla obecnego skladu - archiwalne karty
+    // sa jednostronne, bo poza nazwiskiem i funkcja nie ma o nich zadnych danych
+    const zRewersem = biezacy();
+    grid.classList.toggle('is-archive', !zRewersem);
+
     grid.innerHTML = list.map((m, i) => {
-        const dept = deptLabel(m);
         const role = roleLabel(m);
+
+        const front = `
+                <div class="member-face member-face-front">
+                    <div class="member-photo">
+                        <img src="${zdjecie(m)}"
+                             onerror="this.onerror=null;this.src='${zastepcze(m)}';this.classList.add('is-placeholder');"
+                             alt="${m.name}" loading="lazy">
+                        ${zRewersem ? '<span class="arrow" aria-hidden="true">↻</span>' : ''}
+                    </div>
+                    <div class="member-info">
+                        <div class="member-name">${m.name}</div>
+                        <div class="member-role">${role}</div>
+                    </div>
+                </div>`;
+
+        if (!zRewersem) {
+            return `
+        <div class="member-card member-card-flat reveal" data-slug="${m.slug}" data-delay="${(i % 4) + 1}">
+            <div class="member-card-inner">${front}</div>
+        </div>`;
+        }
+
         const email = window.WUT_getEmail(m);
         const hasBio = !!m.bio;
         const ach = m.achievements || [];
@@ -178,20 +268,7 @@ function renderGrid(filter = 'all') {
         return `
         <div class="member-card reveal" data-slug="${m.slug}" data-delay="${(i % 4) + 1}" role="button" tabindex="0" aria-label="${m.name}">
             <div class="member-card-inner">
-
-                <div class="member-face member-face-front">
-                    <div class="member-photo">
-                        <img src="assets/team/${m.slug}.jpg"
-                             onerror="this.onerror=null;this.src='assets/team/${m.f ? '_placeholder_f' : '_placeholder'}.jpg';this.classList.add('is-placeholder');"
-                             alt="${m.name}" loading="lazy">
-                        <span class="arrow" aria-hidden="true">↻</span>
-                    </div>
-                    <div class="member-info">
-                        <div class="member-name">${m.name}</div>
-                        <div class="member-role">${role}</div>
-                    </div>
-                </div>
-
+${front}
                 <div class="member-face member-face-back">
                     <div class="member-back-scroll">
                         <div class="member-back-top">
@@ -223,6 +300,8 @@ function renderGrid(filter = 'all') {
         }, { threshold: 0.1 });
         io.observe(el);
     });
+
+    if (!zRewersem) return;
 
     grid.querySelectorAll('.member-card').forEach(card => {
         const handleToggle = (e) => {
@@ -294,6 +373,7 @@ document.addEventListener('click', (e) => {
 
 window.WUT_renderTeam = function () {
     const widok = document.getElementById('team-open');
+    renderSeasons();
     renderDeptRows();
     if (widok && !widok.hidden && widok.dataset.dept) {
         const f = window.WUT_DEPT_FILTERS.find(x => x.id === widok.dataset.dept);
@@ -301,14 +381,13 @@ window.WUT_renderTeam = function () {
         if (tytul && f) tytul.textContent = t('dept.' + widok.dataset.dept, f.label);
         renderGrid(widok.dataset.dept);
     }
-    const total = document.getElementById('team-total');
-    if (total) total.textContent = window.WUT_TEAM.length;
+    odswiezLicznik();
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+    renderSeasons();
     renderDeptRows();
     const back = document.getElementById('team-open-back');
     if (back) back.addEventListener('click', zamknijDzial);
-    const total = document.getElementById('team-total');
-    if (total) total.textContent = window.WUT_TEAM.length;
+    odswiezLicznik();
 });

@@ -11,6 +11,14 @@ window.WUT_DEPT_FILTERS = [
     { id: 'engine',       label: 'Silnik' },
     { id: 'pr',           label: 'PR' },
     { id: 'logistics',    label: 'Logistyka' },
+    { id: 'fundraising',  label: 'Fundraising' },
+];
+
+// sezony do przelacznika - ostatni jest biezacy i tylko on ma rewersy kart
+window.WUT_SEASONS = [
+    { id: '2023-24', label: '2023/2024' },
+    { id: '2024-25', label: '2024/2025' },
+    { id: '2025-26', label: '2025/2026', current: true },
 ];
 
 window.WUT_DEPT_INFO = {
@@ -22,6 +30,7 @@ window.WUT_DEPT_INFO = {
     engine:      { label: 'Silnik',       defaultRole: 'Inżynier silnika' },
     pr:          { label: 'PR',           defaultRole: 'Dział PR' },
     logistics:   { label: 'Logistyka',    defaultRole: 'Dział logistyki' },
+    fundraising: { label: 'Fundraising',  defaultRole: 'Dział fundraisingu' },
 };
 
 // osoby bez wlasnego zdjecia - na karcie leci placeholder, a do miniatur
@@ -55,19 +64,19 @@ window.WUT_TEAM = [
 
     // ZARZĄD
     {
-        slug: 'kuba-pacocha', name: 'Jakub Pacocha', dept: 'zarzad', role: 'Prezes', since: 2022, studies: 'PW · MEiL',
+        slug: 'kuba-pacocha', name: 'Jakub Pacocha', dept: 'zarzad', role: 'Prezes', also: [{ dept: 'aero' }], since: 2022, studies: 'PW · MEiL',
         bio: 'Obecnie jestem prezesem, do tej pory działałem również jako wiceprezes ds. finansów, oraz koordynator działu Fundraising. Na co dzień lubię jazdę na rowerze oraz śledzę Formułę 1',
         achievements: [{ year: 2023, text: 'Węgry' }, { year: 2024, text: 'Węgry' }, { year: 2024, text: 'Chorwacja' }, { year: 2025, text: 'Austria' }, { year: 2025, text: 'Czechy' }, { year: 2025, text: 'Polska' }, { year: 2026, text: 'FS Czech' }, { year: 2026, text: 'FS Austria' }, { year: 2026, text: 'FS Poland' }],
         projects: ['Projekt sidepodów oraz kanałów chłodzących - WUT6', 'Badanie spadku ciśnienia w chłodnicy - WUT6'],
     },
     {
-        slug: 'bartek-pietrzak', name: 'Bartosz Pietrzak', dept: 'zarzad', role: 'Wiceprezes ds. operacyjno-finansowych', since: 2024, studies: 'PW · EiTI',
+        slug: 'bartek-pietrzak', name: 'Bartosz Pietrzak', dept: 'zarzad', role: 'Wiceprezes ds. operacyjno-finansowych', also: [{ dept: 'electronics' }], since: 2024, studies: 'PW · EiTI',
         bio: 'Uczestnik światowych finałów F1 in Schools w Singapurze 2023. Projektuje układy PCB, programuje w C++, C#, Python. Lubi podróżować.',
         achievements: [{ year: 2025, text: 'FS Czech' }, { year: 2025, text: 'FS Poland' }, { year: 2026, text: 'FS Czech' }, { year: 2026, text: 'FS Austria' }, { year: 2026, text: 'FS Poland' }],
         projects: ['Projekt panelu LVMS', 'System telemetrii', 'System oświetlenia LED bolidu'],
     },
     {
-        slug: 'grzes-radzikowski', name: 'Grzegorz Radzikowski', dept: 'zarzad', role: 'Wiceprezes ds. technicznych',
+        slug: 'grzes-radzikowski', name: 'Grzegorz Radzikowski', dept: 'zarzad', role: 'Wiceprezes ds. technicznych', also: [{ dept: 'electronics' }],
         achievements: [{ year: 2026, text: 'FS Czech' }, { year: 2026, text: 'FS Austria' }, { year: 2026, text: 'FS Poland' }],
     },
 
@@ -408,6 +417,25 @@ window.WUT_TEAM = [
     { slug: 'zofia-ladunkin', name: 'Zofia Ładunkin', dept: 'logistics' },
     { slug: 'olena-stakhiv', name: 'Olena Stakhiv', dept: 'logistics' },
 ];
+
+// Czlonkowie jednego dzialu. Kto siedzi w kilku dzialach naraz, ma je wypisane
+// w "also" - wtedy oddajemy kopie z rola wlasciwa dla tego dzialu, zeby ta sama
+// osoba mogla byc np. wiceprezesem w zarzadzie i zwyklym czlonkiem w elektronice.
+window.WUT_deptMembers = function(lista, dept) {
+    const out = [];
+    lista.forEach(m => {
+        if (m.dept === dept) { out.push(m); return; }
+        const extra = (m.also || []).find(a => a.dept === dept);
+        if (extra) {
+            out.push(Object.assign({}, m, {
+                dept: dept,
+                role: extra.role || undefined,   // brak roli = domyslna rola dzialu
+                rank: extra.rank,
+            }));
+        }
+    });
+    return out;
+};
 
 window.WUT_getRole = function(m) {
     if (m.role) return m.role;

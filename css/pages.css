@@ -2,6 +2,44 @@
 
 /* ============ zespol ============ */
 
+/* ==== przelacznik sezonu ==== */
+.season-switch {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: clamp(34px, 5vh, 62px) var(--pad-x) 0;
+}
+.season-tab {
+    /* skos jak przy pozostalych oznaczeniach; napis odchylamy z powrotem */
+    transform: skewX(var(--skew));
+    background: var(--white);
+    color: var(--ink);
+    border: 0;
+    padding: 9px 26px;
+    cursor: pointer;
+    font-family: var(--font-b);
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+    transition: background 0.3s var(--ease), color 0.3s var(--ease),
+                transform 0.3s var(--ease);
+}
+.season-tab > span { display: block; transform: skewX(calc(-1 * var(--skew))); }
+.season-tab:hover { transform: skewX(var(--skew)) translateY(-2px); }
+.season-tab.is-active {
+    background: var(--red);
+    color: #fff;
+}
+
+@media (max-width: 520px) {
+    .season-tab { padding: 8px 16px; font-size: 13px; }
+    .season-switch { gap: 8px; }
+}
+
 /* ==== rzedy dzialow ==== */
 .dept-rows {
     max-width: var(--maxw);
@@ -222,6 +260,9 @@
     will-change: transform;
 }
 .member-card-inner.flipped { transform: rotateY(180deg); }
+
+/* karty archiwalnych sezonow sa jednostronne - nie ma czego obracac */
+.member-card-flat { cursor: default; perspective: none; }
 
 .member-face {
     position: absolute;
