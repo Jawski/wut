@@ -76,7 +76,7 @@ window.WUT_TEAM_ARCHIVE = {
         { slug: 'milosz-moscicki', name: 'Miłosz Mościcki', dept: 'suspension' },
         { slug: 'milosz-wnuk', name: 'Miłosz Wnuk', dept: 'suspension' },
         { slug: 'norbert-kolek', name: 'Norbert Kołek', dept: 'suspension' },
-        { slug: 'szymon-drzwiecki', name: 'Szymon Drzwiecki', dept: 'suspension' },
+        { slug: 'szymon-drzewiecki', name: 'Szymon Drzewiecki', dept: 'suspension' },
         { slug: 'tomasz-kolakowski', name: 'Tomasz Kołakowski', dept: 'suspension', role: 'Koordynator', rank: 2 },
     ],
     '2024-25': [
