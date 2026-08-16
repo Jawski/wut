@@ -202,7 +202,7 @@ window.WUT_TEAM = [
     // ZAWIESZENIE
     { slug: 'michal-zielinski', name: 'Michał Zieliński', dept: 'suspension' },
     {
-        slug: 'ian-gjelleboll', name: 'Ian Gjelleboll', dept: 'suspension', role: 'Koordynator',
+        slug: 'ian-gjelleboll', name: 'Ian Gjellebøl', dept: 'suspension', role: 'Koordynator',
         achievements: [{ year: 2026, text: 'FS Czech' }, { year: 2026, text: 'FS Austria' }, { year: 2026, text: 'FS Poland' }],
     },
     {
@@ -448,8 +448,8 @@ window.WUT_getDeptLabel = function(m) {
 
 // imie.nazwisko@wutracing.pl z polskimi znakami zamienionymi na ascii
 window.WUT_getEmail = function(m) {
-    const map = { 'ą':'a','ć':'c','ę':'e','ł':'l','ń':'n','ó':'o','ś':'s','ż':'z','ź':'z' };
-    const ascii = m.name.toLowerCase().replace(/[ąćęłńóśżź]/g, ch => map[ch] || ch);
+    const map = { 'ą':'a','ć':'c','ę':'e','ł':'l','ń':'n','ó':'o','ś':'s','ż':'z','ź':'z','ø':'o' };
+    const ascii = m.name.toLowerCase().replace(/[ąćęłńóśżźø]/g, ch => map[ch] || ch);
     const parts = ascii.split(/\s+/);
     const first = parts.shift();
     const rest = parts.join('.');
