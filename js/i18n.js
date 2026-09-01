@@ -94,6 +94,7 @@
             'about.ctaTitle': 'Meet our <span class="text-accent">team</span>.',
 
             // formula student
+            'about.achTitle': 'Our achievements',
             'fs.whatTitle': 'What is Formula Student?',
             'fs.whatText': 'Formula Student – an international series of competitions for university engineering teams, held every year by the Society of Automotive Engineers, an organisation active since 1905). For a whole year, students from the best universities and technical universities in the world design, engineer and build a race car, so that after a testing phase they can race on the biggest and most famous circuits in the world, such as Britain’s Silverstone.',
             'fs.histTitle': 'History',
