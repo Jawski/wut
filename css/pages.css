@@ -915,6 +915,9 @@ body[data-page="sponsors"] { background: var(--white); color: var(--ink); }
 }
 .sponsor-logo:hover,
 .sponsor-logo:focus-visible { opacity: 1; transform: translateY(-4px); }
+/* partner bez adresu strony - kafelek nie udaje klikalnego */
+.sponsor-logo.is-plain { cursor: default; }
+.sponsor-logo.is-plain:hover { opacity: 0.9; transform: none; }
 /* wypelniamy kafelek i skalujemy w dol - procentowe max-height nie domyka sie
    w gridzie, wiec ustawiamy wymiar wprost */
 .sponsor-logo img {
