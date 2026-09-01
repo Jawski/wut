@@ -557,6 +557,14 @@
     cursor: grab;
     touch-action: pan-y;
     outline: none;
+    /* ciagniemy tasme, a nie zaznaczamy tekst i nie przenosimy obrazkow */
+    user-select: none;
+    -webkit-user-select: none;
+}
+.ach-rail img {
+    -webkit-user-drag: none;
+    user-select: none;
+    pointer-events: none;
 }
 .ach-rail:active { cursor: grabbing; }
 .ach-rail:focus-visible { outline: 2px solid #fff; outline-offset: -4px; }
@@ -599,7 +607,6 @@
     height: 100%;
     object-fit: cover;
     object-position: center 38%;
-    user-select: none;
 }
 /* czerwona mgla na bocznych kartach - znika, gdy karta wjezdza na srodek */
 .ach-photo::after {

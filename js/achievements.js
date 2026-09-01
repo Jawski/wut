@@ -151,8 +151,18 @@ function initAchievements() {
     // --- przeciaganie ---
     let ciagne = false, startX = 0, bazowe = 0, droga = 0;
 
+    // przegladarka probuje wystartowac wlasne przeciaganie obrazka - blokujemy
+    rail.addEventListener('dragstart', (e) => e.preventDefault());
+
     rail.addEventListener('pointerdown', (e) => {
         if (e.button !== 0) return;
+        // Tylko dla myszy: bez tego przegladarka zaczyna zaznaczac tekst.
+        // Przy dotyku zostawiamy domyslne zachowanie, zeby dalo sie przewijac
+        // strone w pionie palcem po kartach.
+        if (e.pointerType === 'mouse') {
+            e.preventDefault();
+            rail.focus({ preventScroll: true });   // preventDefault zabiera ognisko
+        }
         ciagne = true; droga = 0;
         startX = e.clientX;
         bazowe = przesuniecie;
