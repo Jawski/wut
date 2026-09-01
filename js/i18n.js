@@ -10,7 +10,6 @@
             'team.none': 'brak',
             'team.competitions': 'Zawody',
             'team.projects': 'Projekty',
-            'home.done': 'Odbyło się',
             'cars.power': 'Moc silnika',
             'cars.vmax': 'Prędkość maks.',
             'cars.accel': '0 – 100 km/h',
@@ -47,7 +46,6 @@
             // home calendar
             'home.calendar': 'Calendar',
             'home.upcoming': 'Upcoming <span class="text-accent">events</span>.',
-            'home.done': 'Completed',
             'cd.days': 'days',
             'cd.hours': 'hrs',
             'cd.mins': 'min',

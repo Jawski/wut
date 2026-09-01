@@ -314,7 +314,6 @@ function initEventsCalendar() {
                     <div class="race-name">${e.name}</div>
                     <div class="race-loc">${e.loc}</div>
                 </div>
-                ${isPast(e) ? `<span class="race-badge">${t('home.done', 'Odbyło się')}</span>` : ''}
             </button>
         `).join('');
     }
