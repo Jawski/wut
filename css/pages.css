@@ -929,7 +929,8 @@ body[data-page="sponsors"] { background: var(--white); color: var(--ink); }
 
 /* --u to jednostka poziomu; im wyzszy poziom, tym wieksza */
 .sponsor-tier { --u: clamp(40px, 4.4vw, 58px); }
-.tier-1 { --u: clamp(74px, 9vw, 118px); }
+/* partner glowny stoi sam i ma sie wyroznic - poltora raza wiekszy kafelek */
+.tier-1 { --u: clamp(111px, 13.5vw, 177px); }
 .tier-2 { --u: clamp(58px, 6.4vw, 84px); }
 .tier-3 { --u: clamp(56px, 6vw, 79px); }
 .tier-4 { --u: clamp(52px, 5.5vw, 72px); }
