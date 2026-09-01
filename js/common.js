@@ -234,30 +234,42 @@ function initCounters() {
     counters.forEach(c => io.observe(c));
 }
 
+// Chrome na Windowsie nie ma glifow flag w foncie emoji - zamiast nich
+// rysujemy je wprost, wiec wygladaja tak samo w kazdej przegladarce
+const FLAGI = {
+    pl: '<svg viewBox="0 0 3 2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+        '<rect width="3" height="2" fill="#fff"/><rect y="1" width="3" height="1" fill="#dc143c"/></svg>',
+    cz: '<svg viewBox="0 0 3 2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+        '<rect width="3" height="1" fill="#fff"/><rect y="1" width="3" height="1" fill="#d7141a"/>' +
+        '<path d="M0 0 1.5 1 0 2z" fill="#11457e"/></svg>',
+    at: '<svg viewBox="0 0 3 2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+        '<rect width="3" height="2" fill="#ed2939"/><rect y=".667" width="3" height=".666" fill="#fff"/></svg>',
+};
+
 /* kalendarz startow — minione zostaja na osi, domyslnie zaznaczony
    najblizszy nadchodzacy. start = poczatek odliczania, end = koniec imprezy */
 const WUT_EVENTS = [
     {
         start: '2026-07-09T18:00:00', end: '2026-07-09T22:00:00',
-        flag: '🇵🇱', photo: 'assets/wut7-rollout.jpg',
+        flag: 'pl', photo: 'assets/wut7-rollout.jpg',
         name: 'Roll-out WUT7', loc: 'Politechnika Warszawska',
         datePl: '9 lipca 2026 · 18:00', dateEn: '9 July 2026 · 18:00',
     },
     {
         start: '2026-07-19T08:00:00', end: '2026-07-24T20:00:00',
-        flag: '🇨🇿', photo: 'assets/media/track-most.jpg',
+        flag: 'cz', photo: 'assets/media/track-most.jpg',
         name: 'Formula Student Czech', loc: 'Autodrom Most',
         datePl: '19–24 lipca 2026', dateEn: '19–24 July 2026',
     },
     {
         start: '2026-07-26T08:00:00', end: '2026-07-30T20:00:00',
-        flag: '🇦🇹', photo: 'assets/media/track-redbullring.jpg',
+        flag: 'at', photo: 'assets/media/track-redbullring.jpg',
         name: 'Formula Student Austria', loc: 'Red Bull Ring, Spielberg',
         datePl: '26–30 lipca 2026', dateEn: '26–30 July 2026',
     },
     {
         start: '2026-08-25T08:00:00', end: '2026-08-29T20:00:00',
-        flag: '🇵🇱', photo: 'assets/media/track-slomczyn.jpg',
+        flag: 'pl', photo: 'assets/media/track-slomczyn.jpg',
         name: 'Formula Student Poland', loc: 'Autodrom Słomczyn',
         datePl: '25–29 sierpnia 2026', dateEn: '25–29 August 2026',
     },
@@ -308,7 +320,7 @@ function initEventsCalendar() {
         wrap.innerHTML = events.map((e, i) => `
             <button class="race-card${isPast(e) ? ' is-past' : ''}${i === activeIdx ? ' is-active' : ''}"
                     type="button" data-idx="${i}">
-                <div class="race-flag">${e.flag}</div>
+                <div class="race-flag">${FLAGI[e.flag] || ''}</div>
                 <div class="race-body">
                     <div class="race-date">${dateText(e)}</div>
                     <div class="race-name">${e.name}</div>

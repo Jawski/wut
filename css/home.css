@@ -357,10 +357,17 @@
 .race-card.is-active .race-name { color: #fff; }
 
 .race-flag {
-    font-size: 20px;
     line-height: 1;
     margin-bottom: 14px;
     filter: saturate(0.9);
+}
+.race-flag svg {
+    display: block;
+    width: 26px;
+    height: auto;
+    /* obwodka trzyma biale pasy w ryzach na ciemnym tle */
+    outline: 1px solid rgba(255, 255, 255, 0.18);
+    outline-offset: -1px;
 }
 .race-date {
     /* ta sama czcionka co nazwa wydarzenia, tylko lzejsza i mniejsza */
