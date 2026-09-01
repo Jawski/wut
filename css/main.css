@@ -28,7 +28,9 @@
 
     --font-d: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
     --font-b: 'Barlow', 'Helvetica Neue', sans-serif;
-    --font-u: 'Chakra Petch', monospace;
+    /* podpisy i etykiety: ten sam kroj co naglowki, rozni je tylko
+       wielkosc, swiatlo miedzy literami i wersaliki */
+    --font-u: var(--font-d);
 
     --skew: -12deg;
     --ease: cubic-bezier(0.32, 0.72, 0, 1);

@@ -23,11 +23,11 @@ window.WUT_SEASONS = [
 
 window.WUT_DEPT_INFO = {
     zarzad:      { label: 'Zarząd',       defaultRole: 'Członek zarządu' },
-    aero:        { label: 'Aerodynamika', defaultRole: 'Inżynier aerodynamiki' },
-    chassis:     { label: 'Chassis',      defaultRole: 'Inżynier nadwozia' },
-    suspension:  { label: 'Zawieszenie',  defaultRole: 'Inżynier zawieszenia' },
-    electronics: { label: 'Elektronika',  defaultRole: 'Inżynier elektroniki' },
-    engine:      { label: 'Silnik',       defaultRole: 'Inżynier silnika' },
+    aero:        { label: 'Aerodynamika', defaultRole: 'Dział aerodynamiki' },
+    chassis:     { label: 'Chassis',      defaultRole: 'Dział nadwozia' },
+    suspension:  { label: 'Zawieszenie',  defaultRole: 'Dział zawieszenia' },
+    electronics: { label: 'Elektronika',  defaultRole: 'Dział elektroniki' },
+    engine:      { label: 'Silnik',       defaultRole: 'Dział silnika' },
     pr:          { label: 'PR',           defaultRole: 'Dział PR' },
     logistics:   { label: 'Logistyka',    defaultRole: 'Dział logistyki' },
     fundraising: { label: 'Fundraising',  defaultRole: 'Dział fundraisingu' },
