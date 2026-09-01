@@ -161,7 +161,11 @@ function initAchievements() {
         // strone w pionie palcem po kartach.
         if (e.pointerType === 'mouse') {
             e.preventDefault();
-            rail.focus({ preventScroll: true });   // preventDefault zabiera ognisko
+            // Ognisko ustawiamy sami, bo preventDefault je zabiera. Przegladarka
+            // traktuje je wtedy jak dojscie klawiatura i rysuje biala obwodke,
+            // wiec przy myszy ja chowamy - przy tabulatorze ma zostac.
+            rail.classList.add('bez-obwodki');
+            rail.focus({ preventScroll: true });
         }
         ciagne = true; droga = 0;
         startX = e.clientX;
@@ -226,9 +230,11 @@ function initAchievements() {
 
     rail.tabIndex = 0;
     rail.addEventListener('keydown', (e) => {
+        rail.classList.remove('bez-obwodki');   // klawiatura ma widziec ognisko
         if (e.key === 'ArrowRight') { e.preventDefault(); ustaw(aktywna + 1); }
         if (e.key === 'ArrowLeft')  { e.preventDefault(); ustaw(aktywna - 1); }
     });
+    rail.addEventListener('blur', () => rail.classList.remove('bez-obwodki'));
 
     let zegar = null;
     window.addEventListener('resize', () => {

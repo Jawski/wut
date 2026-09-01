@@ -568,6 +568,8 @@
 }
 .ach-rail:active { cursor: grabbing; }
 .ach-rail:focus-visible { outline: 2px solid #fff; outline-offset: -4px; }
+/* po chwyceniu mysza obwodka ogniska tylko przeszkadza */
+.ach-rail.bez-obwodki:focus-visible { outline: none; }
 
 .ach-track {
     display: flex;
