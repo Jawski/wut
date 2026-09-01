@@ -628,10 +628,12 @@
     pointer-events: none;
     filter: drop-shadow(0 12px 22px rgba(0, 0, 0, 0.4));
 }
+/* lewe jedzie o kawalek dalej: po obrocie ma przy krawedzi 13 px
+   przezroczystego marginesu, prawe tylko 2 - bez tego nie dotykalo karty */
 .ach-card.is-active:hover .ach-trophy-l,
 .ach-card.is-active:focus-within .ach-trophy-l {
     opacity: 1;
-    transform: translateX(-163%) rotate(-9deg);
+    transform: translateX(-156%) rotate(-9deg);
 }
 .ach-card.is-active:hover .ach-trophy-r,
 .ach-card.is-active:focus-within .ach-trophy-r {
