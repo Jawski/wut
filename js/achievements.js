@@ -159,11 +159,30 @@ function initAchievements() {
         track.style.transform = `translateX(${bazowe + d}px)`;
     });
 
-    function koniecCiagniecia() {
+    let obsluzone = 0;      // kiedy ostatnio wybor zalatwil wskaznik
+
+    // ktora karta lezy pod tym punktem ekranu
+    function kartaPod(x) {
+        return karty.findIndex(k => {
+            const r = k.getBoundingClientRect();
+            return x >= r.left && x <= r.right;
+        });
+    }
+
+    function koniecCiagniecia(e) {
         if (!ciagne) return;
         ciagne = false;
         track.style.transition = '';
-        // po puszczeniu zatrzymujemy sie na karcie najblizszej srodka
+
+        // Bez przeciagniecia to zwykle klikniecie - wysrodkowujemy wskazana karte.
+        // Karta nie moze tego zrobic sama, bo przy przechwyconym wskazniku
+        // zdarzenie klikniecia trafia w tasme, a nie w karte pod kursorem.
+        if (droga < 6 && e) {
+            const i = kartaPod(e.clientX);
+            if (i >= 0) { obsluzone = performance.now(); ustaw(i); return; }
+        }
+
+        // po przeciagnieciu zatrzymujemy sie na karcie najblizszej srodka
         const srodek = rail.getBoundingClientRect().left + rail.clientWidth / 2;
         let naj = 0, najOdl = Infinity;
         karty.forEach((k, n) => {
@@ -176,9 +195,15 @@ function initAchievements() {
     rail.addEventListener('pointerup', koniecCiagniecia);
     rail.addEventListener('pointercancel', koniecCiagniecia);
 
-    // klikniecie w bok wysrodkowuje karte, ale nie po przeciagnieciu
+    // Zapasowo, gdyby wskaznik nie byl przechwycony i klikniecie doszlo do karty.
+    // Po obsluzeniu wskaznikiem musimy je pominac: tasma juz jedzie, wiec pod
+    // kursorem stoi w tym momencie sasiednia karta i przeskoczylibysmy o dwie.
     karty.forEach((k, n) => {
-        k.addEventListener('click', () => { if (droga < 6) ustaw(n); });
+        k.addEventListener('click', () => {
+            if (droga >= 6) return;
+            if (performance.now() - obsluzone < 500) return;
+            ustaw(n);
+        });
     });
 
     rail.tabIndex = 0;
