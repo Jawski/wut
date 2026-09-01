@@ -86,13 +86,21 @@ function initAchievements() {
     // CSS miedzy zerem a konkretna wartoscia - bez kombinowania w JS.
     function zmierzPanele() {
         rail.classList.remove('is-ready');
+        let najwyzszyPanel = 0;
         karty.forEach(k => {
             const p = k.querySelector('.ach-panel');
             p.style.height = 'auto';
-            k.style.setProperty('--panel-h', p.offsetHeight + 'px');
+            const h = p.offsetHeight;
+            najwyzszyPanel = Math.max(najwyzszyPanel, h);
+            k.style.setProperty('--panel-h', h + 'px');
             p.style.height = '';
         });
         rail.classList.add('is-ready');
+
+        // Panele maja rozna wysokosc, wiec bez tego czerwony pas rosl i malal
+        // przy kazdej zmianie karty. Zamrazamy go na najwyzszym ukladzie.
+        const zdjecie = karty[0].querySelector('.ach-photo').offsetHeight;
+        rail.style.height = (zdjecie + najwyzszyPanel) + 'px';
     }
 
     function wysrodkuj(animuj = true) {
@@ -222,6 +230,10 @@ function initAchievements() {
     ustaw(ILE, false);
     // zdjecia dochodza po chwili i moga zmienic wysokosci - ustawiamy sie ponownie
     window.addEventListener('load', () => { zmierzPanele(); wysrodkuj(false); });
+    // wysokosc panelu zalezy od kroju pisma, wiec po jego wczytaniu mierzymy jeszcze raz
+    if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(() => { zmierzPanele(); wysrodkuj(false); });
+    }
 }
 
 document.addEventListener('DOMContentLoaded', initAchievements);

@@ -631,12 +631,12 @@
 .ach-card.is-active:hover .ach-trophy-l,
 .ach-card.is-active:focus-within .ach-trophy-l {
     opacity: 1;
-    transform: translateX(-170%) rotate(-9deg);
+    transform: translateX(-163%) rotate(-9deg);
 }
 .ach-card.is-active:hover .ach-trophy-r,
 .ach-card.is-active:focus-within .ach-trophy-r {
     opacity: 1;
-    transform: translateX(70%) rotate(9deg);
+    transform: translateX(61%) rotate(9deg);
 }
 
 /* ciemny panel z wynikami wysuwa sie spod zdjecia */
