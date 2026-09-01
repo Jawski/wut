@@ -519,6 +519,13 @@ section { position: relative; }
     gap: 22px;
     flex-wrap: wrap;
 }
+/* godlo prowadzi na strone uczelni - link nie moze rozepchnac rzedu logotypow */
+.pw-link {
+    display: inline-flex;
+    transition: opacity 0.3s var(--ease);
+}
+.pw-link:hover { opacity: 0.72; }
+
 /* godlo PW jest czarna kreska — odwracamy na ciemna stopke */
 .pw-logo {
     height: 54px;

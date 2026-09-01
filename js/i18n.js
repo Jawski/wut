@@ -45,7 +45,7 @@
 
             // home calendar
             'home.calendar': 'Calendar',
-            'home.upcoming': 'Upcoming <span class="text-accent">events</span>.',
+            'home.upcoming': '<span class="text-accent">Calendar</span>.',
             'cd.days': 'days',
             'cd.hours': 'hrs',
             'cd.mins': 'min',

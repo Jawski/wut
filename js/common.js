@@ -60,8 +60,11 @@ const FOOTER_HTML = `
             <div class="footer-col">
                 <div class="brand footer-brands">
                     <img src="assets/logo.png" alt="WUT Racing" class="brand-logo brand-logo-footer">
-                    <img src="assets/pw-logo.png" alt="Politechnika Warszawska" class="pw-logo"
-                         onerror="this.remove();">
+                    <a href="https://www.pw.edu.pl/" target="_blank" rel="noopener"
+                       class="pw-link" aria-label="Politechnika Warszawska">
+                        <img src="assets/pw-logo.png" alt="Politechnika Warszawska" class="pw-logo"
+                             onerror="this.parentElement.remove();">
+                    </a>
                 </div>
                 <p style="margin-top: 18px; max-width: 340px; line-height: 1.6;" data-i18n="footer.about">
                     Koło Naukowe WUT Racing przy Politechnice Warszawskiej. Projektujemy
@@ -159,7 +162,11 @@ function initNav(activePage) {
 
     function openMenu() {
         overlay.hidden = false;
-        requestAnimationFrame(() => overlay.classList.add('is-open'));
+        // wymuszone przeliczenie ukladu, zeby przegladarka zdazyla zobaczyc stan
+        // zamkniety; bez tego obie wartosci wpadaja w jedna klatke i menu pojawia
+        // sie skokiem, bez przenikania i bez wjazdu pozycji
+        void overlay.offsetHeight;
+        overlay.classList.add('is-open');
         document.body.style.overflow = 'hidden';
         menuBtn.setAttribute('aria-expanded', 'true');
     }
@@ -508,28 +515,47 @@ function initRaceAccordion() {
         const panel = document.getElementById(btn.getAttribute('aria-controls'));
         if (!panel) return;
 
+        let zegar = null;
+
+        // po animacji rozwiniety panel wraca na "auto", zeby urosl przy zmianie
+        // szerokosci okna; zwiniety znika z ukladu
+        function posprzataj() {
+            clearTimeout(zegar);
+            if (btn.getAttribute('aria-expanded') === 'true') {
+                panel.style.height = 'auto';
+            } else {
+                panel.hidden = true;
+                panel.style.height = '';
+            }
+        }
+
         btn.addEventListener('click', () => {
-            const open = btn.getAttribute('aria-expanded') === 'true';
-            if (open) {
+            const otwarty = btn.getAttribute('aria-expanded') === 'true';
+            btn.setAttribute('aria-expanded', String(!otwarty));
+
+            // Obie wysokosci trzeba rozdzielic wymuszonym przeliczeniem ukladu.
+            // Bez tego przegladarka widzi w jednej klatce tylko wartosc koncowa,
+            // a przy zwijaniu nie ma nawet z czego animowac, bo panel stoi na "auto".
+            if (otwarty) {
                 panel.style.height = panel.scrollHeight + 'px';
-                requestAnimationFrame(() => { panel.style.height = '0px'; });
-                panel.addEventListener('transitionend', function done() {
-                    panel.removeEventListener('transitionend', done);
-                    if (btn.getAttribute('aria-expanded') === 'false') {
-                        panel.hidden = true;
-                        panel.style.height = '';
-                    }
-                });
+                void panel.offsetHeight;
+                panel.style.height = '0px';
             } else {
                 panel.hidden = false;
                 panel.style.height = '0px';
-                requestAnimationFrame(() => { panel.style.height = panel.scrollHeight + 'px'; });
-                panel.addEventListener('transitionend', function done() {
-                    panel.removeEventListener('transitionend', done);
-                    if (btn.getAttribute('aria-expanded') === 'true') panel.style.height = 'auto';
-                });
+                void panel.offsetHeight;
+                panel.style.height = panel.scrollHeight + 'px';
             }
-            btn.setAttribute('aria-expanded', String(!open));
+
+            // transitionend nie przychodzi, gdy karta jest w tle albo przejscie
+            // zostanie przerwane - bez tego panel zostalby w polowicznym stanie
+            clearTimeout(zegar);
+            zegar = setTimeout(posprzataj, 620);
+        });
+
+        panel.addEventListener('transitionend', (e) => {
+            if (e.propertyName !== 'height' || e.target !== panel) return;
+            posprzataj();
         });
     });
 }
