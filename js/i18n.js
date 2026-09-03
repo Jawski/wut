@@ -165,6 +165,7 @@
             'sponsors.lead': 'WUT Racing exists thanks to companies that invest in Polish student engineering. Every generation of the car is created in cooperation with our partners.',
             'sponsors.main': 'Main partner',
             'sponsors.strategic': 'Strategic partners',
+            'sponsors.grants': 'External grants',
             'sponsors.platinum': 'Platinum partners',
             'sponsors.diamond': 'Diamond partners',
             'sponsors.gold': 'Gold partners',

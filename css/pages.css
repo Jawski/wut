@@ -1146,6 +1146,8 @@ body[data-page="sponsors"] { background: var(--white); color: var(--ink); }
 /* partner glowny stoi sam i ma sie wyroznic - poltora raza wiekszy kafelek */
 .tier-1 { --u: clamp(111px, 13.5vw, 177px); }
 .tier-2 { --u: clamp(58px, 6.4vw, 84px); }
+/* granty zewnetrzne stoja zaraz pod strategicznymi */
+.tier-8 { --u: clamp(56px, 6.2vw, 81px); }
 .tier-3 { --u: clamp(56px, 6vw, 79px); }
 .tier-4 { --u: clamp(52px, 5.5vw, 72px); }
 .tier-5 { --u: clamp(48px, 5vw, 66px); }
