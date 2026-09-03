@@ -745,6 +745,24 @@
     .ach-trophy { display: none; }
 }
 
+/* ==== przerywnik: zdjecie stoi w miejscu, sekcje przesuwaja sie po nim ==== */
+.breaker {
+    height: clamp(280px, 42vh, 540px);
+    background-image: url("../assets/media/przerywnik.jpg");
+    background-size: cover;
+    background-position: center 58%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+/* Na dotyku tlo przyklejone do okna albo nie dziala, albo tnie przy
+   przewijaniu - tam zdjecie jedzie razem ze strona. */
+@media (max-width: 900px), (hover: none) {
+    .breaker { background-attachment: scroll; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .breaker { background-attachment: scroll; }
+}
+
 /* strony na bieli */
 body[data-page="about"],
 body[data-page="sponsors"] { background: var(--white); color: var(--ink); }
