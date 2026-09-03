@@ -110,11 +110,18 @@
        warstwa wyzsza od kalendarza, bo na niego najezdza */
     position: relative;
     z-index: 1;
-    padding: clamp(96px, 15vh, 190px) var(--pad-x);
+    padding: clamp(72px, 10vh, 130px) var(--pad-x);
     background: var(--deep);
     color: #fff;
     overflow: hidden;
     isolation: isolate;
+    /* film ma wypelniac cale okno; "min-" a nie "height", zeby przy dluzszym
+       tekscie albo niskim oknie sekcja moglaby urosnac zamiast go uciac */
+    min-height: 100vh;
+    min-height: 100svh;
+    /* tresc na srodku wysokosci, zeby przy pelnym ekranie nie wisiala u gory */
+    display: grid;
+    align-content: center;
 }
 .intro-bg {
     position: absolute;
