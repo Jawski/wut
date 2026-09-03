@@ -480,10 +480,10 @@
 
 /* nazwa dzialu konturem - tylko w paskach dzialow, naglowek "Kim jestesmy" zostaje pelny */
 .dept-strip .dept-strip-title {
-    font-size: clamp(24px, 2.9vw, 56px);
-    line-height: 1.06;
+    font-size: clamp(30px, 4.6vw, 86px);
+    line-height: 1.02;
     letter-spacing: 0.005em;
-    margin: 0 0 20px;
+    margin: 0 0 clamp(20px, 2.6vw, 42px);
     /* nigdy nie lamiemy nazwy dzialu w srodku wyrazu */
     overflow-wrap: normal;
     hyphens: none;
@@ -492,16 +492,6 @@
     text-stroke: 1.5px rgba(255, 255, 255, 0.95);
     paint-order: stroke fill;
 }
-.dept-strip-title::after {
-    content: "";
-    display: block;
-    width: 62px;
-    height: 3px;
-    background: var(--white);
-    margin-top: 20px;
-}
-.dept-strip.is-right .dept-strip-title::after { margin-left: auto; }
-
 .dept-strip-body {
     font-size: clamp(15px, 1.1vw, 17px);
     color: rgba(255, 255, 255, 0.9);
@@ -546,7 +536,6 @@
     }
     .dept-copy > * { max-width: 100%; }
     .dept-strip.is-right .dept-copy > * { margin-left: 0; }
-    .dept-strip.is-right .dept-strip-title::after { margin-left: 0; }
 }
 
 /* cta czeka pod cytatem i wyjezdza spod niego przy przewijaniu.
