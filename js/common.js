@@ -203,10 +203,13 @@ function initRevealOnScroll() {
     }
     const io = new IntersectionObserver((entries) => {
         entries.forEach(e => {
-            if (e.isIntersecting) {
-                e.target.classList.add('is-in');
-                io.unobserve(e.target);
-            }
+            if (!e.isIntersecting) return;
+            io.unobserve(e.target);
+            // data-hold odsuwa pojawienie sie w czasie - napis nad filmem ma
+            // wejsc dopiero po chwili, zeby najpierw bylo widac sam obraz
+            const zwloka = parseInt(e.target.dataset.hold || '0', 10);
+            if (zwloka > 0) setTimeout(() => e.target.classList.add('is-in'), zwloka);
+            else e.target.classList.add('is-in');
         });
     }, { threshold: 0.15, rootMargin: '0px 0px -10% 0px' });
     els.forEach(e => io.observe(e));
