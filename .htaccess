@@ -1,0 +1,34 @@
+# Reguly dla serwera Apache (hosting OVH). GitHub Pages ten plik ignoruje.
+
+<IfModule mod_rewrite.c>
+
+  RewriteEngine On
+  RewriteBase /
+
+  # --- adresy bez ".html" ---------------------------------------------------
+  # Strona linkuje do "o-nas.html", ale w pasku adresu ma zostac "/o-nas".
+  # Dlatego najpierw przekierowujemy zadanie z rozszerzeniem na wersje bez
+  # niego, a potem po cichu podajemy wlasciwy plik. Dzieki temu nie trzeba
+  # zmieniac odnosnikow w kodzie i ta sama strona dziala tez na GitHub Pages.
+
+  # strona glowna: /index.html -> /
+  RewriteCond %{THE_REQUEST} \s/+index\.html[\s?] [NC]
+  RewriteRule ^ / [R=301,L]
+
+  # pozostale podstrony: /o-nas.html -> /o-nas
+  RewriteCond %{THE_REQUEST} \s/+([^?\s]+)\.html[\s?] [NC]
+  RewriteRule ^ /%1 [R=301,L]
+
+  # /o-nas -> podajemy plik o-nas.html, adres w przegladarce zostaje czysty
+  RewriteCond %{REQUEST_FILENAME}.html -f
+  RewriteRule ^(.+?)/?$ $1.html [L]
+
+  # --- jak dotad ------------------------------------------------------------
+  # adres, ktory do niczego nie pasuje, prowadzi na strone glowna
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-l
+  RewriteRule . /index.html [L]
+
+</IfModule>
