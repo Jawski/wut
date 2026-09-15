@@ -103,7 +103,7 @@
 
             'fs.bpp.n': 'Business plan presentation',
             'fs.bpp.p': '75 points',
-            'fs.bpp.d': 'A presentation in which the team simulates founding a company that manufactures and sells race cars. The people giving the 10-minute presentation to the panel of judges play the part of a team seeking financial backing for their new venture from wealthy investors.',
+            'fs.bpp.d': 'A presentation in which the team simulates founding a company whose product must come directly from the car - the technologies, simulations and data used in it. The task is to make the business plan realistic and scalable. The people giving the 10-minute presentation to the panel of judges play the part of a team seeking financial backing for their new venture from investors.',
             'fs.cost.n': 'Cost estimate',
             'fs.cost.p': '100 points',
             'fs.cost.d': 'An event in which the team’s representatives present the cost estimate for the entire car, broken down into its smallest parts. The idea behind Cost is to simulate implementing optimised car production in a factory. It therefore accounts for the manufacture of each of the several hundred components of the car, starting from a cube of raw material (or another commercial form of the material used, available and listed in the annexes to the rules), through the machining applied in the real production process, all the way to the standardised cost of fitting the part during assembly of the car.',

@@ -281,7 +281,7 @@ window.WUT_TEAM = [
     {
         slug: 'kasia-matejuk', name: 'Katarzyna Matejuk', dept: 'electronics', since: 2024, studies: 'PW · WE',
         bio: 'tu tu du du',
-        achievements: [{ year: 2025, text: 'Polska' }, { year: 2026, text: 'FS Austria' }],
+        achievements: [{ year: 2025, text: 'Polska' }, { year: 2026, text: 'FS Austria' }, { year: 2026, text: 'FS Czech' }],
         projects: ['LVMS'],
     },
     { slug: 'tymoteusz-celmer', name: 'Tymoteusz Celmer', dept: 'electronics' },
