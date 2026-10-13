@@ -212,6 +212,7 @@
         // przerysuj dynamiczne sekcje
         if (typeof window.WUT_renderTeam === 'function') window.WUT_renderTeam();
         if (typeof window.WUT_renderCars === 'function') window.WUT_renderCars();
+        if (typeof window.WUT_renderSponsors === 'function') window.WUT_renderSponsors();
         if (typeof window.WUT_refreshCountdown === 'function') window.WUT_refreshCountdown();
     };
 })();

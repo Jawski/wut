@@ -198,6 +198,7 @@ function initNav(activePage) {
 function initRevealOnScroll() {
     const els = document.querySelectorAll('.reveal');
     if (!('IntersectionObserver' in window)) {
+        window.WUT_obserwujReveal = l => l.forEach(e => e.classList.add('is-in'));
         els.forEach(e => e.classList.add('is-in'));
         return;
     }
@@ -213,6 +214,9 @@ function initRevealOnScroll() {
         });
     }, { threshold: 0.15, rootMargin: '0px 0px -10% 0px' });
     els.forEach(e => io.observe(e));
+
+    // sekcje budowane z danych pojawiaja sie po tym starcie i musza sie zglosic same
+    window.WUT_obserwujReveal = lista => lista.forEach(e => io.observe(e));
 }
 
 function animateCount(el, target, duration = 1500, suffix = '') {
@@ -258,34 +262,9 @@ const FLAGI = {
 
 /* kalendarz startow — minione zostaja na osi, domyslnie zaznaczony
    najblizszy nadchodzacy. start = poczatek odliczania, end = koniec imprezy */
-const WUT_EVENTS = [
-    {
-        start: '2026-07-09T18:00:00', end: '2026-07-09T22:00:00',
-        flag: 'pl', photo: 'assets/wut7-rollout.jpg',
-        name: 'Roll-out WUT7', loc: 'Politechnika Warszawska',
-        datePl: '9 lipca 2026 · 18:00', dateEn: '9 July 2026 · 18:00',
-    },
-    {
-        start: '2026-07-19T08:00:00', end: '2026-07-24T20:00:00',
-        flag: 'cz', photo: 'assets/media/track-most.jpg',
-        name: 'Formula Student Czech', loc: 'Autodrom Most',
-        datePl: '19–24 lipca 2026', dateEn: '19–24 July 2026',
-    },
-    {
-        start: '2026-07-26T08:00:00', end: '2026-07-30T20:00:00',
-        flag: 'at', photo: 'assets/media/track-redbullring.jpg',
-        name: 'Formula Student Austria', loc: 'Red Bull Ring, Spielberg',
-        datePl: '26–30 lipca 2026', dateEn: '26–30 July 2026',
-    },
-    {
-        start: '2026-08-25T08:00:00', end: '2026-08-29T20:00:00',
-        flag: 'pl', photo: 'assets/media/track-slomczyn.jpg',
-        name: 'Formula Student Poland', loc: 'Autodrom Słomczyn',
-        datePl: '25–29 sierpnia 2026', dateEn: '25–29 August 2026',
-    },
-];
+let WUT_EVENTS = [];
 
-function initEventsCalendar() {
+async function initEventsCalendar() {
     const wrap = document.getElementById('events-races');
     const img = document.getElementById('event-banner-img');
     const title = document.getElementById('event-banner-title');
@@ -302,6 +281,9 @@ function initEventsCalendar() {
     };
     const elVal = document.getElementById('event-elapsed-val');
     const elLbl = document.getElementById('event-elapsed-lbl');
+
+    try { WUT_EVENTS = await window.WUT_dane('wydarzenia'); }
+    catch (e) { return; }               // powod wypisuje wczytywarka
 
     const events = WUT_EVENTS.map(e => ({
         ...e,

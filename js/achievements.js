@@ -1,54 +1,17 @@
-// osiagniecia na zawodach - przesuwana taśma kart, wysunieta karta pokazuje wyniki
-// dane pochodza wprost od zespolu
+// Osiagniecia na zawodach - przesuwana tasma kart.
+// Same wyniki siedza w dane/osiagniecia.json, zeby dalo sie je zmieniac
+// bez dotykania kodu.
 
-const OSIAGNIECIA = [
-    {
-        id: 'fsp26', event: 'FS Poland', year: 2026, photo: 'assets/ach/fsp26.jpg',
-        overall: { place: 2, name: 'Overall' },
-        results: [
-            { place: 1, name: 'AutoX' },
-            { place: 3, name: 'Endurance' },
-            { place: 2, name: 'BPP' },
-            { place: 3, name: 'E. Design' },
-        ],
-        // trofea wyjezdzaja z bokow karty po najechaniu myszka
-        trophies: ['assets/ach/trofeum1.png', 'assets/ach/trofeum2.png'],
-    },
-    {
-        id: 'fscz26', event: 'FS Czech', year: 2026, photo: 'assets/ach/fscz26.jpg',
-        results: [{ place: 3, name: 'AutoX' }],
-    },
-    {
-        id: 'fsp25', event: 'FS Poland', year: 2025, photo: 'assets/ach/fsp25.jpg',
-        results: [
-            { place: 3, name: 'AutoX' },
-            { place: 4, name: 'Cost & Manufacturing' },
-            { place: 4, name: 'Engineering Design' },
-            { place: 4, name: 'Acceleration' },
-        ],
-    },
-    {
-        id: 'fscz25', event: 'FS Czech', year: 2025, photo: 'assets/ach/fscz25.jpg',
-        results: [{ place: 3, name: 'Engineering Design' }],
-    },
-    {
-        id: 'fse24', event: 'FS East', year: 2024, photo: 'assets/ach/fse24.jpg',
-        results: [{ place: 2, name: 'Endurance' }],
-    },
-    {
-        id: 'fsp24', event: 'FS Poland', year: 2024, photo: 'assets/ach/fsp24.jpg',
-        results: [{ place: 3, name: 'Acceleration' }],
-    },
-    {
-        id: 'fsp23', event: 'FS Poland', year: 2023, photo: 'assets/ach/fsp23.jpg',
-        results: [{ place: 1, name: 'BPP' }],
-    },
-];
+let OSIAGNIECIA = [];
 
-function initAchievements() {
+async function initAchievements() {
     const rail  = document.getElementById('ach-rail');
     const track = document.getElementById('ach-track');
     if (!rail || !track) return;
+
+    try { OSIAGNIECIA = await window.WUT_dane('osiagniecia'); }
+    catch (e) { return; }               // powod wypisuje wczytywarka
+    if (!OSIAGNIECIA.length) return;
 
     const romb = (p) => `<span class="ach-dia ach-p${p > 3 ? 'x' : p}"><i>${p}</i></span>`;
 

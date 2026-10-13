@@ -52,9 +52,16 @@ function ranga(m) {
 
 /* ------------------------------------------------------------------ sezony */
 
-const SEZONY = window.WUT_SEASONS || [{ id: 'now', label: '', current: true }];
-const SEZON_BIEZACY = (SEZONY.find(s => s.current) || SEZONY[SEZONY.length - 1]).id;
+// ustawiane dopiero po wczytaniu dane/zespol.json - wczesniej nie ma ich skad wziac
+let SEZONY = [{ id: 'now', label: '', current: true }];
+let SEZON_BIEZACY = 'now';
 let sezon = SEZON_BIEZACY;
+
+function ustawSezony() {
+    SEZONY = window.WUT_SEASONS || SEZONY;
+    SEZON_BIEZACY = (SEZONY.find(s => s.current) || SEZONY[SEZONY.length - 1]).id;
+    sezon = SEZON_BIEZACY;
+}
 
 function biezacy() { return sezon === SEZON_BIEZACY; }
 
@@ -372,6 +379,7 @@ document.addEventListener('click', (e) => {
 });
 
 window.WUT_renderTeam = function () {
+    if (!window.WUT_TEAM) return;      // jezyk moze sie przelaczyc, zanim dojda dane
     const widok = document.getElementById('team-open');
     renderSeasons();
     renderDeptRows();
@@ -384,10 +392,16 @@ window.WUT_renderTeam = function () {
     odswiezLicznik();
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-    renderSeasons();
-    renderDeptRows();
+document.addEventListener('DOMContentLoaded', async () => {
     const back = document.getElementById('team-open-back');
     if (back) back.addEventListener('click', zamknijDzial);
+    try {
+        await window.WUT_wczytajZespol();
+    } catch (e) {
+        return;                        // powod jest juz wypisany przez wczytywarke
+    }
+    ustawSezony();
+    renderSeasons();
+    renderDeptRows();
     odswiezLicznik();
 });

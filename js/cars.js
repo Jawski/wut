@@ -1,10 +1,11 @@
-import { CARS } from './cars-data.js';
+// dane bolidow siedza w dane/bolidy.json, zeby dalo sie je zmieniac bez kodu
+let CARS = [];
 
 function t(key, fallback) {
     return (window.WUT_t ? window.WUT_t(key) : null) || fallback;
 }
 
-let activeId = CARS[0].id;
+let activeId = null;
 
 // kolejnosc widoczna na osi decyduje o kierunku przesuwania
 const poRoku = () => [...CARS].sort((a, b) => a.year - b.year);
@@ -136,7 +137,11 @@ function renderActive(kierunek = 0) {
     }, 240);
 }
 
-function boot() {
+async function boot() {
+    if (!CARS.length) {
+        try { CARS = await window.WUT_dane('bolidy'); }
+        catch (e) { return; }           // powod wypisuje wczytywarka
+    }
     activeId = poRoku()[0].id;
     renderTimeline();
     renderActive();
