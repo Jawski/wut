@@ -115,10 +115,34 @@ function skopiujZdjeciaSezonu(array $sklad, string $sezon): ?string
         $cel    = $katalog . '/' . $slug . '.jpg';
         // zdjecia zostaja tez na swoim miejscu - nowy sezon zwykle zaczyna sie
         // od tych samych osob, a kopia w katalogu sezonu utrwala stan na koniec
-        if ($slug !== '' && is_file($zrodlo) && !is_file($cel) && !@copy($zrodlo, $cel)) {
+        if ($slug !== '' && is_file($zrodlo) && !@copy($zrodlo, $cel)) {
             return 'Nie udało się skopiować zdjęcia ' . $slug . '.jpg do katalogu sezonu.';
         }
     }
+    return null;
+}
+
+/**
+ * Odwrotnosc powyzszego: sezon wraca na pozycje biezacego, wiec jego zdjecia
+ * musza znalezc sie tam, gdzie strona szuka ich dla biezacego skladu.
+ */
+function przywrocZdjeciaSezonu(array $sklad, string $sezon): ?string
+{
+    $katalog = KATALOG_ZDJEC . '/' . $sezon;
+    foreach ($sklad as $os) {
+        $slug = (string) ($os['slug'] ?? '');
+        $zrodlo = $katalog . '/' . $slug . '.jpg';
+        if ($slug === '' || !is_file($zrodlo)) {
+            continue;
+        }
+        if (!@copy($zrodlo, KATALOG_ZDJEC . '/' . $slug . '.jpg')) {
+            return 'Nie udało się przenieść zdjęcia ' . $slug . '.jpg z katalogu sezonu.';
+        }
+        @unlink($zrodlo);
+    }
+    // katalog sezonu znika tylko wtedy, gdy wszystko z niego wrocilo - gdyby
+    // zostalo w nim czyjes zdjecie spoza skladu, lepiej go nie ruszac
+    @rmdir($katalog);
     return null;
 }
 
@@ -144,7 +168,7 @@ function zapiszSklad(array $zespol, string $sezon, bool $biezacy, array $lista):
     }
     $archiwum = czytajTresc('zespol-archiwum') ?? [];
     $archiwum[$sezon] = array_values($lista);
-    return zapiszTresc('zespol-archiwum', $archiwum);
+    return zapiszTresc('zespol-archiwum', $archiwum, true);
 }
 
 function przeliczBezZdjecia(array $sklad): array

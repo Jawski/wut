@@ -237,10 +237,13 @@ function czytajTresc(string $nazwa): ?array
     return is_array($dane) ? $dane : null;
 }
 
-function zapiszTresc(string $nazwa, array $dane): ?string
+function zapiszTresc(string $nazwa, array $dane, bool $obiektGdyPusty = false): ?string
 {
     $plik = KATALOG_TRESCI . '/' . $nazwa . '.json';
-    $json = json_encode($dane, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    // pusta tablica PHP zapisuje sie jako [], a pliki trzymane pod kluczami
+    // maja byc obiektem {} nawet wtedy, gdy nic w nich nie zostalo
+    $doZapisu = ($obiektGdyPusty && $dane === []) ? new stdClass() : $dane;
+    $json = json_encode($doZapisu, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     if ($json === false) {
         // bez powodu i bez wskazania pola taki blad jest nie do odgadniecia
         return 'Nie udało się przygotować danych do zapisu: ' . json_last_error_msg()

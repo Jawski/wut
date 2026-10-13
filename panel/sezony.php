@@ -79,7 +79,7 @@ function dodajSezon(array $zespol): ?string
         // zawodami, zeby zamkniety sezon dalej mial po stronie co pokazac
         $archiwum = czytajTresc('zespol-archiwum') ?? [];
         $archiwum[$stary] = array_values($starySklad);
-        $bladArchiwum = zapiszTresc('zespol-archiwum', $archiwum);
+        $bladArchiwum = zapiszTresc('zespol-archiwum', $archiwum, true);
         if ($bladArchiwum !== null) {
             return 'Sezon nie został zamknięty: ' . $bladArchiwum;
         }
@@ -132,28 +132,52 @@ function przelaczObrot(array $zespol): ?string
     return zapiszTresc('zespol', $zespol);
 }
 
+/**
+ * Usuwa sezon razem z jego skladem. Gdy znika sezon biezacy, jego role przejmuje
+ * najnowszy z pozostalych: sklad wraca z archiwum na miejsce biezacego, a zdjecia
+ * z katalogu sezonu tam, gdzie strona szuka ich dla biezacego.
+ */
 function usunSezon(array $zespol): ?string
 {
     $id = (string) ($_POST['id'] ?? '');
-    if ($id === idSezonuBiezacego($zespol)) {
-        return 'Nie można usunąć bieżącego sezonu — najpierw załóż nowy bieżący.';
-    }
-    $sezony = array_values(array_filter(
-        $zespol['sezony'] ?? [],
-        fn($s) => (string) ($s['id'] ?? '') !== $id
-    ));
-    if (count($sezony) === count($zespol['sezony'] ?? [])) {
+    $sezony = $zespol['sezony'] ?? [];
+    if (!wSezonach($sezony, $id)) {
         return 'Nie znaleziono takiego sezonu.';
     }
-    $zespol['sezony'] = $sezony;
+    if (count($sezony) < 2) {
+        return 'To jedyny sezon — nie ma co po nim zostawić. Najpierw załóż nowy.';
+    }
 
-    $archiwum = czytajTresc('zespol-archiwum') ?? [];
-    if (array_key_exists($id, $archiwum)) {
-        unset($archiwum[$id]);
-        $bladArchiwum = zapiszTresc('zespol-archiwum', $archiwum);
-        if ($bladArchiwum !== null) {
-            return $bladArchiwum;
+    $toBiezacy = ($id === idSezonuBiezacego($zespol));
+    $archiwum  = czytajTresc('zespol-archiwum') ?? [];
+
+    $sezony = poKolei(array_filter($sezony, fn($s) => (string) ($s['id'] ?? '') !== $id));
+
+    if ($toBiezacy) {
+        $ostatni = count($sezony) - 1;
+        $nowyId  = (string) $sezony[$ostatni]['id'];
+        foreach ($sezony as $i => $s) {
+            unset($sezony[$i]['current']);
         }
+        $sezony[$ostatni]['current'] = true;
+
+        $nowySklad = $archiwum[$nowyId] ?? [];
+        $bladZdjec = przywrocZdjeciaSezonu($nowySklad, $nowyId);
+        if ($bladZdjec !== null) {
+            return $bladZdjec;
+        }
+        unset($archiwum[$nowyId]);
+        $zespol['sklad'] = array_values($nowySklad);
+    } else {
+        unset($archiwum[$id]);
+    }
+
+    $zespol['sezony']     = $sezony;
+    $zespol['bezZdjecia'] = przeliczBezZdjecia($zespol['sklad'] ?? []);
+
+    $bladArchiwum = zapiszTresc('zespol-archiwum', $archiwum, true);
+    if ($bladArchiwum !== null) {
+        return $bladArchiwum;
     }
     return zapiszTresc('zespol', $zespol);
 }
@@ -226,9 +250,14 @@ otworzStrone('Sezony', 'sklad.php');
                 </form>
             </td>
             <td class="do-prawej">
-                <?php if (!$to): ?>
-                    <form method="post"
-                          onsubmit="return confirm('Usunąć sezon <?= e(addslashes((string) ($s['label'] ?? ''))) ?> razem ze składem <?= $ile ?> osób? Zdjęcia zostaną na serwerze.');">
+                <?php if (count($sezony) > 1):
+                    // po usunieciu biezacego jego role przejmie najnowszy z pozostalych
+                    $pozostale = array_values(array_filter($sezony, fn($x) => (string) $x['id'] !== $id));
+                    $nastepca  = (string) ($pozostale[count($pozostale) - 1]['label'] ?? '');
+                    $pytanie   = 'Usunąć sezon ' . ($s['label'] ?? '') . ' razem ze składem ' . $ile . ' osób?'
+                        . ($to ? ' Bieżącym stanie się wtedy ' . $nastepca . ' i wróci jego skład.' : '')
+                        . ' Zdjęcia zostaną na serwerze.'; ?>
+                    <form method="post" onsubmit="return confirm('<?= e(addslashes($pytanie)) ?>');">
                         <input type="hidden" name="token" value="<?= e(token()) ?>">
                         <input type="hidden" name="co" value="usun">
                         <input type="hidden" name="id" value="<?= e($id) ?>">
