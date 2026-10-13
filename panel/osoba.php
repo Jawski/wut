@@ -131,7 +131,9 @@ function zapiszFormularz(array $zespol, string $sezon, bool $biezacy, bool $peln
     if (!empty($_POST['f'])) {
         $wpis['f'] = 1;
     }
-    if (!empty($_POST['thumb'])) {
+    // znacznik miniatury dzialu nie ma juz pola w formularzu, ale jesli ktos go
+    // w pliku ma, to zostaje - zapis karty nie moze go po cichu skasowac
+    if ($pozycja !== null && !empty($lista[$pozycja]['thumb'])) {
         $wpis['thumb'] = 1;
     }
     if ($pelne) {
@@ -332,10 +334,6 @@ otworzStrone($nowa ? 'Nowa osoba' : (string) $osoba['name'], $powrot);
         <label class="ptaszek">
             <input type="checkbox" name="f" value="1" <?= !empty($osoba['f']) ? 'checked' : '' ?>>
             <span>Zastępcza sylwetka: kobieta</span>
-        </label>
-        <label class="ptaszek">
-            <input type="checkbox" name="thumb" value="1" <?= !empty($osoba['thumb']) ? 'checked' : '' ?>>
-            <span>Na miniaturze działu</span>
         </label>
     </fieldset>
 
