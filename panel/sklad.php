@@ -62,9 +62,11 @@ otworzStrone('Skład zespołu', 'pulpit.php');
 <h1>Skład zespołu</h1>
 <p class="wstep">
     Sezon <?= e(etykietaSezonu($sezony, $sezon)) ?> — <?= count($lista) ?> os.
-    <?= $toBiezacy
-        ? 'To skład widoczny na stronie jako bieżący.'
-        : 'Sezon archiwalny — karty nie mają opisów, tylko imię, dział i funkcję.' ?>
+    <?= $toBiezacy ? 'To skład widoczny na stronie jako bieżący.' : 'Sezon archiwalny.' ?>
+    <?= obrotKart($sezony, $sezon)
+        ? 'Karty się obracają — mają rewers z opisem, projektami i zawodami.'
+        : 'Karty się nie obracają — zostaje imię, dział i funkcja.' ?>
+    <a href="sezony.php">Zmień</a>
 </p>
 
 <div class="paski-narzedzi">

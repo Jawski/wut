@@ -2,15 +2,18 @@
     "sezony": [
         {
             "id": "2023-24",
-            "label": "2023/2024"
+            "label": "2023/2024",
+            "obrot": false
         },
         {
             "id": "2024-25",
-            "label": "2024/2025"
+            "label": "2024/2025",
+            "obrot": false
         },
         {
             "id": "2025-26",
             "label": "2025/2026",
+            "obrot": true,
             "current": true
         }
     ],

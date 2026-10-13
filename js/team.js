@@ -65,6 +65,13 @@ function ustawSezony() {
 
 function biezacy() { return sezon === SEZON_BIEZACY; }
 
+// czy karty w tym sezonie maja rewers z opisem - ustawiane osobno dla kazdego
+// sezonu w panelu, bo starsze sklady zostaly spisane bez opisow
+function zRewersemSezonu() {
+    const s = SEZONY.find(x => x.id === sezon);
+    return !!(s && s.obrot);
+}
+
 function sklad() {
     if (biezacy()) return window.WUT_TEAM || [];
     return (window.WUT_TEAM_ARCHIVE || {})[sezon] || [];
@@ -203,9 +210,9 @@ function renderGrid(filter = 'all') {
     const compLabel = t('team.competitions', 'Zawody');
     const projLabel = t('team.projects', 'Projekty');
 
-    // opisy, zawody i maile mamy tylko dla obecnego skladu - archiwalne karty
-    // sa jednostronne, bo poza nazwiskiem i funkcja nie ma o nich zadnych danych
-    const zRewersem = biezacy();
+    // sezony spisane bez opisow maja karty jednostronne - nie ma czego pokazac
+    // na rewersie; o tym, ktore to sezony, decyduje ustawienie w panelu
+    const zRewersem = zRewersemSezonu();
     grid.classList.toggle('is-archive', !zRewersem);
 
     grid.innerHTML = list.map((m, i) => {

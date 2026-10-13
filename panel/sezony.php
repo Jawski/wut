@@ -25,6 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $blad = match ((string) ($_POST['co'] ?? '')) {
             'dodaj'  => dodajSezon($zespol),
             'nazwa'  => zmienNazwe($zespol),
+            'obrot'  => przelaczObrot($zespol),
             'usun'   => usunSezon($zespol),
             default  => 'Nieznana operacja.',
         };
@@ -37,8 +38,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 /**
  * Nowy sezon. Archiwalny tylko dopisuje sie do listy - sklad uzupelnia sie
- * potem recznie. Biezacy domyka poprzedni: jego sklad idzie do archiwum razem
- * z kopia zdjec, a nowy zaczyna albo od tych samych osob, albo od zera.
+ * potem recznie. Biezacy domyka poprzedni: jego sklad idzie do archiwum w
+ * calosci, razem z opisami i kopia zdjec, a nowy zaczyna albo od tych samych
+ * osob, albo od zera.
  */
 function dodajSezon(array $zespol): ?string
 {
@@ -56,10 +58,11 @@ function dodajSezon(array $zespol): ?string
     }
 
     $biezacy = ((string) ($_POST['rodzaj'] ?? 'archiwalny')) === 'biezacy';
+    $obrot   = !empty($_POST['obrot']);
     $sezony  = $zespol['sezony'] ?? [];
 
     if (!$biezacy) {
-        $sezony[] = ['id' => $id, 'label' => $etykieta];
+        $sezony[] = ['id' => $id, 'label' => $etykieta, 'obrot' => $obrot];
         $zespol['sezony'] = poKolei($sezony);
         return zapiszTresc('zespol', $zespol);
     }
@@ -72,8 +75,10 @@ function dodajSezon(array $zespol): ?string
         if ($bladZdjec !== null) {
             return $bladZdjec;
         }
+        // sklad idzie do archiwum taki, jaki byl - z opisami, projektami i
+        // zawodami, zeby zamkniety sezon dalej mial po stronie co pokazac
         $archiwum = czytajTresc('zespol-archiwum') ?? [];
-        $archiwum[$stary] = array_map('doArchiwum', $starySklad);
+        $archiwum[$stary] = array_values($starySklad);
         $bladArchiwum = zapiszTresc('zespol-archiwum', $archiwum);
         if ($bladArchiwum !== null) {
             return 'Sezon nie został zamknięty: ' . $bladArchiwum;
@@ -83,7 +88,7 @@ function dodajSezon(array $zespol): ?string
     foreach ($sezony as $i => $s) {
         unset($sezony[$i]['current']);
     }
-    $sezony[] = ['id' => $id, 'label' => $etykieta, 'current' => true];
+    $sezony[] = ['id' => $id, 'label' => $etykieta, 'obrot' => $obrot, 'current' => true];
 
     $zespol['sezony'] = poKolei($sezony);
     $zespol['sklad']  = empty($_POST['kopiuj']) ? [] : array_values($starySklad);
@@ -102,6 +107,22 @@ function zmienNazwe(array $zespol): ?string
     foreach ($zespol['sezony'] ?? [] as $i => $s) {
         if ((string) ($s['id'] ?? '') === $id) {
             $zespol['sezony'][$i]['label'] = $etykieta;
+            $znaleziony = true;
+        }
+    }
+    if (!$znaleziony) {
+        return 'Nie znaleziono takiego sezonu.';
+    }
+    return zapiszTresc('zespol', $zespol);
+}
+
+function przelaczObrot(array $zespol): ?string
+{
+    $id = (string) ($_POST['id'] ?? '');
+    $znaleziony = false;
+    foreach ($zespol['sezony'] ?? [] as $i => $s) {
+        if ((string) ($s['id'] ?? '') === $id) {
+            $zespol['sezony'][$i]['obrot'] = !empty($_POST['wlaczone']);
             $znaleziony = true;
         }
     }
@@ -156,8 +177,10 @@ otworzStrone('Sezony', 'sklad.php');
 
 <h1>Sezony</h1>
 <p class="wstep">
-    Bieżący sezon to ten, który strona pokazuje jako domyślny i jedyny z pełnymi
-    opisami na kartach. Pozostałe są archiwalne — zostaje w nich imię, dział i funkcja.
+    Bieżący sezon to ten, który strona pokazuje jako domyślny. Obracanie kart
+    ustawiasz osobno dla każdego sezonu: włączone znaczy, że karta ma rewers
+    z opisem, projektami i zawodami. Przy dwóch najstarszych składach jest
+    wyłączone, bo spisane są bez opisów.
 </p>
 
 <?php if ($blad): ?>
@@ -169,6 +192,7 @@ otworzStrone('Sezony', 'sklad.php');
         <th>Sezon</th>
         <th>Identyfikator</th>
         <th>Osób</th>
+        <th>Obracanie kart</th>
         <th></th>
     </tr>
     <?php foreach ($sezony as $s):
@@ -188,6 +212,19 @@ otworzStrone('Sezony', 'sklad.php');
             </td>
             <td class="jednolity"><?= e($id) ?></td>
             <td><a href="sklad.php?sezon=<?= urlencode($id) ?>"><?= $ile ?></a></td>
+            <td>
+                <form method="post" class="obrot-form">
+                    <input type="hidden" name="token" value="<?= e(token()) ?>">
+                    <input type="hidden" name="co" value="obrot">
+                    <input type="hidden" name="id" value="<?= e($id) ?>">
+                    <label class="ptaszek">
+                        <input type="checkbox" name="wlaczone" value="1"
+                               <?= obrotKart($sezony, $id) ? 'checked' : '' ?>
+                               onchange="this.form.submit()">
+                        <span><?= obrotKart($sezony, $id) ? 'z opisami' : 'same nazwiska' ?></span>
+                    </label>
+                </form>
+            </td>
             <td class="do-prawej">
                 <?php if (!$to): ?>
                     <form method="post"
@@ -233,14 +270,18 @@ otworzStrone('Sezony', 'sklad.php');
                     <span>Nowy bieżący — zamyka obecny sezon</span>
                 </label>
 
+                <label class="ptaszek obrot-wybor">
+                    <input type="checkbox" name="obrot" value="1" checked>
+                    <span>Karty można obracać — z opisami, projektami i zawodami</span>
+                </label>
+
                 <div id="opis-biezacy" hidden>
                     <p class="podpowiedz">
                         Obecny sezon <strong><?= e(etykietaSezonu($sezony, $idBiezacy)) ?></strong>
-                        (<?= count($zespol['sklad'] ?? []) ?> os.) przejdzie do archiwum:
-                        zostaną z niego imiona, działy i funkcje, a zdjęcia skopiują się
+                        (<?= count($zespol['sklad'] ?? []) ?> os.) przejdzie do archiwum
+                        w całości — z opisami, projektami i zawodami — a zdjęcia skopiują się
                         do katalogu <span class="jednolity">assets/team/<?= e($idBiezacy) ?>/</span>.
-                        Opisy, projekty i osiągnięcia zostają tylko przy osobach,
-                        które przeniesiesz do nowego sezonu.
+                        Nic z niego nie znika ze strony.
                     </p>
                     <label class="ptaszek">
                         <input type="checkbox" name="kopiuj" value="1" checked>

@@ -42,13 +42,18 @@ if (!$nowa && $pozycja === null) {
 $osoba = $nowa ? ['slug' => '', 'name' => '', 'dept' => $idDzialow[0] ?? ''] : $lista[$pozycja];
 $blad  = null;
 
+// pelna karta - z opisem, zawodami i projektami - gdy sezon ma wlaczone obracanie
+// kart. Pokazujemy ja takze komus, kto te dane juz ma, zeby wylaczenie obracania
+// nie schowalo przed panelem tego, co siedzi w pliku
+$pelne = obrotKart($sezony, $sezon) || maOpis($osoba);
+
 /* ------------------------------------------------------------------- zapis */
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!sprawdzToken()) {
         $blad = 'Formularz stracił ważność. Otwórz go jeszcze raz.';
     } else {
-        [$blad, $osoba] = zapiszFormularz($zespol, $sezon, $toBiezacy, $lista, $pozycja, $idDzialow);
+        [$blad, $osoba] = zapiszFormularz($zespol, $sezon, $toBiezacy, $pelne, $lista, $pozycja, $idDzialow);
         if ($blad === null) {
             ustawKomunikat('Zapisano: ' . $osoba['name'] . '.');
             header('Location: ' . $powrot);
@@ -62,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
  * oraz osobe w takiej postaci, w jakiej przyszla - zeby po bledzie formularz
  * nie byl pusty.
  */
-function zapiszFormularz(array $zespol, string $sezon, bool $biezacy, array $lista, ?int $pozycja, array $idDzialow): array
+function zapiszFormularz(array $zespol, string $sezon, bool $biezacy, bool $pelne, array $lista, ?int $pozycja, array $idDzialow): array
 {
     $staryslug = $pozycja === null ? '' : (string) $lista[$pozycja]['slug'];
 
@@ -113,8 +118,8 @@ function zapiszFormularz(array $zespol, string $sezon, bool $biezacy, array $lis
     if ($funkcja !== '') {
         $wpis['role'] = $funkcja;
     }
-    if (!$biezacy) {
-        // sklady archiwalne niosa range wprost, strona nie wylicza jej z funkcji
+    if (!$biezacy && !$pelne) {
+        // sklady spisane skrotowo niosa range wprost, tak jak dwa najstarsze
         $ranga = ZNANE_FUNKCJE[$funkcja] ?? ($pozycja !== null ? ($lista[$pozycja]['rank'] ?? null) : null);
         if ($ranga !== null) {
             $wpis['rank'] = (int) $ranga;
@@ -129,7 +134,7 @@ function zapiszFormularz(array $zespol, string $sezon, bool $biezacy, array $lis
     if (!empty($_POST['thumb'])) {
         $wpis['thumb'] = 1;
     }
-    if ($biezacy) {
+    if ($pelne) {
         $since = (int) ($_POST['since'] ?? 0);
         if ($since > 1990) {
             $wpis['since'] = $since;
@@ -234,7 +239,7 @@ otworzStrone($nowa ? 'Nowa osoba' : (string) $osoba['name'], $powrot);
 <h1><?= $nowa ? 'Nowa osoba' : e((string) $osoba['name']) ?></h1>
 <p class="wstep">
     Sezon <?= e(etykietaSezonu($sezony, $sezon)) ?>.
-    <?= $toBiezacy ? '' : 'Sezon archiwalny — karty mają tylko imię, dział i funkcję.' ?>
+    <?= $pelne ? '' : 'Karty w tym sezonie się nie obracają — zostaje imię, dział i funkcja.' ?>
 </p>
 
 <?php if ($blad): ?>
@@ -345,7 +350,7 @@ otworzStrone($nowa ? 'Nowa osoba' : (string) $osoba['name'], $powrot);
         </label>
     </fieldset>
 
-<?php if ($toBiezacy): ?>
+<?php if ($pelne): ?>
 
     <label class="w-linii">
         <span>W zespole od roku</span>
@@ -368,7 +373,7 @@ otworzStrone($nowa ? 'Nowa osoba' : (string) $osoba['name'], $powrot);
 </div>
 </div>
 
-<?php if ($toBiezacy): ?>
+<?php if ($pelne): ?>
 
     <fieldset class="lista-pol">
         <legend>Osiągnięcia <small>— zawody, na których ta osoba była</small></legend>

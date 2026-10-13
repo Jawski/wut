@@ -78,29 +78,28 @@ function idZEtykiety(string $etykieta): string
 }
 
 /**
- * Zamyka biezacy sezon: przepisuje jego sklad do archiwum i odklada kopie zdjec
- * w katalogu sezonu. Karta archiwalna niesie mniej niz biezaca - zostaje imie,
- * dzial, funkcja i ranga, bo tylko to widac na stronie w starszych sezonach.
+ * Czy karty tego sezonu maja rewers z opisem. Ustawienie siedzi przy sezonie,
+ * bo dwa najstarsze sklady spisane sa bez opisow i nie ma ich skad wziac.
  */
-function doArchiwum(array $osoba): array
+function obrotKart(array $sezony, string $id): bool
 {
-    $w = [
-        'slug' => (string) ($osoba['slug'] ?? ''),
-        'name' => (string) ($osoba['name'] ?? ''),
-        'dept' => (string) ($osoba['dept'] ?? ''),
-    ];
-    $funkcja = (string) ($osoba['role'] ?? '');
-    if ($funkcja !== '') {
-        $w['role'] = $funkcja;
-        $ranga = ZNANE_FUNKCJE[$funkcja] ?? null;
-        if ($ranga !== null) {
-            $w['rank'] = (int) $ranga;
+    foreach ($sezony as $s) {
+        if ((string) ($s['id'] ?? '') === $id) {
+            return !empty($s['obrot']);
         }
     }
-    if (!empty($osoba['also'])) {
-        $w['also'] = $osoba['also'];
+    return false;
+}
+
+/** Czy ta osoba ma cokolwiek, co pokazuje rewers karty. */
+function maOpis(array $osoba): bool
+{
+    foreach (['since', 'studies', 'bio', 'achievements', 'projects'] as $pole) {
+        if (!empty($osoba[$pole])) {
+            return true;
+        }
     }
-    return $w;
+    return false;
 }
 
 /** Kopiuje zdjecia biezacego skladu do katalogu zamykanego sezonu. */
