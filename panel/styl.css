@@ -461,6 +461,34 @@ input:focus {
     white-space: nowrap;
 }
 
+/* ----------------------------------------------------------- osiagniecia */
+
+.osiagniecia {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+}
+.osiagniecia li {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--linia);
+}
+.osiagniecia a { display: block; padding: 10px; text-decoration: none; color: inherit; }
+.osiagniecia a:hover { background: #faf9fa; }
+.osiagniecia li:hover { border-color: var(--czerwien); }
+.osiagniecia img { display: block; width: 100%; height: 130px; object-fit: cover; }
+.osiagniecia .brak { display: grid; place-items: center; height: 130px; font-size: 12px; color: var(--zle); }
+.osiagniecie-opis { display: block; margin-top: 10px; }
+.osiagniecie-nazwa { display: block; font-weight: 700; }
+.osiagniecie-ogolem { display: block; font-size: 13px; color: var(--czerwien); font-weight: 600; }
+.osiagniecie-wyniki { display: flex; flex-wrap: wrap; gap: 4px 10px; margin-top: 4px; }
+.osiagniecie-wyniki span { font-size: 12px; color: var(--tekst-2); }
+.osiagniecie-trofea { display: block; margin-top: 4px; font-size: 11px; color: var(--tekst-2); }
+.strzalki { position: absolute; top: 6px; right: 6px; display: flex; gap: 4px; }
+
 /* --------------------------------------------------------------- bolidy */
 
 .bolidy {
@@ -623,4 +651,83 @@ legend small { font-weight: 400; color: var(--tekst-2); }
     .tresc { padding: 24px 14px 60px; }
     .narzedzia-prawo { margin-left: 0; width: 100%; }
     #szukaj { flex: 1; width: auto; }
+}
+
+/* -------------------------------------------------------------- kalendarz */
+
+.wydarzenia {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+}
+.wydarzenia li { background: var(--panel); border: 1px solid var(--linia); }
+.wydarzenia li:hover { border-color: var(--czerwien); }
+.wydarzenia li.minelo { opacity: 0.6; }
+.wydarzenia a { display: block; padding: 10px; text-decoration: none; color: inherit; }
+.wydarzenia img { display: block; width: 100%; height: 120px; object-fit: cover; }
+.wydarzenia .brak { display: grid; place-items: center; height: 120px; font-size: 12px; color: var(--zle); }
+.wydarzenie-opis { display: block; margin-top: 10px; }
+.wydarzenie-nazwa { display: block; font-weight: 700; }
+.wydarzenie-data { display: block; font-size: 13px; color: var(--czerwien); }
+.wydarzenie-loc { display: block; font-size: 12px; color: var(--tekst-2); }
+.znacznik-szary {
+    display: inline-block;
+    margin-top: 6px;
+    padding: 1px 7px;
+    background: var(--linia);
+    font-size: 11px;
+    color: var(--tekst-2);
+}
+
+input[type=datetime-local] {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid var(--linia);
+    background: #fff;
+    font: inherit;
+    color: inherit;
+}
+
+/* ----------------------------------------------------------------- teksty */
+
+.grupa-tekstow {
+    margin-top: 18px;
+    background: var(--panel);
+    border: 1px solid var(--linia);
+}
+.grupa-tekstow summary {
+    padding: 11px 16px;
+    font-weight: 700;
+    cursor: pointer;
+    user-select: none;
+}
+.grupa-tekstow[open] summary { border-bottom: 1px solid var(--linia); }
+
+.tekst { padding: 14px 16px; border-bottom: 1px solid var(--linia); }
+.tekst:last-child { border-bottom: 0; }
+.tekst.zmieniony { border-left: 3px solid var(--czerwien); }
+.tekst-klucz { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.tekst-klucz .jednolity { color: var(--tekst-2); font-size: 12px; }
+.tekst label { display: grid; grid-template-columns: 90px 1fr; gap: 10px; align-items: start; margin-bottom: 8px; }
+.tekst label span { font-size: 12px; color: var(--tekst-2); margin: 6px 0 0; }
+.tekst textarea { font-size: 14px; line-height: 1.5; }
+
+#szukaj-tekst {
+    width: 280px;
+    padding: 8px 12px;
+    border: 1px solid var(--linia);
+    background: #fff;
+    font: inherit;
+    font-size: 14px;
+}
+.pod-formularzem.przyklejony {
+    position: sticky;
+    bottom: 0;
+    margin-top: 20px;
+    padding: 14px 0;
+    background: linear-gradient(transparent, var(--tlo) 40%);
+    border-top: 0;
 }

@@ -1,4 +1,6 @@
 // Prosty system tlumaczen PL/EN. PL = zrodlo w HTML, EN = slownik ponizej.
+// Teksty poprawione w panelu siedza w dane/teksty.js i maja pierwszenstwo -
+// dzieki temu da sie zmienic napis na stronie bez dotykania kodu.
 (function () {
     const DICT = {
         pl: {
@@ -177,6 +179,10 @@
         },
     };
 
+    const NADPISANE = window.WUT_TEKSTY || {};
+    Object.assign(DICT.pl, NADPISANE.pl || {});
+    Object.assign(DICT.en, NADPISANE.en || {});
+
     let lang = 'pl';
     try { lang = localStorage.getItem('wut_lang') || 'pl'; } catch (e) {}
     if (lang !== 'pl' && lang !== 'en') lang = 'pl';
@@ -190,12 +196,10 @@
     function applyDom() {
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
+            // pierwotny polski tekst zostaje zapamietany, bo slownik moze go nie miec
             if (el.dataset._pl == null) el.dataset._pl = el.innerHTML;
-            if (window.WUT_LANG === 'en' && DICT.en[key] != null) {
-                el.innerHTML = DICT.en[key];
-            } else {
-                el.innerHTML = el.dataset._pl;
-            }
+            const slownik = DICT[window.WUT_LANG] || {};
+            el.innerHTML = slownik[key] != null ? slownik[key] : el.dataset._pl;
         });
     }
 

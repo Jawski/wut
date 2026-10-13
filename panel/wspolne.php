@@ -24,6 +24,8 @@ const ILE_KOPII    = 30;
 
 const KATALOG_LOGO = __DIR__ . '/../assets/sponsors';
 const KATALOG_BOLIDOW = __DIR__ . '/../assets/cars';
+const KATALOG_OSIAGNIEC = __DIR__ . '/../assets/ach';
+const OSIAGNIECIE_SZER = 760;       // tyle maja wszystkie zdjecia z zawodow
 const LOGO_BOK = 800;               // dluzszy bok logotypu po zmniejszeniu
 const BOLID_BOK = 1600;             // zdjecia bolidow stoja na pol ekranu
 const LOGO_POLE = 1.43;             // pole kafelka - takie samo dla kazdego logo
@@ -414,6 +416,77 @@ function zapiszZdjecieBolidu(array $plik, string $cel): ?string
 {
     $x = null;
     return zapiszPrzezroczysty($plik, $cel, BOLID_BOK, false, $x);
+}
+
+/**
+ * Zwykle zdjecie: zwezamy do podanej szerokosci i zapisujemy jako JPEG.
+ * Proporcje zostaja takie, jakie byly - inaczej niz przy kartach zespolu,
+ * gdzie wszystkie zdjecia musza miec ten sam kadr.
+ */
+function zapiszZdjecieJpg(array $plik, string $cel, int $szerokosc): ?string
+{
+    $obraz = null;
+    $blad = wczytajPrzeslany($plik, $obraz);
+    if ($blad !== null) {
+        return $blad;
+    }
+
+    $w = imagesx($obraz);
+    $h = imagesy($obraz);
+    if ($w > $szerokosc) {
+        $nh = (int) round($h * $szerokosc / $w);
+        $maly = imagecreatetruecolor($szerokosc, $nh);
+        imagefill($maly, 0, 0, imagecolorallocate($maly, 255, 255, 255));
+        imagecopyresampled($maly, $obraz, 0, 0, 0, 0, $szerokosc, $nh, $w, $h);
+        imagedestroy($obraz);
+        $obraz = $maly;
+    } else {
+        // przezroczystosc w JPEG-u wyszlaby na czarno, wiec kladziemy ja na biel
+        $plaski = imagecreatetruecolor($w, $h);
+        imagefill($plaski, 0, 0, imagecolorallocate($plaski, 255, 255, 255));
+        imagecopy($plaski, $obraz, 0, 0, 0, 0, $w, $h);
+        imagedestroy($obraz);
+        $obraz = $plaski;
+    }
+
+    $katalog = dirname($cel);
+    if (!is_dir($katalog) && !@mkdir($katalog, 0755, true)) {
+        imagedestroy($obraz);
+        return 'Nie udało się utworzyć katalogu na zdjęcia.';
+    }
+    $ok = @imagejpeg($obraz, $cel, 86);
+    imagedestroy($obraz);
+    return $ok ? null : 'Brak prawa zapisu w katalogu ze zdjęciami.';
+}
+
+/** Wspolny poczatek dla kazdego wgrywanego obrazka. */
+function wczytajPrzeslany(array $plik, ?\GdImage &$obraz): ?string
+{
+    if (($plik['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_INI_SIZE
+        || ($plik['error'] ?? 0) === UPLOAD_ERR_FORM_SIZE) {
+        return 'Plik jest za duży — serwer przyjmuje do ' . ini_get('upload_max_filesize') . 'B.';
+    }
+    if (($plik['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK || !is_uploaded_file($plik['tmp_name'])) {
+        return 'Nie udało się wczytać przesłanego pliku.';
+    }
+    if (!extension_loaded('gd')) {
+        return 'Serwer nie ma rozszerzenia GD — panel nie przygotuje obrazka.';
+    }
+    $info = @getimagesize($plik['tmp_name']);
+    if (!$info) {
+        return 'To nie jest obrazek (obsługujemy PNG, JPG i WEBP).';
+    }
+    $obraz = match ($info[2]) {
+        IMAGETYPE_PNG  => @imagecreatefrompng($plik['tmp_name']),
+        IMAGETYPE_JPEG => @imagecreatefromjpeg($plik['tmp_name']),
+        IMAGETYPE_WEBP => @imagecreatefromwebp($plik['tmp_name']),
+        default        => false,
+    };
+    if (!$obraz) {
+        return 'Nieobsługiwany format — zapisz obrazek jako PNG, JPG albo WEBP.';
+    }
+    imagepalettetotruecolor($obraz);
+    return null;
 }
 
 /**

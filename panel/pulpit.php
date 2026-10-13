@@ -33,13 +33,13 @@ otworzStrone('Pulpit');
     <a class="kafel" href="bolidy.php">
         <span class="kafel-nazwa">Bolidy</span>
     </a>
-    <a class="kafel wylaczony" aria-disabled="true">
+    <a class="kafel" href="osiagniecia.php">
         <span class="kafel-nazwa">Osiągnięcia</span>
     </a>
-    <a class="kafel wylaczony" aria-disabled="true">
+    <a class="kafel" href="kalendarz.php">
         <span class="kafel-nazwa">Kalendarz</span>
     </a>
-    <a class="kafel wylaczony" aria-disabled="true">
+    <a class="kafel" href="teksty.php">
         <span class="kafel-nazwa">Teksty na stronie</span>
     </a>
 </section>
