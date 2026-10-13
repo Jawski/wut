@@ -672,6 +672,9 @@
     font-weight: 600;
     line-height: 1.35;
     letter-spacing: -0.015em;
+    /* linie rozklada przegladarka po rowno - wczesniej staly tu twarde <br>,
+       ktore przy weszszej kolumnie lamaly zdanie w przypadkowym miejscu */
+    text-wrap: balance;
 }
 .quote-text::before,
 .quote-author::before {

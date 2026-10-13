@@ -237,10 +237,6 @@ otworzStrone($nowa ? 'Nowa osoba' : (string) $osoba['name'], $powrot);
 ?>
 
 <h1><?= $nowa ? 'Nowa osoba' : e((string) $osoba['name']) ?></h1>
-<p class="wstep">
-    Sezon <?= e(etykietaSezonu($sezony, $sezon)) ?>.
-    <?= $pelne ? '' : 'Karty w tym sezonie się nie obracają — zostaje imię, dział i funkcja.' ?>
-</p>
 
 <?php if ($blad): ?>
     <p class="komunikat komunikat-zle" role="alert"><?= e($blad) ?></p>
@@ -258,10 +254,9 @@ otworzStrone($nowa ? 'Nowa osoba' : (string) $osoba['name'], $powrot);
     </label>
 
     <label>
-        <span>Identyfikator <small>— tak nazywa się plik ze zdjęciem</small></span>
+        <span>Identyfikator</span>
         <input type="text" name="slug" id="pole-slug" value="<?= e((string) $osoba['slug']) ?>"
                pattern="[a-z0-9\-]+" <?= $nowa ? 'data-auto="1"' : '' ?>>
-        <small class="podpowiedz">Zmiana przeniesie też zdjęcie pod nową nazwę.</small>
     </label>
 
     <label>
@@ -278,23 +273,21 @@ otworzStrone($nowa ? 'Nowa osoba' : (string) $osoba['name'], $powrot);
     <label>
         <span>Funkcja</span>
         <select name="role" id="pole-funkcja">
-            <option value="">domyślna dla działu</option>
+            <option value="">domyślna</option>
             <?php foreach (array_keys(ZNANE_FUNKCJE) as $f): ?>
                 <option value="<?= e($f) ?>" <?= $funkcja === $f ? 'selected' : '' ?>><?= e($f) ?></option>
             <?php endforeach; ?>
-            <option value="__inna" <?= $funkcjaZnana ? '' : 'selected' ?>>inna — wpiszę ręcznie</option>
+            <option value="__inna" <?= $funkcjaZnana ? '' : 'selected' ?>>inna</option>
         </select>
     </label>
 
     <label id="pole-funkcja-inna" <?= $funkcjaZnana ? 'hidden' : '' ?>>
-        <span>Wpisz funkcję</span>
+        <span>Funkcja własna</span>
         <input type="text" name="role_inna" value="<?= $funkcjaZnana ? '' : e($funkcja) ?>">
-        <small class="podpowiedz">Własna funkcja nie zostanie przetłumaczona na angielską wersję strony.</small>
     </label>
 
     <fieldset class="dodatkowe">
         <legend>Dodatkowe działy</legend>
-        <small class="podpowiedz">Osoba pokaże się też w tych działach — np. ktoś z zarządu, kto pracuje w aero.</small>
         <?php foreach ($dzialy as $d):
             $id = (string) $d['id'];
             $zazn = in_array($id, $alsoDepts, true); ?>
@@ -303,7 +296,7 @@ otworzStrone($nowa ? 'Nowa osoba' : (string) $osoba['name'], $powrot);
                     <input type="checkbox" name="also[]" value="<?= e($id) ?>" <?= $zazn ? 'checked' : '' ?>>
                     <span><?= e((string) $d['label']) ?></span>
                 </label>
-                <input type="text" name="also_role[<?= e($id) ?>]" placeholder="funkcja w tym dziale (opcjonalnie)"
+                <input type="text" name="also_role[<?= e($id) ?>]" placeholder="funkcja (opcjonalnie)"
                        value="<?= e($alsoRole[$id] ?? '') ?>" <?= $zazn ? '' : 'hidden' ?>>
             </div>
         <?php endforeach; ?>
@@ -323,17 +316,13 @@ otworzStrone($nowa ? 'Nowa osoba' : (string) $osoba['name'], $powrot);
         </div>
         <input type="file" name="zdjecie" accept="image/jpeg,image/png,image/webp">
         <label>
-            <span>Kadr, gdy zdjęcie jest za wysokie</span>
+            <span>Kadr</span>
             <select name="kadr">
-                <option value="gora">od góry (jak pozostałe karty)</option>
+                <option value="gora">od góry</option>
                 <option value="srodek">środek</option>
                 <option value="dol">od dołu</option>
             </select>
         </label>
-        <small class="podpowiedz">
-            Panel sam przytnie zdjęcie do <?= ZDJECIE_SZER ?>×<?= ZDJECIE_WYS ?> px, tak jak pozostałe karty.
-            Najlepiej wgrać zdjęcie pionowe, z głową przy górnej krawędzi.
-        </small>
         <?php if ($maZdjecie): ?>
             <label class="ptaszek">
                 <input type="checkbox" name="usun_zdjecie" value="1">
@@ -342,18 +331,18 @@ otworzStrone($nowa ? 'Nowa osoba' : (string) $osoba['name'], $powrot);
         <?php endif; ?>
         <label class="ptaszek">
             <input type="checkbox" name="f" value="1" <?= !empty($osoba['f']) ? 'checked' : '' ?>>
-            <span>Bez zdjęcia pokaż zastępczą sylwetkę kobiety</span>
+            <span>Zastępcza sylwetka: kobieta</span>
         </label>
         <label class="ptaszek">
             <input type="checkbox" name="thumb" value="1" <?= !empty($osoba['thumb']) ? 'checked' : '' ?>>
-            <span>Pokazuj tę osobę na miniaturze działu</span>
+            <span>Na miniaturze działu</span>
         </label>
     </fieldset>
 
 <?php if ($pelne): ?>
 
     <label class="w-linii">
-        <span>W zespole od roku</span>
+        <span>W zespole od</span>
         <input type="number" name="since" min="1990" max="2100" value="<?= e((string) ($osoba['since'] ?? '')) ?>">
     </label>
 
@@ -376,7 +365,7 @@ otworzStrone($nowa ? 'Nowa osoba' : (string) $osoba['name'], $powrot);
 <?php if ($pelne): ?>
 
     <fieldset class="lista-pol">
-        <legend>Osiągnięcia <small>— zawody, na których ta osoba była</small></legend>
+        <legend>Osiągnięcia</legend>
         <div id="osiagniecia">
             <?php foreach (($osoba['achievements'] ?? [['year' => '', 'text' => '']]) as $o): ?>
                 <div class="wiersz">
@@ -392,7 +381,7 @@ otworzStrone($nowa ? 'Nowa osoba' : (string) $osoba['name'], $powrot);
     </fieldset>
 
     <label>
-        <span>Projekty <small>— każdy w osobnej linii</small></span>
+        <span>Projekty</span>
         <textarea name="projects" rows="4"><?= e(implode("\n", $osoba['projects'] ?? [])) ?></textarea>
     </label>
 

@@ -69,10 +69,6 @@ $zablokowanyDo = zablokowanyDo();
     <h1><?= $etap === 'zakladanie' ? 'Pierwsze uruchomienie' : 'Panel administratora' ?></h1>
 
     <?php if ($etap === 'zakladanie'): ?>
-        <p class="wstep">
-            Panel nie ma jeszcze konta. Ustaw je teraz — osoba, która zrobi to pierwsza,
-            zostanie jego właścicielem, więc nie odkładaj tego na później.
-        </p>
     <?php endif; ?>
 
     <?php if ($blad): ?>
@@ -105,11 +101,6 @@ $zablokowanyDo = zablokowanyDo();
                     <span>Powtórz hasło</span>
                     <input type="password" name="powtorz" required minlength="<?= MIN_DLUGOSC_HASLA ?>">
                 </label>
-                <p class="podpowiedz">
-                    Co najmniej <?= MIN_DLUGOSC_HASLA ?> znaków. Użyj hasła, którego nie
-                    używasz nigdzie indziej — zapisz je w menedżerze haseł, bo nie ma
-                    sposobu na jego odzyskanie.
-                </p>
             <?php endif; ?>
 
             <button type="submit"><?= $etap === 'zakladanie' ? 'Załóż konto' : 'Zaloguj' ?></button>

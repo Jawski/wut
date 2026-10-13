@@ -102,24 +102,41 @@ function maOpis(array $osoba): bool
     return false;
 }
 
-/** Kopiuje zdjecia biezacego skladu do katalogu zamykanego sezonu. */
-function skopiujZdjeciaSezonu(array $sklad, string $sezon): ?string
-{
-    $katalog = KATALOG_ZDJEC . '/' . $sezon;
-    if (!is_dir($katalog) && !@mkdir($katalog, 0755, true)) {
-        return 'Nie udało się utworzyć katalogu assets/team/' . $sezon . '/.';
+/**
+ * Kopiuje zdjecia skladu z jednego sezonu do drugiego. Zdjecia biezacego sezonu
+ * leza wprost w assets/team, pozostalych - w podkatalogu nazwanym sezonem.
+ */
+function skopiujZdjeciaMiedzySezonami(
+    array $sklad,
+    string $zSezonu,
+    bool $zBiezacego,
+    string $doSezonu,
+    bool $doBiezacego
+): ?string {
+    $skad = katalogZdjec($zSezonu, $zBiezacego);
+    $dokad = katalogZdjec($doSezonu, $doBiezacego);
+    if ($skad === $dokad) {
+        return null;
+    }
+    if (!is_dir($dokad) && !@mkdir($dokad, 0755, true)) {
+        return 'Nie udało się utworzyć katalogu na zdjęcia sezonu.';
     }
     foreach ($sklad as $os) {
         $slug = (string) ($os['slug'] ?? '');
-        $zrodlo = KATALOG_ZDJEC . '/' . $slug . '.jpg';
-        $cel    = $katalog . '/' . $slug . '.jpg';
-        // zdjecia zostaja tez na swoim miejscu - nowy sezon zwykle zaczyna sie
-        // od tych samych osob, a kopia w katalogu sezonu utrwala stan na koniec
-        if ($slug !== '' && is_file($zrodlo) && !@copy($zrodlo, $cel)) {
-            return 'Nie udało się skopiować zdjęcia ' . $slug . '.jpg do katalogu sezonu.';
+        $zrodlo = $skad . '/' . $slug . '.jpg';
+        if ($slug !== '' && is_file($zrodlo) && !@copy($zrodlo, $dokad . '/' . $slug . '.jpg')) {
+            return 'Nie udało się skopiować zdjęcia ' . $slug . '.jpg.';
         }
     }
     return null;
+}
+
+/** Kopia zdjec biezacego skladu do katalogu zamykanego sezonu. */
+function skopiujZdjeciaSezonu(array $sklad, string $sezon): ?string
+{
+    // oryginaly zostaja na miejscu - nowy sezon zwykle zaczyna sie od tych
+    // samych osob, a kopia w katalogu sezonu utrwala stan na jego koniec
+    return skopiujZdjeciaMiedzySezonami($sklad, '', true, $sezon, false);
 }
 
 /**

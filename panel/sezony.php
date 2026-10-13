@@ -24,8 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $blad = match ((string) ($_POST['co'] ?? '')) {
             'dodaj'  => dodajSezon($zespol),
-            'nazwa'  => zmienNazwe($zespol),
-            'obrot'  => przelaczObrot($zespol),
+            'zapisz' => zapiszSezon($zespol),
             'usun'   => usunSezon($zespol),
             default  => 'Nieznana operacja.',
         };
@@ -37,10 +36,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 /**
- * Nowy sezon. Archiwalny tylko dopisuje sie do listy - sklad uzupelnia sie
- * potem recznie. Biezacy domyka poprzedni: jego sklad idzie do archiwum w
- * calosci, razem z opisami i kopia zdjec, a nowy zaczyna albo od tych samych
- * osob, albo od zera.
+ * Nowy sezon. Archiwalny dochodzi obok biezacego, nowy biezacy domyka
+ * poprzedni: jego sklad idzie do archiwum w calosci, razem z kopia zdjec.
+ * Skladu na start mozna nie brac znikad albo przepisac go z innego sezonu.
  */
 function dodajSezon(array $zespol): ?string
 {
@@ -53,35 +51,67 @@ function dodajSezon(array $zespol): ?string
     if ($id === '') {
         return 'Z tej nazwy nie da się zrobić identyfikatora — wpisz go ręcznie.';
     }
-    if (wSezonach($zespol['sezony'] ?? [], $id)) {
+    $sezony = $zespol['sezony'] ?? [];
+    if (wSezonach($sezony, $id)) {
         return 'Sezon o identyfikatorze „' . $id . '” już istnieje.';
     }
 
-    $biezacy = ((string) ($_POST['rodzaj'] ?? 'archiwalny')) === 'biezacy';
-    $obrot   = !empty($_POST['obrot']);
-    $sezony  = $zespol['sezony'] ?? [];
+    $biezacy   = ((string) ($_POST['rodzaj'] ?? 'archiwalny')) === 'biezacy';
+    $obrot     = !empty($_POST['obrot']);
+    $zrodlo    = (string) ($_POST['zrodlo'] ?? '');
+    $idStarego = idSezonuBiezacego($zespol);
+
+    if ($zrodlo !== '' && !wSezonach($sezony, $zrodlo)) {
+        return 'Nie znaleziono sezonu, z którego skład miał zostać przepisany.';
+    }
+    $kopia = $zrodlo === ''
+        ? []
+        : array_values(wczytajSklad($zespol, $zrodlo, $zrodlo === $idStarego));
+
+    /* --- sezon archiwalny: dochodzi obok, biezacy zostaje bez zmian --- */
 
     if (!$biezacy) {
+        if ($kopia) {
+            $bladZdjec = skopiujZdjeciaMiedzySezonami(
+                $kopia, $zrodlo, $zrodlo === $idStarego, $id, false
+            );
+            if ($bladZdjec !== null) {
+                return $bladZdjec;
+            }
+            $archiwum = czytajTresc('zespol-archiwum') ?? [];
+            $archiwum[$id] = $kopia;
+            $bladArchiwum = zapiszTresc('zespol-archiwum', $archiwum, true);
+            if ($bladArchiwum !== null) {
+                return $bladArchiwum;
+            }
+        }
         $sezony[] = ['id' => $id, 'label' => $etykieta, 'obrot' => $obrot];
         $zespol['sezony'] = poKolei($sezony);
         return zapiszTresc('zespol', $zespol);
     }
 
-    $stary = idSezonuBiezacego($zespol);
-    $starySklad = $zespol['sklad'] ?? [];
+    /* --- nowy biezacy: poprzedni schodzi do archiwum --- */
 
-    if ($stary !== '' && $starySklad) {
-        $bladZdjec = skopiujZdjeciaSezonu($starySklad, $stary);
+    $starySklad = $zespol['sklad'] ?? [];
+    if ($idStarego !== '' && $starySklad) {
+        $bladZdjec = skopiujZdjeciaSezonu($starySklad, $idStarego);
         if ($bladZdjec !== null) {
             return $bladZdjec;
         }
-        // sklad idzie do archiwum taki, jaki byl - z opisami, projektami i
-        // zawodami, zeby zamkniety sezon dalej mial po stronie co pokazac
         $archiwum = czytajTresc('zespol-archiwum') ?? [];
-        $archiwum[$stary] = array_values($starySklad);
+        $archiwum[$idStarego] = array_values($starySklad);
         $bladArchiwum = zapiszTresc('zespol-archiwum', $archiwum, true);
         if ($bladArchiwum !== null) {
             return 'Sezon nie został zamknięty: ' . $bladArchiwum;
+        }
+    }
+
+    // sklad przepisany ze starszego sezonu potrzebuje zdjec tam, gdzie strona
+    // szuka ich dla biezacego; przy kopii z sezonu wlasnie zamknietego juz tam sa
+    if ($kopia && $zrodlo !== $idStarego) {
+        $bladZdjec = skopiujZdjeciaMiedzySezonami($kopia, $zrodlo, false, $id, true);
+        if ($bladZdjec !== null) {
+            return $bladZdjec;
         }
     }
 
@@ -90,13 +120,13 @@ function dodajSezon(array $zespol): ?string
     }
     $sezony[] = ['id' => $id, 'label' => $etykieta, 'obrot' => $obrot, 'current' => true];
 
-    $zespol['sezony'] = poKolei($sezony);
-    $zespol['sklad']  = empty($_POST['kopiuj']) ? [] : array_values($starySklad);
-    $zespol['bezZdjecia'] = przeliczBezZdjecia($zespol['sklad']);
+    $zespol['sezony']     = poKolei($sezony);
+    $zespol['sklad']      = $kopia;
+    $zespol['bezZdjecia'] = przeliczBezZdjecia($kopia);
     return zapiszTresc('zespol', $zespol);
 }
 
-function zmienNazwe(array $zespol): ?string
+function zapiszSezon(array $zespol): ?string
 {
     $id = (string) ($_POST['id'] ?? '');
     $etykieta = trim((string) ($_POST['etykieta'] ?? ''));
@@ -107,22 +137,7 @@ function zmienNazwe(array $zespol): ?string
     foreach ($zespol['sezony'] ?? [] as $i => $s) {
         if ((string) ($s['id'] ?? '') === $id) {
             $zespol['sezony'][$i]['label'] = $etykieta;
-            $znaleziony = true;
-        }
-    }
-    if (!$znaleziony) {
-        return 'Nie znaleziono takiego sezonu.';
-    }
-    return zapiszTresc('zespol', $zespol);
-}
-
-function przelaczObrot(array $zespol): ?string
-{
-    $id = (string) ($_POST['id'] ?? '');
-    $znaleziony = false;
-    foreach ($zespol['sezony'] ?? [] as $i => $s) {
-        if ((string) ($s['id'] ?? '') === $id) {
-            $zespol['sezony'][$i]['obrot'] = !empty($_POST['wlaczone']);
+            $zespol['sezony'][$i]['obrot'] = !empty($_POST['obrot']);
             $znaleziony = true;
         }
     }
@@ -196,157 +211,184 @@ $sezony    = $zespol['sezony'] ?? [];
 $idBiezacy = idSezonuBiezacego($zespol);
 $archiwum  = czytajTresc('zespol-archiwum') ?? [];
 
-otworzStrone('Sezony', 'sklad.php');
-?>
+$ileOsob = function (string $id) use ($zespol, $idBiezacy, $archiwum): int {
+    return $id === $idBiezacy ? count($zespol['sklad'] ?? []) : count($archiwum[$id] ?? []);
+};
 
-<h1>Sezony</h1>
-<p class="wstep">
-    Bieżący sezon to ten, który strona pokazuje jako domyślny. Obracanie kart
-    ustawiasz osobno dla każdego sezonu: włączone znaczy, że karta ma rewers
-    z opisem, projektami i zawodami. Przy dwóch najstarszych składach jest
-    wyłączone, bo spisane są bez opisów.
-</p>
+$edytowany = null;
+if (isset($_GET['edytuj'])) {
+    foreach ($sezony as $s) {
+        if ((string) ($s['id'] ?? '') === (string) $_GET['edytuj']) {
+            $edytowany = $s;
+        }
+    }
+}
+
+otworzStrone($edytowany ? (string) $edytowany['label'] : 'Sezony',
+             $edytowany ? 'sezony.php' : 'sklad.php');
+?>
 
 <?php if ($blad): ?>
     <p class="komunikat komunikat-zle" role="alert"><?= e($blad) ?></p>
 <?php endif; ?>
 
-<table class="sezony-lista">
-    <tr>
-        <th>Sezon</th>
-        <th>Identyfikator</th>
-        <th>Osób</th>
-        <th>Obracanie kart</th>
-        <th></th>
-    </tr>
-    <?php foreach ($sezony as $s):
-        $id = (string) ($s['id'] ?? '');
-        $to = $id === $idBiezacy;
-        $ile = $to ? count($zespol['sklad'] ?? []) : count($archiwum[$id] ?? []); ?>
+<?php if ($edytowany):
+    $id = (string) $edytowany['id'];
+    $to = $id === $idBiezacy; ?>
+
+    <h1><?= e((string) $edytowany['label']) ?> <?php if ($to): ?><span class="znacznik">bieżący</span><?php endif; ?></h1>
+
+    <form method="post" class="formularz waski">
+        <input type="hidden" name="token" value="<?= e(token()) ?>">
+        <input type="hidden" name="co" value="zapisz">
+        <input type="hidden" name="id" value="<?= e($id) ?>">
+
+        <label>
+            <span>Nazwa</span>
+            <input type="text" name="etykieta" required value="<?= e((string) $edytowany['label']) ?>">
+        </label>
+
+        <label class="w-linii">
+            <span>Identyfikator</span>
+            <span class="jednolity stale"><?= e($id) ?></span>
+        </label>
+
+        <label class="w-linii">
+            <span>Osób w składzie</span>
+            <a href="sklad.php?sezon=<?= urlencode($id) ?>"><?= $ileOsob($id) ?></a>
+        </label>
+
+        <label class="ptaszek">
+            <input type="checkbox" name="obrot" value="1" <?= !empty($edytowany['obrot']) ? 'checked' : '' ?>>
+            <span>Obracanie kart</span>
+        </label>
+
+        <div class="pod-formularzem">
+            <button type="submit" class="przycisk glowny">Zapisz</button>
+            <a class="przycisk pusty" href="sezony.php">Anuluj</a>
+        </div>
+    </form>
+
+    <?php if (count($sezony) > 1):
+        $pozostale = array_values(array_filter($sezony, fn($x) => (string) $x['id'] !== $id));
+        $nastepca  = (string) ($pozostale[count($pozostale) - 1]['label'] ?? '');
+        $pytanie   = 'Usunąć sezon ' . $edytowany['label'] . ' razem ze składem ' . $ileOsob($id) . ' osób?'
+            . ($to ? ' Bieżącym stanie się wtedy ' . $nastepca . ' i wróci jego skład.' : ''); ?>
+        <form method="post" class="osobno" onsubmit="return confirm('<?= e(addslashes($pytanie)) ?>');">
+            <input type="hidden" name="token" value="<?= e(token()) ?>">
+            <input type="hidden" name="co" value="usun">
+            <input type="hidden" name="id" value="<?= e($id) ?>">
+            <button type="submit" class="usun">Usuń sezon</button>
+        </form>
+    <?php endif; ?>
+
+<?php else: ?>
+
+    <h1>Sezony</h1>
+
+    <table class="sezony-lista">
         <tr>
-            <td>
-                <form method="post" class="w-linii nazwa-form">
-                    <input type="hidden" name="token" value="<?= e(token()) ?>">
-                    <input type="hidden" name="co" value="nazwa">
-                    <input type="hidden" name="id" value="<?= e($id) ?>">
-                    <input type="text" name="etykieta" value="<?= e((string) ($s['label'] ?? '')) ?>">
-                    <button type="submit" class="przycisk maly">Zmień nazwę</button>
-                </form>
-                <?php if ($to): ?><span class="znacznik">bieżący</span><?php endif; ?>
-            </td>
-            <td class="jednolity"><?= e($id) ?></td>
-            <td><a href="sklad.php?sezon=<?= urlencode($id) ?>"><?= $ile ?></a></td>
-            <td>
-                <form method="post" class="obrot-form">
-                    <input type="hidden" name="token" value="<?= e(token()) ?>">
-                    <input type="hidden" name="co" value="obrot">
-                    <input type="hidden" name="id" value="<?= e($id) ?>">
-                    <label class="ptaszek">
-                        <input type="checkbox" name="wlaczone" value="1"
-                               <?= obrotKart($sezony, $id) ? 'checked' : '' ?>
-                               onchange="this.form.submit()">
-                        <span><?= obrotKart($sezony, $id) ? 'z opisami' : 'same nazwiska' ?></span>
-                    </label>
-                </form>
-            </td>
-            <td class="do-prawej">
-                <?php if (count($sezony) > 1):
-                    // po usunieciu biezacego jego role przejmie najnowszy z pozostalych
-                    $pozostale = array_values(array_filter($sezony, fn($x) => (string) $x['id'] !== $id));
-                    $nastepca  = (string) ($pozostale[count($pozostale) - 1]['label'] ?? '');
-                    $pytanie   = 'Usunąć sezon ' . ($s['label'] ?? '') . ' razem ze składem ' . $ile . ' osób?'
-                        . ($to ? ' Bieżącym stanie się wtedy ' . $nastepca . ' i wróci jego skład.' : '')
-                        . ' Zdjęcia zostaną na serwerze.'; ?>
-                    <form method="post" onsubmit="return confirm('<?= e(addslashes($pytanie)) ?>');">
-                        <input type="hidden" name="token" value="<?= e(token()) ?>">
-                        <input type="hidden" name="co" value="usun">
-                        <input type="hidden" name="id" value="<?= e($id) ?>">
-                        <button type="submit" class="usun">Usuń sezon</button>
-                    </form>
-                <?php endif; ?>
-            </td>
+            <th>Sezon</th>
+            <th>Identyfikator</th>
+            <th>Osób</th>
+            <th>Karty</th>
         </tr>
-    <?php endforeach; ?>
-</table>
+        <?php foreach ($sezony as $s):
+            $id = (string) ($s['id'] ?? '');
+            $to = $id === $idBiezacy; ?>
+            <tr>
+                <td>
+                    <a class="sezon-nazwa" href="sezony.php?edytuj=<?= urlencode($id) ?>">
+                        <?= e((string) ($s['label'] ?? '')) ?>
+                    </a>
+                    <?php if ($to): ?><span class="znacznik">bieżący</span><?php endif; ?>
+                </td>
+                <td class="jednolity"><?= e($id) ?></td>
+                <td><a href="sklad.php?sezon=<?= urlencode($id) ?>"><?= $ileOsob($id) ?></a></td>
+                <td><?= !empty($s['obrot']) ? 'obracane' : 'jednostronne' ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </table>
 
-<h2>Nowy sezon</h2>
+    <h2>Nowy sezon</h2>
 
-<form method="post" class="formularz nowy-sezon">
-    <input type="hidden" name="token" value="<?= e(token()) ?>">
-    <input type="hidden" name="co" value="dodaj">
+    <form method="post" class="formularz nowy-sezon">
+        <input type="hidden" name="token" value="<?= e(token()) ?>">
+        <input type="hidden" name="co" value="dodaj">
 
-    <div class="kolumny">
-        <div class="kolumna">
-            <label>
-                <span>Nazwa sezonu</span>
-                <input type="text" name="etykieta" id="pole-etykieta" required placeholder="2026/2027">
-            </label>
-            <label>
-                <span>Identyfikator <small>— tak nazywa się katalog ze zdjęciami</small></span>
-                <input type="text" name="id" id="pole-id" pattern="[a-z0-9\-]+" placeholder="2026-27">
-                <small class="podpowiedz">Zostaw puste, a panel ułoży go z nazwy. Później już się go nie zmienia.</small>
-            </label>
-        </div>
-        <div class="kolumna">
-            <fieldset>
-                <legend>Rodzaj</legend>
-                <label class="ptaszek">
-                    <input type="radio" name="rodzaj" value="archiwalny" checked>
-                    <span>Archiwalny — dochodzi pusty, skład uzupełnisz ręcznie</span>
+        <div class="kolumny">
+            <div class="kolumna">
+                <label>
+                    <span>Nazwa</span>
+                    <input type="text" name="etykieta" id="pole-etykieta" required placeholder="2026/2027">
                 </label>
-                <label class="ptaszek">
-                    <input type="radio" name="rodzaj" value="biezacy" id="pole-biezacy">
-                    <span>Nowy bieżący — zamyka obecny sezon</span>
+                <label>
+                    <span>Identyfikator</span>
+                    <input type="text" name="id" id="pole-id" pattern="[a-z0-9\-]+" placeholder="2026-27">
                 </label>
-
-                <label class="ptaszek obrot-wybor">
-                    <input type="checkbox" name="obrot" value="1" checked>
-                    <span>Karty można obracać — z opisami, projektami i zawodami</span>
+                <label>
+                    <span>Skład na start</span>
+                    <select name="zrodlo" id="pole-zrodlo">
+                        <option value="">pusty</option>
+                        <?php foreach (array_reverse($sezony) as $s): ?>
+                            <option value="<?= e((string) $s['id']) ?>" <?= (string) $s['id'] === $idBiezacy ? 'selected' : '' ?>>
+                                kopia z <?= e((string) $s['label']) ?> (<?= $ileOsob((string) $s['id']) ?> os.)
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
                 </label>
-
-                <div id="opis-biezacy" hidden>
-                    <p class="podpowiedz">
-                        Obecny sezon <strong><?= e(etykietaSezonu($sezony, $idBiezacy)) ?></strong>
-                        (<?= count($zespol['sklad'] ?? []) ?> os.) przejdzie do archiwum
-                        w całości — z opisami, projektami i zawodami — a zdjęcia skopiują się
-                        do katalogu <span class="jednolity">assets/team/<?= e($idBiezacy) ?>/</span>.
-                        Nic z niego nie znika ze strony.
-                    </p>
+            </div>
+            <div class="kolumna">
+                <fieldset>
+                    <legend>Rodzaj</legend>
                     <label class="ptaszek">
-                        <input type="checkbox" name="kopiuj" value="1" checked>
-                        <span>Zacznij od kopii obecnego składu</span>
+                        <input type="radio" name="rodzaj" value="archiwalny" checked>
+                        <span>Archiwalny</span>
                     </label>
-                </div>
-            </fieldset>
+                    <label class="ptaszek">
+                        <input type="radio" name="rodzaj" value="biezacy" id="pole-biezacy">
+                        <span>Nowy bieżący</span>
+                    </label>
+                    <label class="ptaszek">
+                        <input type="checkbox" name="obrot" value="1" checked>
+                        <span>Obracanie kart</span>
+                    </label>
+
+                    <p id="opis-biezacy" class="ostrzezenie" hidden>
+                        <?= e(etykietaSezonu($sezony, $idBiezacy)) ?>
+                        (<?= $ileOsob($idBiezacy) ?> os.) przejdzie do archiwum.
+                    </p>
+                </fieldset>
+            </div>
         </div>
-    </div>
 
-    <div class="pod-formularzem">
-        <button type="submit" class="przycisk glowny">Dodaj sezon</button>
-    </div>
-</form>
+        <div class="pod-formularzem">
+            <button type="submit" class="przycisk glowny">Dodaj sezon</button>
+        </div>
+    </form>
 
-<script>
-// identyfikator podpowiadamy z nazwy: "2026/2027" to katalog "2026-27"
-(function () {
-    const nazwa = document.getElementById('pole-etykieta');
-    const id = document.getElementById('pole-id');
-    id.addEventListener('input', function () { id.dataset.wlasny = '1'; });
-    nazwa.addEventListener('input', function () {
-        if (id.dataset.wlasny) return;
-        const m = nazwa.value.trim().match(/^(\d{4})\s*\/\s*(\d{4}|\d{2})$/);
-        id.value = m
-            ? m[1] + '-' + m[2].slice(-2)
-            : nazwa.value.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    <script>
+    // identyfikator podpowiadamy z nazwy: "2026/2027" to katalog "2026-27"
+    (function () {
+        const nazwa = document.getElementById('pole-etykieta');
+        const id = document.getElementById('pole-id');
+        id.addEventListener('input', function () { id.dataset.wlasny = '1'; });
+        nazwa.addEventListener('input', function () {
+            if (id.dataset.wlasny) return;
+            const m = nazwa.value.trim().match(/^(\d{4})\s*\/\s*(\d{4}|\d{2})$/);
+            id.value = m
+                ? m[1] + '-' + m[2].slice(-2)
+                : nazwa.value.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+        });
+    })();
+
+    document.querySelectorAll('input[name=rodzaj]').forEach(function (r) {
+        r.addEventListener('change', function () {
+            document.getElementById('opis-biezacy').hidden = !document.getElementById('pole-biezacy').checked;
+        });
     });
-})();
+    </script>
 
-// ostrzezenie o zamknieciu sezonu pokazujemy tylko wtedy, gdy o to chodzi
-document.querySelectorAll('input[name=rodzaj]').forEach(function (r) {
-    r.addEventListener('change', function () {
-        document.getElementById('opis-biezacy').hidden = !document.getElementById('pole-biezacy').checked;
-    });
-});
-</script>
+<?php endif; ?>
 
 <?php zamknijStrone(); ?>

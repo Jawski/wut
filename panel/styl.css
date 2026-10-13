@@ -374,9 +374,21 @@ input:focus {
     letter-spacing: 0.04em;
 }
 
+.sezon-nazwa { color: inherit; font-weight: 600; text-decoration: none; }
+.sezon-nazwa:hover { color: var(--czerwien); text-decoration: underline; }
+.stale { color: var(--tekst-2); }
+
 .nowy-sezon fieldset { margin-bottom: 0; }
-#opis-biezacy { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--linia); }
-#opis-biezacy .podpowiedz { margin-bottom: 10px; }
+.ostrzezenie {
+    margin: 10px 0 0;
+    padding-top: 10px;
+    border-top: 1px solid var(--linia);
+    font-size: 13px;
+    color: var(--tekst-2);
+}
+.formularz.waski { max-width: 420px; }
+.osobno { margin-top: 26px; }
+.osobno .usun { border: 1px solid var(--linia); padding: 8px 14px; }
 
 /* ---------------------------------------------------- formularz osoby */
 

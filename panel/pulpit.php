@@ -22,40 +22,30 @@ otworzStrone('Pulpit');
 ?>
 
 <h1>Pulpit</h1>
-<p class="wstep">
-    Zmiany zapisują się od razu na stronie. Przed każdym zapisem panel odkłada
-    kopię poprzedniej wersji, więc pomyłkę da się cofnąć.
-</p>
 
 <section class="kafle">
     <a class="kafel" href="sklad.php">
         <span class="kafel-nazwa">Skład zespołu</span>
-        <span class="kafel-opis">Dodawanie i usuwanie osób, funkcje, opisy, zdjęcia</span>
         <span class="kafel-stan">gotowe</span>
     </a>
     <a class="kafel wylaczony" aria-disabled="true">
         <span class="kafel-nazwa">Sponsorzy</span>
-        <span class="kafel-opis">Logotypy, kategorie, adresy stron</span>
         <span class="kafel-stan">w przygotowaniu</span>
     </a>
     <a class="kafel wylaczony" aria-disabled="true">
         <span class="kafel-nazwa">Bolidy</span>
-        <span class="kafel-opis">Dane techniczne i zdjęcia</span>
         <span class="kafel-stan">w przygotowaniu</span>
     </a>
     <a class="kafel wylaczony" aria-disabled="true">
         <span class="kafel-nazwa">Osiągnięcia</span>
-        <span class="kafel-opis">Wyniki z zawodów</span>
         <span class="kafel-stan">w przygotowaniu</span>
     </a>
     <a class="kafel wylaczony" aria-disabled="true">
         <span class="kafel-nazwa">Kalendarz</span>
-        <span class="kafel-opis">Nadchodzące i minione starty</span>
         <span class="kafel-stan">w przygotowaniu</span>
     </a>
     <a class="kafel wylaczony" aria-disabled="true">
         <span class="kafel-nazwa">Teksty na stronie</span>
-        <span class="kafel-opis">Opisy działów, historia, konkurencje</span>
         <span class="kafel-stan">w przygotowaniu</span>
     </a>
 </section>
