@@ -1,4 +1,4 @@
-/* Panel redakcyjny — wyglad zgodny ze strona: ta sama czerwien i krój pisma,
+/* Panel administratora — wyglad zgodny ze strona: ta sama czerwien i krój pisma,
    ale uklad roboczy, nastawiony na czytelnosc, a nie na efekt. */
 
 :root {
@@ -26,11 +26,17 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
+/* logo strony jest biale, wiec na jasnej karcie logowania odwracamy je
+   na czarne, a na ciemnym pasku panelu zostawiamy jak jest */
 .znak {
-    font-weight: 700;
-    letter-spacing: 0.16em;
-    font-size: 12px;
-    color: var(--czerwien);
+    display: block;
+    height: 26px;
+    width: auto;
+}
+.karta .znak {
+    height: 34px;
+    filter: invert(1);
+    margin-bottom: 20px;
 }
 
 /* ---------------------------------------------------------- ekran logowania */
@@ -112,7 +118,7 @@ button:hover { background: #91222f; }
     background: var(--ciemny);
     color: #fff;
 }
-.pasek .znak { color: #fff; }
+.pasek .znak { height: 22px; flex: 0 0 auto; }
 .pasek-tytul { font-size: 13px; color: #9b96a0; }
 .pasek-prawo { margin-left: auto; display: flex; align-items: center; gap: 16px; }
 .kto { font-size: 13px; color: #c9c5cc; }

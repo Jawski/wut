@@ -22,14 +22,14 @@ foreach (['zespol', 'zespol-archiwum', 'bolidy', 'osiagniecia', 'wydarzenia', 's
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Pulpit — panel WUT Racing</title>
+<title>Pulpit — panel administratora WUT Racing</title>
 <link rel="stylesheet" href="styl.css">
 </head>
 <body>
 
 <header class="pasek">
-    <span class="znak">WUT RACING</span>
-    <span class="pasek-tytul">Panel redakcyjny</span>
+    <img class="znak" src="../assets/logo-main.png" alt="WUT Racing">
+    <span class="pasek-tytul">Panel administratora</span>
     <span class="pasek-prawo">
         <span class="kto"><?= e((string) ($_SESSION['login'] ?? '')) ?></span>
         <a class="wyloguj" href="wyloguj.php">Wyloguj</a>

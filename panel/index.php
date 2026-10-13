@@ -59,14 +59,14 @@ $zablokowanyDo = zablokowanyDo();
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title><?= $etap === 'zakladanie' ? 'Pierwsze uruchomienie' : 'Logowanie' ?> — panel WUT Racing</title>
+<title><?= $etap === 'zakladanie' ? 'Pierwsze uruchomienie' : 'Logowanie' ?> — panel administratora WUT Racing</title>
 <link rel="stylesheet" href="styl.css">
 </head>
 <body class="ekran-logowania">
 
 <main class="karta">
-    <div class="znak">WUT RACING</div>
-    <h1><?= $etap === 'zakladanie' ? 'Pierwsze uruchomienie' : 'Panel redakcyjny' ?></h1>
+    <img class="znak" src="../assets/logo-main.png" alt="WUT Racing">
+    <h1><?= $etap === 'zakladanie' ? 'Pierwsze uruchomienie' : 'Panel administratora' ?></h1>
 
     <?php if ($etap === 'zakladanie'): ?>
         <p class="wstep">
