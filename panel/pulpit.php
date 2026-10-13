@@ -30,7 +30,7 @@ otworzStrone('Pulpit');
     <a class="kafel" href="sponsorzy.php">
         <span class="kafel-nazwa">Sponsorzy</span>
     </a>
-    <a class="kafel wylaczony" aria-disabled="true">
+    <a class="kafel" href="bolidy.php">
         <span class="kafel-nazwa">Bolidy</span>
     </a>
     <a class="kafel wylaczony" aria-disabled="true">

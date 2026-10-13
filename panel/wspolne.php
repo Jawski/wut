@@ -23,7 +23,9 @@ const ZDJECIE_WYS  = 1067;
 const ILE_KOPII    = 30;
 
 const KATALOG_LOGO = __DIR__ . '/../assets/sponsors';
+const KATALOG_BOLIDOW = __DIR__ . '/../assets/cars';
 const LOGO_BOK = 800;               // dluzszy bok logotypu po zmniejszeniu
+const BOLID_BOK = 1600;             // zdjecia bolidow stoja na pol ekranu
 const LOGO_POLE = 1.43;             // pole kafelka - takie samo dla kazdego logo
 const LOGO_MAX_PROPORCJA = 5.6;     // powyzej tego logo rozpychaloby rzad
 
@@ -396,12 +398,30 @@ function zapiszZdjecie(array $plik, string $cel, string $kotwica = 'gora'): ?str
 }
 
 /**
- * Logotyp sponsora. Inaczej niz zdjecie czlonka zespolu: nie przycinamy go do
- * stalego kadru, tylko obcinamy przezroczysty margines i zostawiamy proporcje -
- * to one decyduja potem o wielkosci kafelka na scianie sponsorow. Zapisujemy
- * zawsze jako PNG, zeby przezroczystosc przetrwala.
+ * Logotyp sponsora: obcinamy przezroczysty margines i zostawiamy proporcje -
+ * to one decyduja potem o wielkosci kafelka na scianie sponsorow.
  */
 function zapiszLogo(array $plik, string $cel, ?array &$wymiary = null): ?string
+{
+    return zapiszPrzezroczysty($plik, $cel, LOGO_BOK, true, $wymiary);
+}
+
+/**
+ * Zdjecie bolidu: tak samo PNG z przezroczystoscia, ale bez obcinania - kadr
+ * jest czescia zdjecia i wszystkie bolidy maja stac na stronie tak samo.
+ */
+function zapiszZdjecieBolidu(array $plik, string $cel): ?string
+{
+    $x = null;
+    return zapiszPrzezroczysty($plik, $cel, BOLID_BOK, false, $x);
+}
+
+/**
+ * Obrazek z przezroczystoscia. Zapisujemy zawsze jako PNG, zeby przezroczystosc
+ * przetrwala, i zmniejszamy do rozsadnego rozmiaru - nie ma po co trzymac na
+ * serwerze pliku wiekszego, niz kiedykolwiek pokaze sie na stronie.
+ */
+function zapiszPrzezroczysty(array $plik, string $cel, int $bok, bool $obetnij, ?array &$wymiary): ?string
 {
     if (($plik['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_INI_SIZE
         || ($plik['error'] ?? 0) === UPLOAD_ERR_FORM_SIZE) {
@@ -431,10 +451,10 @@ function zapiszLogo(array $plik, string $cel, ?array &$wymiary = null): ?string
     imagealphablending($obraz, false);
     imagesavealpha($obraz, true);
 
-    // duze pliki najpierw zmniejszamy - i szybciej, i nie ma po co trzymac
-    // logotypu wiekszego, niz kiedykolwiek pokaze sie na stronie
-    $obraz = zmniejszDo($obraz, LOGO_BOK);
-    $obraz = obetnijPrzezroczystyMargines($obraz);
+    $obraz = zmniejszDo($obraz, $bok);
+    if ($obetnij) {
+        $obraz = obetnijPrzezroczystyMargines($obraz);
+    }
 
     $katalog = dirname($cel);
     if (!is_dir($katalog) && !@mkdir($katalog, 0755, true)) {
