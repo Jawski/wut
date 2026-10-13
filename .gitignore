@@ -19,3 +19,7 @@ desktop.ini
 # Python
 __pycache__/
 *.pyc
+
+# Dane panelu — odcisk hasla i licznik prob logowania. Powstaja na serwerze
+# i nie moga trafic do repozytorium ani na GitHuba.
+panel/dane-panelu/
