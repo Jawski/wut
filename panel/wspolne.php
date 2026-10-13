@@ -242,7 +242,9 @@ function zapiszTresc(string $nazwa, array $dane): ?string
     $plik = KATALOG_TRESCI . '/' . $nazwa . '.json';
     $json = json_encode($dane, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     if ($json === false) {
-        return 'Nie udało się przygotować danych do zapisu.';
+        // bez powodu i bez wskazania pola taki blad jest nie do odgadniecia
+        return 'Nie udało się przygotować danych do zapisu: ' . json_last_error_msg()
+            . '.' . zepsutyFragment($dane);
     }
     kopiaZapasowa($nazwa);
 
@@ -255,6 +257,23 @@ function zapiszTresc(string $nazwa, array $dane): ?string
         return 'Nie udało się podmienić pliku ' . $nazwa . '.json.';
     }
     return null;
+}
+
+/** Szuka pola, ktore nie jest poprawnym UTF-8 - inaczej blad zapisu nic nie mowi. */
+function zepsutyFragment(array $dane, string $sciezka = ''): string
+{
+    foreach ($dane as $k => $v) {
+        $p = $sciezka === '' ? (string) $k : $sciezka . '.' . $k;
+        if (is_array($v)) {
+            $gdzie = zepsutyFragment($v, $p);
+            if ($gdzie !== '') {
+                return $gdzie;
+            }
+        } elseif (is_string($v) && !mb_check_encoding($v, 'UTF-8')) {
+            return ' Pole: ' . $p . ' (' . bin2hex(substr($v, 0, 40)) . ')';
+        }
+    }
+    return '';
 }
 
 /** Kopia sprzed zmiany - bez tego pomylka w panelu byla nie do cofniecia. */
@@ -369,6 +388,18 @@ function zapiszZdjecie(array $plik, string $cel, string $kotwica = 'gora'): ?str
 }
 
 /* ----------------------------------------------------------------- drobiazgi */
+
+/**
+ * Linie z pola wielowierszowego. Celowo bez wyrazenia regularnego: \R poza
+ * trybem unicode uznaje za koniec wiersza takze bajt 0x85, a ten siedzi w
+ * srodku litery "ą" (C4 85) - tekst rozpadal sie wtedy w polowie znaku.
+ */
+function podzielNaWiersze(string $tekst): array
+{
+    $tekst = str_replace("\r\n", "\n", $tekst);
+    $tekst = str_replace("\r", "\n", $tekst);
+    return explode("\n", $tekst);
+}
 
 /** Identyfikator z imienia i nazwiska - tak samo jak nazywaja sie pliki zdjec. */
 function zrobSlug(string $tekst): string

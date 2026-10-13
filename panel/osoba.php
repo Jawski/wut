@@ -101,7 +101,7 @@ function zapiszFormularz(array $zespol, string $sezon, bool $biezacy, array $lis
     }
 
     $projekty = [];
-    foreach (preg_split('/\R/', (string) ($_POST['projects'] ?? '')) ?: [] as $linia) {
+    foreach (podzielNaWiersze((string) ($_POST['projects'] ?? '')) as $linia) {
         $linia = trim($linia);
         if ($linia !== '') {
             $projekty[] = $linia;
@@ -172,19 +172,27 @@ function zapiszFormularz(array $zespol, string $sezon, bool $biezacy, array $lis
     $plikNowy  = plikZdjecia($sezon, $biezacy, $slug);
 
     // zmiana identyfikatora musi przeniesc tez zdjecie, inaczej karta zostaje pusta
+    $przeniesione = false;
     if ($plikStary !== '' && $plikStary !== $plikNowy && is_file($plikStary)) {
         if (!@rename($plikStary, $plikNowy)) {
             return ['Nie udało się przenieść zdjęcia pod nową nazwę — sprawdź prawa zapisu w assets/team/.', $wpis];
         }
+        $przeniesione = true;
     }
 
+    $zdjeciePowstalo = false;
     if (!empty($_POST['usun_zdjecie']) && is_file($plikNowy)) {
         @unlink($plikNowy);
     } elseif (($_FILES['zdjecie']['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_NO_FILE) {
+        $bylo = is_file($plikNowy);
         $bladZdjecia = zapiszZdjecie($_FILES['zdjecie'], $plikNowy, (string) ($_POST['kadr'] ?? 'gora'));
         if ($bladZdjecia !== null) {
+            if ($przeniesione) {
+                @rename($plikNowy, $plikStary);
+            }
             return [$bladZdjecia, $wpis];
         }
+        $zdjeciePowstalo = !$bylo;
     }
 
     /* --- zapis --- */
@@ -195,6 +203,16 @@ function zapiszFormularz(array $zespol, string $sezon, bool $biezacy, array $lis
         $lista[$pozycja] = $wpis;
     }
     $bladZapisu = zapiszSklad($zespol, $sezon, $biezacy, $lista);
+
+    // gdy zapis nie przeszedl, cofamy tez to, co zdazylismy zrobic ze zdjeciem -
+    // inaczej po bledzie zostaje plik, do ktorego nikt juz nie trafi
+    if ($bladZapisu !== null) {
+        if ($zdjeciePowstalo) {
+            @unlink($plikNowy);
+        } elseif ($przeniesione) {
+            @rename($plikNowy, $plikStary);
+        }
+    }
     return [$bladZapisu, $wpis];
 }
 
