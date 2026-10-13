@@ -26,27 +26,21 @@ otworzStrone('Pulpit');
 <section class="kafle">
     <a class="kafel" href="sklad.php">
         <span class="kafel-nazwa">Skład zespołu</span>
-        <span class="kafel-stan">gotowe</span>
     </a>
-    <a class="kafel wylaczony" aria-disabled="true">
+    <a class="kafel" href="sponsorzy.php">
         <span class="kafel-nazwa">Sponsorzy</span>
-        <span class="kafel-stan">w przygotowaniu</span>
     </a>
     <a class="kafel wylaczony" aria-disabled="true">
         <span class="kafel-nazwa">Bolidy</span>
-        <span class="kafel-stan">w przygotowaniu</span>
     </a>
     <a class="kafel wylaczony" aria-disabled="true">
         <span class="kafel-nazwa">Osiągnięcia</span>
-        <span class="kafel-stan">w przygotowaniu</span>
     </a>
     <a class="kafel wylaczony" aria-disabled="true">
         <span class="kafel-nazwa">Kalendarz</span>
-        <span class="kafel-stan">w przygotowaniu</span>
     </a>
     <a class="kafel wylaczony" aria-disabled="true">
         <span class="kafel-nazwa">Teksty na stronie</span>
-        <span class="kafel-stan">w przygotowaniu</span>
     </a>
 </section>
 

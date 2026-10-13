@@ -25,9 +25,18 @@ async function initSponsors() {
                 : `<span class="sponsor-logo is-plain" ${styl} title="${l.nazwa}">${obraz}</span>`;
         }).join('\n                ');
 
+        // wielkosc kafelkow bierze sie z klasy poziomu; kategoria dolozona
+        // w panelu wskazuje, ktory poziom ma nasladowac
+        const klasa = k.klasa || k.id;
+        // kategorie z kodu maja tlumaczenie pod kluczem, dolozone w panelu
+        // niosa angielska nazwe przy sobie
+        const poAngielsku = window.WUT_LANG === 'en' && k.nazwaEn;
+        const tytul = poAngielsku ? k.nazwaEn : t(k.klucz, k.nazwa);
+        const klucz = k.klucz ? ` data-i18n="${k.klucz}"` : '';
+
         return `
-        <div class="sponsor-tier reveal ${k.id}" style="--tier-color:${k.kolor};">
-            <h2 class="sponsor-tier-title" data-i18n="${k.klucz}">${t(k.klucz, k.nazwa)}</h2>
+        <div class="sponsor-tier reveal ${klasa}" style="--tier-color:${k.kolor};">
+            <h2 class="sponsor-tier-title"${klucz}>${tytul}</h2>
             <div class="sponsor-logos">
                 ${kafelki}
             </div>

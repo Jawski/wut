@@ -22,6 +22,11 @@ const ZDJECIE_SZER = 800;           // wszystkie zdjecia skladu maja ten sam roz
 const ZDJECIE_WYS  = 1067;
 const ILE_KOPII    = 30;
 
+const KATALOG_LOGO = __DIR__ . '/../assets/sponsors';
+const LOGO_BOK = 800;               // dluzszy bok logotypu po zmniejszeniu
+const LOGO_POLE = 1.43;             // pole kafelka - takie samo dla kazdego logo
+const LOGO_MAX_PROPORCJA = 5.6;     // powyzej tego logo rozpychaloby rzad
+
 const MIN_DLUGOSC_HASLA = 10;
 const LIMIT_PROB        = 5;        // tyle nieudanych logowan
 const BLOKADA_SEKUND    = 900;      // i panel milczy przez kwadrans
@@ -388,6 +393,127 @@ function zapiszZdjecie(array $plik, string $cel, string $kotwica = 'gora'): ?str
     imagedestroy($wynik);
 
     return $ok ? null : 'Brak prawa zapisu w katalogu assets/team/ na serwerze.';
+}
+
+/**
+ * Logotyp sponsora. Inaczej niz zdjecie czlonka zespolu: nie przycinamy go do
+ * stalego kadru, tylko obcinamy przezroczysty margines i zostawiamy proporcje -
+ * to one decyduja potem o wielkosci kafelka na scianie sponsorow. Zapisujemy
+ * zawsze jako PNG, zeby przezroczystosc przetrwala.
+ */
+function zapiszLogo(array $plik, string $cel, ?array &$wymiary = null): ?string
+{
+    if (($plik['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_INI_SIZE
+        || ($plik['error'] ?? 0) === UPLOAD_ERR_FORM_SIZE) {
+        return 'Plik jest za duży — serwer przyjmuje do ' . ini_get('upload_max_filesize') . 'B.';
+    }
+    if (($plik['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK || !is_uploaded_file($plik['tmp_name'])) {
+        return 'Nie udało się wczytać przesłanego pliku.';
+    }
+    if (!extension_loaded('gd')) {
+        return 'Serwer nie ma rozszerzenia GD — panel nie przygotuje logotypu.';
+    }
+
+    $info = @getimagesize($plik['tmp_name']);
+    if (!$info) {
+        return 'To nie jest obrazek (obsługujemy PNG, JPG i WEBP).';
+    }
+    $obraz = match ($info[2]) {
+        IMAGETYPE_PNG  => @imagecreatefrompng($plik['tmp_name']),
+        IMAGETYPE_JPEG => @imagecreatefromjpeg($plik['tmp_name']),
+        IMAGETYPE_WEBP => @imagecreatefromwebp($plik['tmp_name']),
+        default        => false,
+    };
+    if (!$obraz) {
+        return 'Nieobsługiwany format — zapisz logotyp jako PNG, JPG albo WEBP.';
+    }
+    imagepalettetotruecolor($obraz);
+    imagealphablending($obraz, false);
+    imagesavealpha($obraz, true);
+
+    // duze pliki najpierw zmniejszamy - i szybciej, i nie ma po co trzymac
+    // logotypu wiekszego, niz kiedykolwiek pokaze sie na stronie
+    $obraz = zmniejszDo($obraz, LOGO_BOK);
+    $obraz = obetnijPrzezroczystyMargines($obraz);
+
+    $katalog = dirname($cel);
+    if (!is_dir($katalog) && !@mkdir($katalog, 0755, true)) {
+        imagedestroy($obraz);
+        return 'Nie udało się utworzyć katalogu na logotypy.';
+    }
+    $ok = @imagepng($obraz, $cel, 8);
+    $wymiary = ['w' => imagesx($obraz), 'h' => imagesy($obraz)];
+    imagedestroy($obraz);
+
+    return $ok ? null : 'Brak prawa zapisu w katalogu assets/sponsors/ na serwerze.';
+}
+
+function zmniejszDo(\GdImage $obraz, int $bok): \GdImage
+{
+    $w = imagesx($obraz);
+    $h = imagesy($obraz);
+    if (max($w, $h) <= $bok) {
+        return $obraz;
+    }
+    $skala = $bok / max($w, $h);
+    $nowy = przezroczystePlotno((int) round($w * $skala), (int) round($h * $skala));
+    imagecopyresampled($nowy, $obraz, 0, 0, 0, 0, imagesx($nowy), imagesy($nowy), $w, $h);
+    imagedestroy($obraz);
+    return $nowy;
+}
+
+/**
+ * Szuka pierwszego i ostatniego niepustego wiersza oraz kolumny. Bez tego
+ * logotyp z szerokim przezroczystym marginesem dostalby kafelek liczony razem
+ * z pustka dookola i wygladalby na mniejszy od pozostalych.
+ */
+function obetnijPrzezroczystyMargines(\GdImage $obraz): \GdImage
+{
+    $w = imagesx($obraz);
+    $h = imagesy($obraz);
+    $lewo = $w; $prawo = -1; $gora = $h; $dol = -1;
+
+    for ($y = 0; $y < $h; $y++) {
+        for ($x = 0; $x < $w; $x++) {
+            // alfa siedzi w bitach 24-30; 127 to pelna przezroczystosc
+            if ((imagecolorat($obraz, $x, $y) >> 24 & 0x7F) < 120) {
+                if ($x < $lewo) { $lewo = $x; }
+                if ($x > $prawo) { $prawo = $x; }
+                if ($y < $gora) { $gora = $y; }
+                if ($y > $dol) { $dol = $y; }
+            }
+        }
+    }
+    if ($prawo < 0 || ($lewo === 0 && $gora === 0 && $prawo === $w - 1 && $dol === $h - 1)) {
+        return $obraz;                       // caly pusty albo i tak przyciety
+    }
+    $nowy = przezroczystePlotno($prawo - $lewo + 1, $dol - $gora + 1);
+    imagecopy($nowy, $obraz, 0, 0, $lewo, $gora, imagesx($nowy), imagesy($nowy));
+    imagedestroy($obraz);
+    return $nowy;
+}
+
+function przezroczystePlotno(int $w, int $h): \GdImage
+{
+    $p = imagecreatetruecolor(max(1, $w), max(1, $h));
+    imagealphablending($p, false);
+    imagesavealpha($p, true);
+    imagefill($p, 0, 0, imagecolorallocatealpha($p, 0, 0, 0, 127));
+    return $p;
+}
+
+/**
+ * Rozmiar kafelka logotypu. Kazdy ma zajmowac podobne pole, zeby szerokie
+ * logotypy nie przytlaczaly kwadratowych - stad pierwiastki. Bardzo rozciagniete
+ * logotypy przycinamy do granicy, inaczej rozpychalyby caly rzad.
+ */
+function policzKafelek(int $w, int $h): array
+{
+    $proporcja = max(0.18, min(LOGO_MAX_PROPORCJA, $w / max(1, $h)));
+    return [
+        'lw' => round(sqrt(LOGO_POLE * $proporcja), 2),
+        'lh' => round(sqrt(LOGO_POLE / $proporcja), 2),
+    ];
 }
 
 /* ----------------------------------------------------------------- drobiazgi */
