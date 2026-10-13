@@ -345,7 +345,7 @@ window.WUT_TEAM = [
         achievements: [{ year: 2026, text: 'FS Poland' }],
     },
     {
-        slug: 'franciszek-grezbiela', name: 'Franciszek Grzebiela', dept: 'engine',
+        slug: 'franciszek-grzbiela', name: 'Franciszek Grzbiela', dept: 'engine',
         achievements: [{ year: 2026, text: 'FS Czech' }, { year: 2026, text: 'FS Austria' }],
     },
     { slug: 'krzysztof-gut', name: 'Krzysztof Gut', dept: 'engine' },
