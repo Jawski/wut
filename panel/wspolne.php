@@ -14,7 +14,13 @@ declare(strict_types=1);
 const KATALOG_PANELU   = __DIR__;
 const PLIK_KONTA       = __DIR__ . '/dane-panelu/konto.php';
 const PLIK_PROB        = __DIR__ . '/dane-panelu/proby.php';
+const KATALOG_KOPII    = __DIR__ . '/dane-panelu/kopie';
 const KATALOG_TRESCI   = __DIR__ . '/../dane';
+const KATALOG_ZDJEC    = __DIR__ . '/../assets/team';
+
+const ZDJECIE_SZER = 800;           // wszystkie zdjecia skladu maja ten sam rozmiar
+const ZDJECIE_WYS  = 1067;
+const ILE_KOPII    = 30;
 
 const MIN_DLUGOSC_HASLA = 10;
 const LIMIT_PROB        = 5;        // tyle nieudanych logowan
@@ -213,6 +219,180 @@ function sprawdzLogowanie(string $login, string $haslo): bool
     $loginOk = hash_equals((string) ($k['login'] ?? ''), trim($login));
     $hasloOk = password_verify($haslo, (string) $k['odcisk']);
     return $loginOk && $hasloOk;
+}
+
+/* ------------------------------------------------------------ tresc strony */
+
+/**
+ * Pliki w dane/ czyta i zapisuje sama strona, wiec trzymamy dokladnie ten sam
+ * format zapisu - inaczej kazdy zapis z panelu robilby wielka roznice w repo.
+ */
+function czytajTresc(string $nazwa): ?array
+{
+    $plik = KATALOG_TRESCI . '/' . $nazwa . '.json';
+    if (!is_file($plik)) {
+        return null;
+    }
+    $dane = json_decode((string) file_get_contents($plik), true);
+    return is_array($dane) ? $dane : null;
+}
+
+function zapiszTresc(string $nazwa, array $dane): ?string
+{
+    $plik = KATALOG_TRESCI . '/' . $nazwa . '.json';
+    $json = json_encode($dane, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    if ($json === false) {
+        return 'Nie udało się przygotować danych do zapisu.';
+    }
+    kopiaZapasowa($nazwa);
+
+    $tmp = $plik . '.tmp';
+    if (@file_put_contents($tmp, $json . "\n", LOCK_EX) === false) {
+        return 'Brak prawa zapisu w katalogu dane/ na serwerze.';
+    }
+    if (!@rename($tmp, $plik)) {
+        @unlink($tmp);
+        return 'Nie udało się podmienić pliku ' . $nazwa . '.json.';
+    }
+    return null;
+}
+
+/** Kopia sprzed zmiany - bez tego pomylka w panelu byla nie do cofniecia. */
+function kopiaZapasowa(string $nazwa): void
+{
+    $plik = KATALOG_TRESCI . '/' . $nazwa . '.json';
+    if (!is_file($plik)) {
+        return;
+    }
+    if (!is_dir(KATALOG_KOPII) && !@mkdir(KATALOG_KOPII, 0750, true)) {
+        return;
+    }
+    @copy($plik, KATALOG_KOPII . '/' . $nazwa . '-' . date('Y-m-d_His') . '.json');
+
+    // zostawiamy ostatnie ILE_KOPII, reszta tylko zajmuje miejsce na hostingu
+    $stare = glob(KATALOG_KOPII . '/' . $nazwa . '-*.json') ?: [];
+    sort($stare);
+    foreach (array_slice($stare, 0, max(0, count($stare) - ILE_KOPII)) as $s) {
+        @unlink($s);
+    }
+}
+
+/* ------------------------------------------------------------------ zdjecia */
+
+function katalogZdjec(string $sezon, bool $biezacy): string
+{
+    return $biezacy ? KATALOG_ZDJEC : KATALOG_ZDJEC . '/' . $sezon;
+}
+
+/**
+ * Przycina i skaluje przeslane zdjecie do rozmiaru, jaki maja wszystkie karty.
+ * Zdjecia z telefonu potrafia byc obrocone tylko znacznikiem EXIF, wiec najpierw
+ * prostujemy je naprawde - inaczej na stronie wisialyby bokiem.
+ */
+function zapiszZdjecie(array $plik, string $cel, string $kotwica = 'gora'): ?string
+{
+    if (($plik['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_INI_SIZE
+        || ($plik['error'] ?? 0) === UPLOAD_ERR_FORM_SIZE) {
+        return 'Zdjęcie jest za duże — serwer przyjmuje do ' . ini_get('upload_max_filesize') . 'B.';
+    }
+    if (($plik['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK || !is_uploaded_file($plik['tmp_name'])) {
+        return 'Nie udało się wczytać przesłanego pliku.';
+    }
+    if (!extension_loaded('gd')) {
+        return 'Serwer nie ma rozszerzenia GD — panel nie przytnie zdjęcia.';
+    }
+
+    $info = @getimagesize($plik['tmp_name']);
+    if (!$info) {
+        return 'To nie jest zdjęcie (obsługujemy JPG, PNG i WEBP).';
+    }
+    $obraz = match ($info[2]) {
+        IMAGETYPE_JPEG => @imagecreatefromjpeg($plik['tmp_name']),
+        IMAGETYPE_PNG  => @imagecreatefrompng($plik['tmp_name']),
+        IMAGETYPE_WEBP => @imagecreatefromwebp($plik['tmp_name']),
+        default        => false,
+    };
+    if (!$obraz) {
+        return 'Nieobsługiwany format zdjęcia — zapisz je jako JPG, PNG albo WEBP.';
+    }
+
+    if ($info[2] === IMAGETYPE_JPEG && function_exists('exif_read_data')) {
+        $exif = @exif_read_data($plik['tmp_name']);
+        $obrot = match ((int) ($exif['Orientation'] ?? 1)) {
+            3 => 180,
+            6 => -90,
+            8 => 90,
+            default => 0,
+        };
+        if ($obrot !== 0) {
+            $obrocony = @imagerotate($obraz, $obrot, 0);
+            if ($obrocony) {
+                imagedestroy($obraz);
+                $obraz = $obrocony;
+            }
+        }
+    }
+
+    $w = imagesx($obraz);
+    $h = imagesy($obraz);
+    $docelowy = ZDJECIE_SZER / ZDJECIE_WYS;
+
+    if ($w / $h > $docelowy) {           // za szerokie - obcinamy boki po rowno
+        $nw = (int) round($h * $docelowy);
+        $nh = $h;
+        $x = (int) round(($w - $nw) / 2);
+        $y = 0;
+    } else {                              // za wysokie - decyduje wybrana kotwica
+        $nw = $w;
+        $nh = (int) round($w / $docelowy);
+        $x = 0;
+        $y = match ($kotwica) {
+            'srodek' => (int) round(($h - $nh) / 2),
+            'dol'    => $h - $nh,
+            default  => 0,
+        };
+    }
+
+    $wynik = imagecreatetruecolor(ZDJECIE_SZER, ZDJECIE_WYS);
+    imagecopyresampled($wynik, $obraz, 0, 0, $x, $y, ZDJECIE_SZER, ZDJECIE_WYS, $nw, $nh);
+    imagedestroy($obraz);
+
+    $katalog = dirname($cel);
+    if (!is_dir($katalog) && !@mkdir($katalog, 0755, true)) {
+        imagedestroy($wynik);
+        return 'Nie udało się utworzyć katalogu na zdjęcia.';
+    }
+    $ok = @imagejpeg($wynik, $cel, 86);
+    imagedestroy($wynik);
+
+    return $ok ? null : 'Brak prawa zapisu w katalogu assets/team/ na serwerze.';
+}
+
+/* ----------------------------------------------------------------- drobiazgi */
+
+/** Identyfikator z imienia i nazwiska - tak samo jak nazywaja sie pliki zdjec. */
+function zrobSlug(string $tekst): string
+{
+    $mapa = ['ą'=>'a','ć'=>'c','ę'=>'e','ł'=>'l','ń'=>'n','ó'=>'o','ś'=>'s','ż'=>'z','ź'=>'z',
+             'Ą'=>'a','Ć'=>'c','Ę'=>'e','Ł'=>'l','Ń'=>'n','Ó'=>'o','Ś'=>'s','Ż'=>'z','Ź'=>'z',
+             'ø'=>'o','Ø'=>'o','ö'=>'o','ä'=>'a','ü'=>'u','é'=>'e','è'=>'e','á'=>'a','í'=>'i'];
+    $t = strtr($tekst, $mapa);
+    $t = mb_strtolower($t, 'UTF-8');
+    $t = preg_replace('/[^a-z0-9]+/', '-', $t) ?? '';
+    return trim($t, '-');
+}
+
+/** Komunikat przenoszony przez przekierowanie po zapisie. */
+function ustawKomunikat(string $tekst, string $rodzaj = 'ok'): void
+{
+    $_SESSION['komunikat'] = ['tekst' => $tekst, 'rodzaj' => $rodzaj];
+}
+
+function odbierzKomunikat(): ?array
+{
+    $k = $_SESSION['komunikat'] ?? null;
+    unset($_SESSION['komunikat']);
+    return $k;
 }
 
 /* -------------------------------------------------------------------- widok */

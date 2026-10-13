@@ -16,6 +16,10 @@
 
 * { box-sizing: border-box; }
 
+/* nasze reguly dla label i input sa mocniejsze niz domyslne [hidden] przegladarki,
+   wiec chowanie pol z poziomu skryptu musi byc tu powiedziane wprost */
+[hidden] { display: none !important; }
+
 body {
     margin: 0;
     background: var(--tlo);
@@ -83,7 +87,7 @@ input:focus {
     border-color: transparent;
 }
 
-button {
+.karta button {
     width: 100%;
     padding: 11px 16px;
     margin-top: 6px;
@@ -96,7 +100,7 @@ button {
     cursor: pointer;
     transition: background 0.2s;
 }
-button:hover { background: #91222f; }
+.karta button:hover { background: #91222f; }
 
 .blad {
     background: #fdecea;
@@ -165,6 +169,8 @@ button:hover { background: #91222f; }
     text-transform: uppercase;
     color: var(--tekst-2);
 }
+.kafel[href]:hover { border-color: var(--czerwien); }
+.kafel[href] .kafel-stan { color: var(--ok); font-weight: 600; }
 .kafel.wylaczony { opacity: 0.55; cursor: default; }
 
 .stan table {
@@ -179,8 +185,250 @@ button:hover { background: #91222f; }
 .ok  { color: var(--ok); font-weight: 600; }
 .zle { color: var(--zle); font-weight: 700; }
 
+/* ------------------------------------------------- elementy wspolne ekranow */
+
+.znak-link { display: flex; align-items: center; }
+
+.powrot {
+    display: inline-block;
+    margin-bottom: 18px;
+    color: var(--tekst-2);
+    text-decoration: none;
+    font-size: 13px;
+}
+.powrot:hover { color: var(--czerwien); }
+
+.komunikat {
+    padding: 11px 15px;
+    margin: 0 0 22px;
+    font-size: 14px;
+    border-left: 3px solid;
+}
+.komunikat-ok  { background: #eaf4ee; border-color: var(--ok); color: #1f4d31; }
+.komunikat-zle { background: #fdecea; border-color: var(--zle); color: #7a1a14; }
+
+.przycisk {
+    display: inline-block;
+    padding: 9px 16px;
+    border: 0;
+    background: var(--ciemny);
+    color: #fff;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.przycisk:hover { background: #32323a; }
+.przycisk.glowny { background: var(--czerwien); padding: 11px 26px; }
+.przycisk.glowny:hover { background: #91222f; }
+.przycisk.pusty {
+    background: transparent;
+    color: var(--tekst-2);
+    border: 1px solid var(--linia);
+}
+.przycisk.pusty:hover { background: #ebe9ea; color: var(--tekst); }
+.przycisk.maly { padding: 6px 12px; font-size: 13px; font-weight: 500; }
+
+.paski-narzedzi {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+    margin: 24px 0 10px;
+}
+.narzedzia-prawo { margin-left: auto; display: flex; gap: 10px; align-items: center; }
+#szukaj {
+    width: 220px;
+    padding: 8px 12px;
+    border: 1px solid var(--linia);
+    background: #fff;
+    font: inherit;
+    font-size: 14px;
+}
+
+.sezony { display: flex; gap: 6px; }
+.sezon {
+    padding: 7px 14px;
+    background: var(--panel);
+    border: 1px solid var(--linia);
+    color: var(--tekst-2);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+}
+.sezon:hover { color: var(--tekst); }
+.sezon.wybrany { background: var(--czerwien); border-color: var(--czerwien); color: #fff; }
+
+/* --------------------------------------------------------- lista osob */
+
+.dzial-grupa { margin-top: 30px; }
+.dzial-grupa h2 { margin-bottom: 10px; }
+.ile {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 1px 7px;
+    background: var(--linia);
+    border-radius: 9px;
+    font-size: 11px;
+    letter-spacing: 0;
+    color: var(--tekst-2);
+}
+
+.osoby {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 10px;
+}
+.osoba {
+    display: flex;
+    align-items: stretch;
+    background: var(--panel);
+    border: 1px solid var(--linia);
+}
+.osoba-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+    padding: 8px;
+    text-decoration: none;
+    color: inherit;
+}
+.osoba-link:hover { background: #faf9fa; }
+.miniatura {
+    width: 42px;
+    height: 56px;
+    flex: 0 0 auto;
+    object-fit: cover;
+    object-position: top center;
+    background: var(--linia);
+}
+.miniatura.brak {
+    display: grid;
+    place-items: center;
+    padding: 2px;
+    font-size: 9px;
+    line-height: 1.1;
+    text-align: center;
+    color: var(--tekst-2);
+}
+.osoba-opis { min-width: 0; }
+.osoba-imie { display: block; font-weight: 600; }
+.osoba-rola, .osoba-takze { display: block; font-size: 12px; color: var(--tekst-2); }
+.osoba-takze { font-style: italic; }
+
+.usun-form { display: flex; }
+.usun {
+    border: 0;
+    border-left: 1px solid var(--linia);
+    background: transparent;
+    padding: 0 12px;
+    font: inherit;
+    font-size: 12px;
+    color: var(--tekst-2);
+    cursor: pointer;
+}
+.usun:hover { background: #fdecea; color: var(--zle); }
+
+.pusto { color: var(--tekst-2); margin-top: 24px; }
+
+/* ---------------------------------------------------- formularz osoby */
+
+.formularz { margin-top: 22px; }
+.kolumny { display: grid; grid-template-columns: 1fr 1fr; gap: 0 36px; align-items: start; }
+
+.formularz label { margin-bottom: 18px; }
+.formularz label small { font-weight: 400; color: var(--tekst-2); }
+.formularz .podpowiedz { display: block; margin: 5px 0 0; }
+
+select, textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--linia);
+    background: #fff;
+    font: inherit;
+    color: inherit;
+}
+textarea { resize: vertical; }
+select:focus, textarea:focus { outline: 2px solid var(--czerwien); outline-offset: -1px; border-color: transparent; }
+
+.w-linii { display: flex; align-items: center; gap: 12px; }
+.w-linii > span { flex: 1; margin-bottom: 0; }
+.w-linii > input, .w-linii > select { width: auto; flex: 0 1 auto; }
+
+.ptaszek {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+.ptaszek input { margin: 0; }
+.ptaszek span { font-size: 14px; font-weight: 400; margin-bottom: 0; }
+
+fieldset {
+    border: 1px solid var(--linia);
+    background: var(--panel);
+    padding: 14px 16px;
+    margin: 0 0 18px;
+}
+legend { font-size: 13px; font-weight: 600; padding: 0 6px; }
+legend small { font-weight: 400; color: var(--tekst-2); }
+
+.dodatkowy { margin-bottom: 6px; }
+.dodatkowy input[type=text] { width: 100%; margin: 4px 0 10px 24px; max-width: calc(100% - 24px); }
+
+.zdjecie-podglad {
+    width: 120px;
+    height: 160px;
+    margin-bottom: 12px;
+    background: var(--linia);
+    display: grid;
+    place-items: center;
+}
+.zdjecie-podglad img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.zdjecie-podglad .brak { font-size: 11px; color: var(--tekst-2); }
+.zdjecie-pole input[type=file] { font-size: 13px; margin-bottom: 12px; }
+
+.wiersz { display: flex; gap: 8px; margin-bottom: 8px; }
+.wiersz input[type=number] { width: 90px; flex: 0 0 auto; }
+.wiersz input[type=text] { flex: 1; }
+.usun-wiersz {
+    flex: 0 0 auto;
+    width: 34px;
+    border: 1px solid var(--linia);
+    background: #fff;
+    font: inherit;
+    font-size: 17px;
+    line-height: 1;
+    color: var(--tekst-2);
+    cursor: pointer;
+}
+.usun-wiersz:hover { background: #fdecea; color: var(--zle); }
+
+.pod-formularzem {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-top: 10px;
+    padding-top: 20px;
+    border-top: 1px solid var(--linia);
+}
+
+@media (max-width: 860px) {
+    .kolumny { grid-template-columns: 1fr; }
+}
+
 @media (max-width: 560px) {
     .pasek { padding: 0 14px; gap: 10px; }
     .pasek-tytul { display: none; }
     .tresc { padding: 24px 14px 60px; }
+    .narzedzia-prawo { margin-left: 0; width: 100%; }
+    #szukaj { flex: 1; width: auto; }
 }

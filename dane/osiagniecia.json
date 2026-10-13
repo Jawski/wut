@@ -1,118 +1,118 @@
 [
- {
-  "id": "fsp26",
-  "event": "FS Poland",
-  "year": 2026,
-  "photo": "assets/ach/fsp26.jpg",
-  "overall": {
-   "place": 2,
-   "name": "Overall"
-  },
-  "results": [
-   {
-    "place": 1,
-    "name": "AutoX"
-   },
-   {
-    "place": 3,
-    "name": "Endurance"
-   },
-   {
-    "place": 2,
-    "name": "BPP"
-   },
-   {
-    "place": 3,
-    "name": "E. Design"
-   }
-  ],
-  "trophies": [
-   "assets/ach/trofeum1.png",
-   "assets/ach/trofeum2.png"
-  ]
- },
- {
-  "id": "fscz26",
-  "event": "FS Czech",
-  "year": 2026,
-  "photo": "assets/ach/fscz26.jpg",
-  "results": [
-   {
-    "place": 3,
-    "name": "AutoX"
-   }
-  ]
- },
- {
-  "id": "fsp25",
-  "event": "FS Poland",
-  "year": 2025,
-  "photo": "assets/ach/fsp25.jpg",
-  "results": [
-   {
-    "place": 3,
-    "name": "AutoX"
-   },
-   {
-    "place": 4,
-    "name": "Cost & Manufacturing"
-   },
-   {
-    "place": 4,
-    "name": "Engineering Design"
-   },
-   {
-    "place": 4,
-    "name": "Acceleration"
-   }
-  ]
- },
- {
-  "id": "fscz25",
-  "event": "FS Czech",
-  "year": 2025,
-  "photo": "assets/ach/fscz25.jpg",
-  "results": [
-   {
-    "place": 3,
-    "name": "Engineering Design"
-   }
-  ]
- },
- {
-  "id": "fse24",
-  "event": "FS East",
-  "year": 2024,
-  "photo": "assets/ach/fse24.jpg",
-  "results": [
-   {
-    "place": 2,
-    "name": "Endurance"
-   }
-  ]
- },
- {
-  "id": "fsp24",
-  "event": "FS Poland",
-  "year": 2024,
-  "photo": "assets/ach/fsp24.jpg",
-  "results": [
-   {
-    "place": 3,
-    "name": "Acceleration"
-   }
-  ]
- },
- {
-  "id": "fsp23",
-  "event": "FS Poland",
-  "year": 2023,
-  "photo": "assets/ach/fsp23.jpg",
-  "results": [
-   {
-    "place": 1,
-    "name": "BPP"
-   }
-  ]
- }
+    {
+        "id": "fsp26",
+        "event": "FS Poland",
+        "year": 2026,
+        "photo": "assets/ach/fsp26.jpg",
+        "overall": {
+            "place": 2,
+            "name": "Overall"
+        },
+        "results": [
+            {
+                "place": 1,
+                "name": "AutoX"
+            },
+            {
+                "place": 3,
+                "name": "Endurance"
+            },
+            {
+                "place": 2,
+                "name": "BPP"
+            },
+            {
+                "place": 3,
+                "name": "E. Design"
+            }
+        ],
+        "trophies": [
+            "assets/ach/trofeum1.png",
+            "assets/ach/trofeum2.png"
+        ]
+    },
+    {
+        "id": "fscz26",
+        "event": "FS Czech",
+        "year": 2026,
+        "photo": "assets/ach/fscz26.jpg",
+        "results": [
+            {
+                "place": 3,
+                "name": "AutoX"
+            }
+        ]
+    },
+    {
+        "id": "fsp25",
+        "event": "FS Poland",
+        "year": 2025,
+        "photo": "assets/ach/fsp25.jpg",
+        "results": [
+            {
+                "place": 3,
+                "name": "AutoX"
+            },
+            {
+                "place": 4,
+                "name": "Cost & Manufacturing"
+            },
+            {
+                "place": 4,
+                "name": "Engineering Design"
+            },
+            {
+                "place": 4,
+                "name": "Acceleration"
+            }
+        ]
+    },
+    {
+        "id": "fscz25",
+        "event": "FS Czech",
+        "year": 2025,
+        "photo": "assets/ach/fscz25.jpg",
+        "results": [
+            {
+                "place": 3,
+                "name": "Engineering Design"
+            }
+        ]
+    },
+    {
+        "id": "fse24",
+        "event": "FS East",
+        "year": 2024,
+        "photo": "assets/ach/fse24.jpg",
+        "results": [
+            {
+                "place": 2,
+                "name": "Endurance"
+            }
+        ]
+    },
+    {
+        "id": "fsp24",
+        "event": "FS Poland",
+        "year": 2024,
+        "photo": "assets/ach/fsp24.jpg",
+        "results": [
+            {
+                "place": 3,
+                "name": "Acceleration"
+            }
+        ]
+    },
+    {
+        "id": "fsp23",
+        "event": "FS Poland",
+        "year": 2023,
+        "photo": "assets/ach/fsp23.jpg",
+        "results": [
+            {
+                "place": 1,
+                "name": "BPP"
+            }
+        ]
+    }
 ]
