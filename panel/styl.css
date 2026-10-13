@@ -338,6 +338,46 @@ input:focus {
 
 .pusto { color: var(--tekst-2); margin-top: 24px; }
 
+/* --------------------------------------------------------------- sezony */
+
+.sezony-lista {
+    width: 100%;
+    margin-top: 22px;
+    border-collapse: collapse;
+    background: var(--panel);
+    border: 1px solid var(--linia);
+}
+.sezony-lista th {
+    text-align: left;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--tekst-2);
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--linia);
+}
+.sezony-lista td { padding: 8px 14px; border-bottom: 1px solid var(--linia); vertical-align: middle; }
+.sezony-lista td:first-child { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.sezony-lista tr:last-child td { border-bottom: 0; }
+.sezony-lista .do-prawej { text-align: right; }
+.nazwa-form { gap: 8px; margin: 0; display: inline-flex; }
+.nazwa-form input[type=text] { width: 150px; }
+
+.jednolity { font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace; font-size: 13px; }
+.znacznik {
+    display: inline-block;
+    padding: 2px 8px;
+    background: var(--czerwien);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+}
+
+.nowy-sezon fieldset { margin-bottom: 0; }
+#opis-biezacy { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--linia); }
+#opis-biezacy .podpowiedz { margin-bottom: 10px; }
+
 /* ---------------------------------------------------- formularz osoby */
 
 .formularz { margin-top: 22px; }

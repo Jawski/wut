@@ -61,6 +61,68 @@ function etykietaSezonu(array $sezony, string $id): string
     return $id;
 }
 
+/**
+ * Identyfikator sezonu z jego nazwy. Trzymamy sie zapisu, ktory juz jest w
+ * danych: "2026/2027" daje "2026-27", bo tak nazywaja sie katalogi ze zdjeciami.
+ */
+function idZEtykiety(string $etykieta): string
+{
+    $e = trim($etykieta);
+    if (preg_match('~^(\d{4})\s*/\s*(\d{4})$~', $e, $m)) {
+        return $m[1] . '-' . substr($m[2], 2);
+    }
+    if (preg_match('~^(\d{4})\s*/\s*(\d{2})$~', $e, $m)) {
+        return $m[1] . '-' . $m[2];
+    }
+    return zrobSlug($e);
+}
+
+/**
+ * Zamyka biezacy sezon: przepisuje jego sklad do archiwum i odklada kopie zdjec
+ * w katalogu sezonu. Karta archiwalna niesie mniej niz biezaca - zostaje imie,
+ * dzial, funkcja i ranga, bo tylko to widac na stronie w starszych sezonach.
+ */
+function doArchiwum(array $osoba): array
+{
+    $w = [
+        'slug' => (string) ($osoba['slug'] ?? ''),
+        'name' => (string) ($osoba['name'] ?? ''),
+        'dept' => (string) ($osoba['dept'] ?? ''),
+    ];
+    $funkcja = (string) ($osoba['role'] ?? '');
+    if ($funkcja !== '') {
+        $w['role'] = $funkcja;
+        $ranga = ZNANE_FUNKCJE[$funkcja] ?? null;
+        if ($ranga !== null) {
+            $w['rank'] = (int) $ranga;
+        }
+    }
+    if (!empty($osoba['also'])) {
+        $w['also'] = $osoba['also'];
+    }
+    return $w;
+}
+
+/** Kopiuje zdjecia biezacego skladu do katalogu zamykanego sezonu. */
+function skopiujZdjeciaSezonu(array $sklad, string $sezon): ?string
+{
+    $katalog = KATALOG_ZDJEC . '/' . $sezon;
+    if (!is_dir($katalog) && !@mkdir($katalog, 0755, true)) {
+        return 'Nie udało się utworzyć katalogu assets/team/' . $sezon . '/.';
+    }
+    foreach ($sklad as $os) {
+        $slug = (string) ($os['slug'] ?? '');
+        $zrodlo = KATALOG_ZDJEC . '/' . $slug . '.jpg';
+        $cel    = $katalog . '/' . $slug . '.jpg';
+        // zdjecia zostaja tez na swoim miejscu - nowy sezon zwykle zaczyna sie
+        // od tych samych osob, a kopia w katalogu sezonu utrwala stan na koniec
+        if ($slug !== '' && is_file($zrodlo) && !is_file($cel) && !@copy($zrodlo, $cel)) {
+            return 'Nie udało się skopiować zdjęcia ' . $slug . '.jpg do katalogu sezonu.';
+        }
+    }
+    return null;
+}
+
 /* ------------------------------------------------------------------- sklad */
 
 function wczytajSklad(array $zespol, string $sezon, bool $biezacy): array

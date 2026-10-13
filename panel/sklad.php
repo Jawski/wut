@@ -76,6 +76,7 @@ otworzStrone('Skład zespołu', 'pulpit.php');
     </div>
     <div class="narzedzia-prawo">
         <input type="search" id="szukaj" placeholder="Szukaj po nazwisku…" autocomplete="off">
+        <a class="przycisk pusty" href="sezony.php">Sezony</a>
         <a class="przycisk" href="osoba.php?sezon=<?= urlencode($sezon) ?>&amp;nowa=1">+ Dodaj osobę</a>
     </div>
 </div>
